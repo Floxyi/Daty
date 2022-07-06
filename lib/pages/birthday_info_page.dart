@@ -25,38 +25,54 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
         child: Column(
           children: [
             const SizedBox(height: 30),
-            const Icon(
-              Icons.cake_outlined,
-              size: 80,
-              color: Constants.whiteSecondary,
-            ),
-            const SizedBox(height: 10),
-            Text(
-              '${widget.name} (${Calculator.calculateAge(widget.birthday)})',
-              style: const TextStyle(
-                  color: Constants.whiteSecondary,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
-            ),
+            iconWithName(),
             const SizedBox(height: 50),
-            Text(
-              '${Calculator.getDayName(widget.birthday.weekday)}, ${widget.birthday.day}. ${Calculator.getMonthName(widget.birthday.month)} ${widget.birthday.year}',
-              style: const TextStyle(
-                color: Constants.whiteSecondary,
-                fontSize: 15,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'will soon be ${Calculator.calculateAge(widget.birthday) + 1} years old',
-              style: const TextStyle(
-                color: Constants.whiteSecondary,
-                fontSize: 15,
-              ),
-            ),
+            birthdayInfo(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget iconWithName() {
+    return Column(
+      children: [
+        const Icon(
+          Icons.cake_outlined,
+          size: 80,
+          color: Constants.whiteSecondary,
+        ),
+        const SizedBox(height: 10),
+        Text(
+          '${widget.name} (${Calculator.calculateAge(widget.birthday)})',
+          style: const TextStyle(
+              color: Constants.whiteSecondary,
+              fontSize: 25,
+              fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
+
+  Widget birthdayInfo() {
+    return Column(
+      children: [
+        Text(
+          '${Calculator.getDayName(widget.birthday.weekday)}, ${widget.birthday.day}. ${Calculator.getMonthName(widget.birthday.month)} ${widget.birthday.year}',
+          style: const TextStyle(
+            color: Constants.whiteSecondary,
+            fontSize: 15,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          'will soon be ${Calculator.calculateAge(widget.birthday) + 1} years old',
+          style: const TextStyle(
+            color: Constants.whiteSecondary,
+            fontSize: 15,
+          ),
+        ),
+      ],
     );
   }
 
@@ -66,12 +82,14 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
       actions: [
         editButton(context),
       ],
-      title: const Text(
-        'Birthday Info',
-        style: TextStyle(
-          color: Constants.bluePrimary,
-          fontSize: 30,
-          fontWeight: FontWeight.bold,
+      title: const Center(
+        child: Text(
+          'Birthday Info',
+          style: TextStyle(
+            color: Constants.bluePrimary,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
@@ -86,7 +104,10 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
             style: TextStyle(fontSize: 15),
           ),
           SizedBox(width: 5),
-          Icon(Icons.edit),
+          Icon(
+            Icons.edit,
+            size: 5,
+          ),
         ],
       ),
       onTap: () {

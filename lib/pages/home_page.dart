@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
           return Column(
             children: [
               Dismissible(
-                direction: DismissDirection.horizontal,
+                direction: DismissDirection.endToStart,
                 key: Key(item[0].toString()),
                 background: dismissibleBackground(),
                 onDismissed: (direction) {
@@ -61,7 +61,9 @@ class _HomePageState extends State<HomePage> {
                     dismissibleSnackbar(item, context),
                   );
                 },
-                child: makeBirthdayCard(index),
+                child: Container(
+                    margin: const EdgeInsets.only(right: 10, left: 10),
+                    child: makeBirthdayCard(index)),
               ),
             ],
           );

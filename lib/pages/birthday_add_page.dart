@@ -26,6 +26,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
         children: [
           infoBanner('Choose a name:'),
           inputNameField(),
+          const SizedBox(height: 40),
           infoBanner('Choose a date:'),
           datePicker(context),
           const SizedBox(height: 40),
@@ -54,20 +55,26 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
     );
   }
 
-  Container infoText() {
-    return Container(
-      padding: const EdgeInsets.all(3),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: const [
-          Flexible(
-            child: Text(
-              '  * Note that all properties can be canged later, \n \t   by tapping on a birthday card on the Home \n \t   screen.',
-              style: TextStyle(color: Constants.darkerGrey, fontSize: 18),
+  Widget infoText() {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: const [
+        Flexible(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.only(top: 5.0, left: 30, right: 30),
+              child: Text(
+                'Note that all properties can be canged later, by tapping on a birthday card on the Home screen.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Constants.darkerGrey,
+                  fontSize: 18,
+                ),
+              ),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 
