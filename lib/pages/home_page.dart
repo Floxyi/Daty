@@ -13,7 +13,7 @@ final birthDayList = [
   [6, 'Vincent', DateTime(2004, 3, 14)],
   [7, 'Vincent', DateTime(2004, 3, 14)],
   [8, 'Vincent', DateTime(2004, 3, 14)],
-  [9, 'Peter', DateTime(2005, DateTime.now().month, DateTime.now().day)],
+  [9, 'Peter', DateTime(2005, DateTime.now().month, DateTime.now().day + 1)],
 ];
 
 class HomePage extends StatefulWidget {

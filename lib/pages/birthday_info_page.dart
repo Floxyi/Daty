@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../pages/birthday_edit_page.dart';
 import '../constants.dart';
 import '../calculator.dart';
+import '../widgets/birthday_countdown.dart';
 
 class BirthdayInfoPage extends StatefulWidget {
   final int id;
@@ -28,6 +29,8 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
             iconWithName(),
             const SizedBox(height: 50),
             birthdayInfo(),
+            const SizedBox(height: 50),
+            BirthdayCountdown(widget.birthday),
           ],
         ),
       ),
@@ -54,7 +57,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
     );
   }
 
-  Widget birthdayInfo() {
+  Column birthdayInfo() {
     return Column(
       children: [
         Text(
@@ -64,9 +67,9 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
             fontSize: 15,
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Text(
-          'will soon be ${Calculator.calculateAge(widget.birthday) + 1} years old',
+          '(will soon be ${Calculator.calculateAge(widget.birthday) + 1} years old)',
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: 15,
@@ -97,18 +100,21 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
 
   GestureDetector editButton(BuildContext context) {
     return GestureDetector(
-      child: Row(
-        children: const [
-          Text(
-            'Edit',
-            style: TextStyle(fontSize: 15),
-          ),
-          SizedBox(width: 5),
-          Icon(
-            Icons.edit,
-            size: 5,
-          ),
-        ],
+      child: Container(
+        margin: const EdgeInsets.only(right: 20),
+        child: Row(
+          children: const [
+            Text(
+              'Edit',
+              style: TextStyle(fontSize: 15),
+            ),
+            SizedBox(width: 5),
+            Icon(
+              Icons.edit,
+              size: 15,
+            ),
+          ],
+        ),
       ),
       onTap: () {
         Navigator.of(context)

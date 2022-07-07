@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widgets/birthday_card.dart';
+import '../widgets/view_title.dart';
 import '../constants.dart';
 import 'home_page.dart';
 
@@ -42,13 +43,13 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
-          infoBanner('Choose a new name:'),
+          const ViewTitle('Choose a new name:'),
           inputNameField(),
           const SizedBox(height: 40),
-          infoBanner('Choose a new date:'),
+          const ViewTitle('Choose a new date:'),
           datePicker(context),
           const SizedBox(height: 40),
-          infoBanner('Preview:'),
+          const ViewTitle('Preview:'),
           cardPreview(),
           const SizedBox(height: 40),
           saveButton(context),
@@ -172,22 +173,6 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
               ? 'The max name lenght is 13 characters!'
               : null;
         },
-      ),
-    );
-  }
-
-  Container infoBanner(String title) {
-    return Container(
-      padding: const EdgeInsets.all(3),
-      color: Constants.darkGreySecondary,
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Text(
-            ' $title',
-            style: const TextStyle(color: Constants.lighterGrey, fontSize: 18),
-          )
-        ],
       ),
     );
   }
