@@ -130,7 +130,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '${widget.name}:',
+          widget.name,
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,

@@ -3,7 +3,6 @@ import '../pages/birthday_edit_page.dart';
 import '../constants.dart';
 import '../calculator.dart';
 import '../widgets/birthday_countdown.dart';
-import '../widgets/view_title.dart';
 
 class BirthdayInfoPage extends StatefulWidget {
   final int id;
@@ -35,48 +34,6 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget iconWithName() {
-    return Column(
-      children: [
-        const Icon(
-          Icons.cake_outlined,
-          size: 80,
-          color: Constants.whiteSecondary,
-        ),
-        const SizedBox(height: 10),
-        Text(
-          '${widget.name} (${Calculator.calculateAge(widget.birthday)})',
-          style: const TextStyle(
-              color: Constants.whiteSecondary,
-              fontSize: 25,
-              fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-
-  Column birthdayInfo() {
-    return Column(
-      children: [
-        Text(
-          '${Calculator.getDayName(widget.birthday.weekday)}, ${widget.birthday.day}. ${Calculator.getMonthName(widget.birthday.month)} ${widget.birthday.year}',
-          style: const TextStyle(
-            color: Constants.whiteSecondary,
-            fontSize: 15,
-          ),
-        ),
-        const SizedBox(height: 5),
-        Text(
-          '(will soon be ${Calculator.calculateAge(widget.birthday) + 1} years old)',
-          style: const TextStyle(
-            color: Constants.whiteSecondary,
-            fontSize: 15,
-          ),
-        ),
-      ],
     );
   }
 
@@ -123,6 +80,48 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
           return BirthdayEditPage(widget.id, widget.name, widget.birthday);
         }));
       },
+    );
+  }
+
+  Widget iconWithName() {
+    return Column(
+      children: [
+        const Icon(
+          Icons.cake_outlined,
+          size: 80,
+          color: Constants.whiteSecondary,
+        ),
+        const SizedBox(height: 10),
+        Text(
+          '${widget.name} (${Calculator.calculateAge(widget.birthday)})',
+          style: const TextStyle(
+              color: Constants.whiteSecondary,
+              fontSize: 25,
+              fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
+
+  Column birthdayInfo() {
+    return Column(
+      children: [
+        Text(
+          '${Calculator.getDayName(widget.birthday.weekday)}, ${widget.birthday.day}. ${Calculator.getMonthName(widget.birthday.month)} ${widget.birthday.year}',
+          style: const TextStyle(
+            color: Constants.whiteSecondary,
+            fontSize: 15,
+          ),
+        ),
+        const SizedBox(height: 5),
+        Text(
+          '(will soon be ${Calculator.calculateAge(widget.birthday) + 1} years old)',
+          style: const TextStyle(
+            color: Constants.whiteSecondary,
+            fontSize: 15,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -19,18 +19,16 @@ class BirthdayEditPage extends StatefulWidget {
 
 class _BirthdayEditPageState extends State<BirthdayEditPage> {
   int id = 0;
-  String oldName = '';
-  DateTime oldDate = DateTime.now();
   String newName = '';
   DateTime newDate = DateTime.now();
+  TimeOfDay newTime = const TimeOfDay(hour: 0, minute: 0);
 
   @override
   void initState() {
     id = widget.id;
-    oldName = widget.name;
-    oldDate = widget.birthday;
     newName = widget.name;
     newDate = widget.birthday;
+    newTime = TimeOfDay(hour: newDate.hour, minute: newDate.minute);
     super.initState();
   }
 
@@ -48,6 +46,12 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
           const SizedBox(height: 40),
           const ViewTitle('Choose a new date:'),
           datePicker(context),
+          const SizedBox(height: 40),
+          const ViewTitle('Choose a time:'),
+          timePicker(context),
+          infoText(
+            "Note that you can leave this as default if you don't know the exact time",
+          ),
           const SizedBox(height: 40),
           const ViewTitle('Preview:'),
           cardPreview(),
@@ -68,59 +72,6 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
           fontSize: 30,
           fontWeight: FontWeight.bold,
         ),
-      ),
-    );
-  }
-
-  Container saveButton(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      width: double.infinity,
-      child: ElevatedButton(
-        child: const Text(
-          'Save',
-          style: TextStyle(
-              color: Constants.whiteSecondary,
-              fontSize: 18,
-              fontWeight: FontWeight.bold),
-        ),
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, '/');
-          birthDayList.removeAt(birthDayList.indexWhere((birthdayData) =>
-              birthdayData[0] == id &&
-              birthdayData[1] == oldName &&
-              birthdayData[2] == oldDate));
-          birthDayList.add([id, newName, newDate]);
-        },
-      ),
-    );
-  }
-
-  Container cardPreview() {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      child: BirthdayCard(getHighestID() + 1, newName, newDate),
-    );
-  }
-
-  Container datePicker(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      child: ElevatedButton(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.date_range_rounded),
-            const SizedBox(width: 10),
-            Text(
-              '${newDate.day}.${newDate.month}.${newDate.year}',
-              style: const TextStyle(fontSize: 18),
-            ),
-          ],
-        ),
-        onPressed: () {
-          _selectDate(context);
-        },
       ),
     );
   }
@@ -177,6 +128,28 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
     );
   }
 
+  Container datePicker(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: ElevatedButton(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.date_range_rounded),
+            const SizedBox(width: 10),
+            Text(
+              '${newDate.day}.${newDate.month}.${newDate.year}',
+              style: const TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+        onPressed: () {
+          _selectDate(context);
+        },
+      ),
+    );
+  }
+
   void _selectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
       context: context,
@@ -190,6 +163,101 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
         newDate = selected;
       });
     }
+  }
+
+  Container timePicker(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: ElevatedButton(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.timer_outlined),
+            const SizedBox(width: 10),
+            Text(
+              newTime.format(context),
+              style: const TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+        onPressed: () {
+          _selectTime(context);
+        },
+      ),
+    );
+  }
+
+  void _selectTime(BuildContext context) async {
+    final TimeOfDay? timeOfDay = await showTimePicker(
+      context: context,
+      initialTime: newTime,
+      initialEntryMode: TimePickerEntryMode.dial,
+    );
+    if (timeOfDay != null && timeOfDay != newTime) {
+      setState(() {
+        newTime = timeOfDay;
+      });
+    }
+  }
+
+  Container cardPreview() {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: BirthdayCard(getHighestID() + 1, newName, newDate),
+    );
+  }
+
+  Container saveButton(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      width: double.infinity,
+      child: ElevatedButton(
+        child: const Text(
+          'Save',
+          style: TextStyle(
+              color: Constants.whiteSecondary,
+              fontSize: 18,
+              fontWeight: FontWeight.bold),
+        ),
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, '/');
+          birthDayList.removeAt(birthDayList.indexWhere(
+            (birthdayData) => birthdayData[0] == id,
+          ));
+          newDate = DateTime(
+            newDate.year,
+            newDate.month,
+            newDate.day,
+            newTime.hour,
+            newTime.minute,
+          );
+          birthDayList.add([id, newName, newDate]);
+        },
+      ),
+    );
+  }
+
+  Row infoText(String text) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Flexible(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 5.0, left: 30, right: 30),
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Constants.darkerGrey,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
   }
 }
 
