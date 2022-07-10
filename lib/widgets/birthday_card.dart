@@ -39,8 +39,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
             const SizedBox(width: 15),
             birthdayInfo(),
             const Spacer(),
-            DateTime.now().month == widget.birthday.month &&
-                    DateTime.now().day == widget.birthday.day
+            Calculator.hasBirthday(widget.birthday)
                 ? partyIcon()
                 : dayCounter(),
           ],
@@ -69,7 +68,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            Calculator.daysTillBirthday(widget.birthday).toString(),
+            (Calculator.daysTillBirthday(widget.birthday) + 1).toString(),
             style: const TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.bold,

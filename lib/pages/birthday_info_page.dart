@@ -3,6 +3,7 @@ import '../pages/birthday_edit_page.dart';
 import '../constants.dart';
 import '../calculator.dart';
 import '../widgets/birthday_countdown.dart';
+import '../widgets/view_title.dart';
 
 class BirthdayInfoPage extends StatefulWidget {
   final int id;

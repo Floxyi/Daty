@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class ViewTitle extends StatelessWidget {
-  const ViewTitle(String title, {Key? key}) : super(key: key);
+  final String title;
+  const ViewTitle(this.title, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class ViewTitle extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           Text(
-            ' $this.title',
+            ' $title',
             style: const TextStyle(color: Constants.lighterGrey, fontSize: 18),
           )
         ],

@@ -14,6 +14,7 @@ class AddBirthdayPage extends StatefulWidget {
 
 class _AddBirthdayPageState extends State<AddBirthdayPage> {
   DateTime birthday = DateTime.now();
+  TimeOfDay time = const TimeOfDay(hour: 0, minute: 0);
   String name = 'Name';
 
   @override
@@ -21,23 +22,33 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
     return Scaffold(
       backgroundColor: Constants.blackPrimary,
       appBar: appBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          const ViewTitle('Choose a name:'),
-          inputNameField(),
-          const SizedBox(height: 40),
-          const ViewTitle('Choose a date:'),
-          datePicker(context),
-          const SizedBox(height: 40),
-          const ViewTitle('Preview:'),
-          cardPreview(),
-          const SizedBox(height: 40),
-          saveButton(context),
-          const SizedBox(height: 10),
-          infoText()
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const ViewTitle('Choose a name:'),
+            inputNameField(),
+            const SizedBox(height: 40),
+            const ViewTitle('Choose a date:'),
+            datePicker(context),
+            const SizedBox(height: 40),
+            const ViewTitle('Choose a time:'),
+            timePicker(context),
+            infoText(
+              "Note that you can leave this as default if you don't know the exact time",
+            ),
+            const SizedBox(height: 40),
+            const ViewTitle('Preview:'),
+            cardPreview(),
+            const SizedBox(height: 40),
+            saveButton(context),
+            const SizedBox(height: 10),
+            infoText(
+              'Note that all properties can be canged later, by tapping on a birthday card on the Home screen.',
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -52,78 +63,6 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
           fontSize: 30,
           fontWeight: FontWeight.bold,
         ),
-      ),
-    );
-  }
-
-  Row infoText() {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: const [
-        Flexible(
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.only(top: 5.0, left: 30, right: 30),
-              child: Text(
-                'Note that all properties can be canged later, by tapping on a birthday card on the Home screen.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Constants.darkerGrey,
-                  fontSize: 18,
-                ),
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  Container saveButton(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      width: double.infinity,
-      child: ElevatedButton(
-        child: const Text(
-          'Save',
-          style: TextStyle(
-              color: Constants.whiteSecondary,
-              fontSize: 18,
-              fontWeight: FontWeight.bold),
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-          birthDayList.add([getHighestID() + 1, name, birthday]);
-        },
-      ),
-    );
-  }
-
-  Container cardPreview() {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      child: BirthdayCard(getHighestID() + 1, name, birthday),
-    );
-  }
-
-  Container datePicker(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      child: ElevatedButton(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.date_range_rounded),
-            const SizedBox(width: 10),
-            Text(
-              '${birthday.day}.${birthday.month}.${birthday.year}',
-              style: const TextStyle(fontSize: 18),
-            ),
-          ],
-        ),
-        onPressed: () {
-          _selectDate(context);
-        },
       ),
     );
   }
@@ -179,6 +118,28 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
     );
   }
 
+  Container datePicker(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: ElevatedButton(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.date_range_rounded),
+            const SizedBox(width: 10),
+            Text(
+              '${birthday.day}.${birthday.month}.${birthday.year}',
+              style: const TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+        onPressed: () {
+          _selectDate(context);
+        },
+      ),
+    );
+  }
+
   void _selectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
       context: context,
@@ -192,6 +153,93 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
         birthday = selected;
       });
     }
+  }
+
+  Container timePicker(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: ElevatedButton(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.timer_outlined),
+            const SizedBox(width: 10),
+            Text(
+              time.format(context),
+              style: const TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+        onPressed: () {
+          _selectTime(context);
+        },
+      ),
+    );
+  }
+
+  void _selectTime(BuildContext context) async {
+    final TimeOfDay? timeOfDay = await showTimePicker(
+      context: context,
+      initialTime: time,
+      initialEntryMode: TimePickerEntryMode.dial,
+    );
+    if (timeOfDay != null && timeOfDay != time) {
+      setState(() {
+        time = timeOfDay;
+      });
+    }
+  }
+
+  Container cardPreview() {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: BirthdayCard(getHighestID() + 1, name, birthday),
+    );
+  }
+
+  Container saveButton(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      width: double.infinity,
+      child: ElevatedButton(
+        child: const Text(
+          'Save',
+          style: TextStyle(
+              color: Constants.whiteSecondary,
+              fontSize: 18,
+              fontWeight: FontWeight.bold),
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+          DateTime birthdayWithTime = DateTime(birthday.year, birthday.month,
+              birthday.day, time.hour, time.minute);
+          birthDayList.add([getHighestID() + 1, name, birthdayWithTime]);
+        },
+      ),
+    );
+  }
+
+  Row infoText(String text) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Flexible(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 5.0, left: 30, right: 30),
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Constants.darkerGrey,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
   }
 }
 

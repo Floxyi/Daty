@@ -53,7 +53,6 @@ class _BirthdayCountdownState extends State<BirthdayCountdown>
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(right: 30, left: 30),
       decoration: const BoxDecoration(
         color: Constants.darkGreySecondary,
         borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -65,84 +64,34 @@ class _BirthdayCountdownState extends State<BirthdayCountdown>
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              margin: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Text(
-                    Calculator.daysTillBirthday(widget.birthday).toString(),
-                    style: const TextStyle(
-                      color: Constants.whiteSecondary,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const Text(
-                    'Days',
-                    style: TextStyle(color: Constants.whiteSecondary),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Text(
-                    Calculator.hoursTillBirthday(widget.birthday).toString(),
-                    style: const TextStyle(
-                      color: Constants.whiteSecondary,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const Text(
-                    'Hours',
-                    style: TextStyle(color: Constants.whiteSecondary),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Text(
-                    Calculator.minutesTillBirthday(widget.birthday).toString(),
-                    style: const TextStyle(
-                      color: Constants.whiteSecondary,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const Text(
-                    'Minutes',
-                    style: TextStyle(color: Constants.whiteSecondary),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Text(
-                    Calculator.secondsTillBirthday(widget.birthday).toString(),
-                    style: const TextStyle(
-                      color: Constants.whiteSecondary,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const Text(
-                    'Seconds',
-                    style: TextStyle(color: Constants.whiteSecondary),
-                  )
-                ],
-              ),
-            ),
+            counter('Days', Calculator.daysTillBirthday(widget.birthday)),
+            counter('Hours', Calculator.hoursTillBirthday(widget.birthday)),
+            counter('Minutes', Calculator.minutesTillBirthday(widget.birthday)),
+            counter('Seconds', Calculator.secondsTillBirthday(widget.birthday)),
           ],
         ),
+      ),
+    );
+  }
+
+  Container counter(String unit, int time) {
+    return Container(
+      margin: const EdgeInsets.all(15),
+      child: Column(
+        children: [
+          Text(
+            time.toString(),
+            style: const TextStyle(
+              color: Constants.whiteSecondary,
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            unit,
+            style: const TextStyle(color: Constants.whiteSecondary),
+          )
+        ],
       ),
     );
   }

@@ -81,47 +81,64 @@ class Calculator {
     }
   }
 
-  static int daysTillBirthday(DateTime birthday) {
-    final DateTime now = DateTime(
-      birthday.year,
-      DateTime.now().month,
-      DateTime.now().day,
-    );
+  static bool hasBirthday(DateTime birthday) {
+    DateTime yearDay = DateTime(DateTime.now().year, birthday.month,
+        birthday.day, birthday.hour, birthday.minute);
 
-    if (now.isBefore(birthday)) {
-      final from = DateTime(now.year, now.month, now.day);
-      final to = DateTime(now.year, birthday.month, birthday.day);
-      return (to.difference(from).inHours / 24).round() == 365
-          ? 0
-          : (to.difference(from).inHours / 24).round();
+    if (yearDay.isBefore(DateTime.now()) &&
+        birthday.day == DateTime.now().day &&
+        birthday.month == DateTime.now().month) {
+      return true;
+    }
+    return false;
+  }
+
+  static int daysTillBirthday(DateTime birthday) {
+    if (birthday.day == DateTime.now().day &&
+        birthday.month == DateTime.now().month) {
+      return 0;
     }
 
-    final from = DateTime(now.year, now.month, now.day);
-    final to = DateTime(now.year + 1, birthday.month, birthday.day);
-    return DateTime.now().month == birthday.month &&
-            DateTime.now().day == birthday.day
-        ? 0
-        : (to.difference(from).inHours / 24).round();
+    int year = DateTime.now().year;
+    if (birthday.isBefore(DateTime.now())) {
+      year++;
+    }
+
+    DateTime yearDay = DateTime(
+        year, birthday.month, birthday.day, birthday.hour, birthday.minute);
+    return yearDay.difference(DateTime.now()).inDays % 365;
   }
 
   static int hoursTillBirthday(DateTime birthday) {
-    if (birthday.day == DateTime.now().day) return 0;
+    if (birthday.day == DateTime.now().day &&
+        birthday.month == DateTime.now().month) {
+      return 0;
+    }
 
-    int hours = birthday.hour - DateTime.now().hour - 1;
-    return hours < 0 ? hours + 24 : hours;
+    DateTime yearDay = DateTime(DateTime.now().year, birthday.month,
+        birthday.day, birthday.hour, birthday.minute);
+    return yearDay.difference(DateTime.now()).inHours % 24;
   }
 
   static int minutesTillBirthday(DateTime birthday) {
-    if (birthday.day == DateTime.now().day) return 0;
+    if (birthday.day == DateTime.now().day &&
+        birthday.month == DateTime.now().month) {
+      return 0;
+    }
 
-    int minutes = birthday.minute - DateTime.now().minute - 1;
-    return minutes < 0 ? minutes + 60 : minutes;
+    DateTime yearDay = DateTime(DateTime.now().year, birthday.month,
+        birthday.day, birthday.hour, birthday.minute);
+    return yearDay.difference(DateTime.now()).inMinutes % 60;
   }
 
   static int secondsTillBirthday(DateTime birthday) {
-    if (birthday.day == DateTime.now().day) return 0;
+    if (birthday.day == DateTime.now().day &&
+        birthday.month == DateTime.now().month) {
+      return 0;
+    }
 
-    int seconds = birthday.second - DateTime.now().second - 1;
-    return seconds < 0 ? seconds + 60 : seconds;
+    DateTime yearDay = DateTime(DateTime.now().year, birthday.month,
+        birthday.day, birthday.hour, birthday.minute);
+    return yearDay.difference(DateTime.now()).inSeconds % 60;
   }
 }
