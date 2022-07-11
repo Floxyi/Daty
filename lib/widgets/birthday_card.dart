@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../pages/birthday_info_page.dart';
+import '../screens/birthday_info_page.dart';
 import '../constants.dart';
 import '../calculator.dart';
 

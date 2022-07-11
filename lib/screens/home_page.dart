@@ -5,7 +5,7 @@ import '../constants.dart';
 import '../calculator.dart';
 
 final birthDayList = [
-  [1, 'Florian', DateTime(2005, 6, 15)],
+  [1, 'Florian', DateTime(2005, 6, 15, 23, 4)],
   [2, 'Liam', DateTime(2004, 7, 27)],
   [3, 'Jannes', DateTime(2004, 12, 9)],
   [4, 'Max', DateTime(2005, 2, 24)],
@@ -13,7 +13,17 @@ final birthDayList = [
   [6, 'Vincent', DateTime(2004, 3, 14)],
   [7, 'Vincent', DateTime(2004, 3, 14)],
   [8, 'Vincent', DateTime(2004, 3, 14)],
-  [9, 'Peter', DateTime(2005, DateTime.now().month, DateTime.now().day + 1)],
+  [
+    9,
+    'Peter',
+    DateTime(
+      2005,
+      DateTime.now().month,
+      DateTime.now().day,
+      DateTime.now().hour,
+      DateTime.now().minute + 1,
+    )
+  ],
 ];
 
 class HomePage extends StatefulWidget {

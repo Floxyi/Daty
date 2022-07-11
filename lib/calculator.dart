@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class Calculator {
   static String getDayName(int day) {
     switch (day) {
@@ -67,6 +69,36 @@ class Calculator {
     }
   }
 
+  static String calculatePreciseAge(DateTime birthday, places) {
+    DateTime nextBirthday = DateTime(
+      birthday.year + 1,
+      birthday.month,
+      birthday.day,
+      birthday.hour,
+      birthday.minute,
+    );
+
+    int diff = DateTime.now().difference(nextBirthday).inMilliseconds;
+    double preciseAge = diff / (365.25 * 24 * 60 * 60 * 1000) + 1;
+    preciseAge = roundDouble(preciseAge, places);
+
+    String ageString = preciseAge.toString();
+    ageString = ageString.substring(preciseAge.round().toString().length);
+
+    if (ageString.length != places + 1) {
+      for (int i = ageString.toString().length; i < places + 1; i++) {
+        ageString = "${ageString}0";
+      }
+    }
+
+    return ageString;
+  }
+
+  static double roundDouble(double value, int places) {
+    num mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
+  }
+
   static int nextBirthday(DateTime birthday) {
     final DateTime now =
         DateTime(birthday.year, DateTime.now().month, DateTime.now().day);
@@ -82,11 +114,7 @@ class Calculator {
   }
 
   static bool hasBirthday(DateTime birthday) {
-    DateTime yearDay = DateTime(DateTime.now().year, birthday.month,
-        birthday.day, birthday.hour, birthday.minute);
-
-    if (yearDay.isBefore(DateTime.now()) &&
-        birthday.day == DateTime.now().day &&
+    if (birthday.day == DateTime.now().day &&
         birthday.month == DateTime.now().month) {
       return true;
     }
@@ -94,51 +122,51 @@ class Calculator {
   }
 
   static int daysTillBirthday(DateTime birthday) {
-    if (birthday.day == DateTime.now().day &&
-        birthday.month == DateTime.now().month) {
-      return 0;
-    }
-
     int year = DateTime.now().year;
     if (birthday.isBefore(DateTime.now())) {
       year++;
     }
 
     DateTime yearDay = DateTime(
-        year, birthday.month, birthday.day, birthday.hour, birthday.minute);
+      year,
+      birthday.month,
+      birthday.day,
+      birthday.hour,
+      birthday.minute,
+    );
     return yearDay.difference(DateTime.now()).inDays % 365;
   }
 
   static int hoursTillBirthday(DateTime birthday) {
-    if (birthday.day == DateTime.now().day &&
-        birthday.month == DateTime.now().month) {
-      return 0;
-    }
-
-    DateTime yearDay = DateTime(DateTime.now().year, birthday.month,
-        birthday.day, birthday.hour, birthday.minute);
+    DateTime yearDay = DateTime(
+      DateTime.now().year,
+      birthday.month,
+      birthday.day,
+      birthday.hour,
+      birthday.minute,
+    );
     return yearDay.difference(DateTime.now()).inHours % 24;
   }
 
   static int minutesTillBirthday(DateTime birthday) {
-    if (birthday.day == DateTime.now().day &&
-        birthday.month == DateTime.now().month) {
-      return 0;
-    }
-
-    DateTime yearDay = DateTime(DateTime.now().year, birthday.month,
-        birthday.day, birthday.hour, birthday.minute);
+    DateTime yearDay = DateTime(
+      DateTime.now().year,
+      birthday.month,
+      birthday.day,
+      birthday.hour,
+      birthday.minute,
+    );
     return yearDay.difference(DateTime.now()).inMinutes % 60;
   }
 
   static int secondsTillBirthday(DateTime birthday) {
-    if (birthday.day == DateTime.now().day &&
-        birthday.month == DateTime.now().month) {
-      return 0;
-    }
-
-    DateTime yearDay = DateTime(DateTime.now().year, birthday.month,
-        birthday.day, birthday.hour, birthday.minute);
+    DateTime yearDay = DateTime(
+      DateTime.now().year,
+      birthday.month,
+      birthday.day,
+      birthday.hour,
+      birthday.minute,
+    );
     return yearDay.difference(DateTime.now()).inSeconds % 60;
   }
 }

@@ -1,5 +1,5 @@
-import 'package:daty/pages/home_page.dart';
-import 'package:daty/pages/settings_page.dart';
+import 'package:daty/screens/home_page.dart';
+import 'package:daty/screens/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
 
