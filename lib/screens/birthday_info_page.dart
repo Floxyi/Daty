@@ -134,9 +134,10 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
         Text(
           widget.name,
           style: const TextStyle(
-              color: Constants.whiteSecondary,
-              fontSize: 30,
-              fontWeight: FontWeight.bold),
+            color: Constants.whiteSecondary,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );
@@ -197,21 +198,17 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
         ),
         child: Column(
           children: [
-            widgetHeadline('Countdown'),
+            const Text(
+              'Countdown',
+              style: TextStyle(
+                color: Constants.whiteSecondary,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             countdown(),
           ],
         ),
-      ),
-    );
-  }
-
-  Text widgetHeadline(String text) {
-    return Text(
-      text,
-      style: const TextStyle(
-        color: Constants.whiteSecondary,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
       ),
     );
   }

@@ -11,8 +11,6 @@ final birthDayList = [
   [4, 'Max', DateTime(2005, 2, 24)],
   [5, 'Colin', DateTime(2004, 11, 11)],
   [6, 'Vincent', DateTime(2004, 3, 14)],
-  [7, 'Vincent', DateTime(2004, 3, 14)],
-  [8, 'Vincent', DateTime(2004, 3, 14)],
   [
     9,
     'Peter',
@@ -24,6 +22,7 @@ final birthDayList = [
       DateTime.now().minute + 1,
     )
   ],
+  [10, 'Riley', DateTime(2000, 6, 13)],
 ];
 
 class HomePage extends StatefulWidget {
@@ -52,8 +51,8 @@ class _HomePageState extends State<HomePage> {
         itemCount: birthDayList.length,
         itemBuilder: (context, index) {
           birthDayList.sort(((a, b) =>
-              Calculator.daysTillBirthday(a[2] as DateTime)
-                  .compareTo(Calculator.daysTillBirthday(b[2] as DateTime))));
+              Calculator.remainingDaysTillBirthday(a[2] as DateTime).compareTo(
+                  Calculator.remainingDaysTillBirthday(b[2] as DateTime))));
           final item = birthDayList[index];
 
           return Column(

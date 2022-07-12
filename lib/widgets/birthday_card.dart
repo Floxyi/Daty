@@ -68,7 +68,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            (Calculator.daysTillBirthday(widget.birthday) + 1).toString(),
+            (Calculator.remainingDaysTillBirthday(widget.birthday)).toString(),
             style: const TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.bold,

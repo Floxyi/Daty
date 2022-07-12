@@ -121,7 +121,26 @@ class Calculator {
     return false;
   }
 
-  static int daysTillBirthday(DateTime birthday) {
+  static bool hadBirthday(DateTime birthday) {
+    DateTime birthdayThisYear = DateTime(
+      DateTime.now().year,
+      birthday.month,
+      birthday.day,
+      birthday.hour,
+      birthday.minute,
+    );
+
+    if (birthdayThisYear.isAfter(DateTime.now())) {
+      return false;
+    }
+    return true;
+  }
+
+  static int remainingDaysTillBirthday(DateTime birthday) {
+    if (hasBirthday(birthday)) {
+      return 0;
+    }
+
     int year = DateTime.now().year;
     if (birthday.isBefore(DateTime.now())) {
       year++;
@@ -134,12 +153,23 @@ class Calculator {
       birthday.hour,
       birthday.minute,
     );
+    return (yearDay.difference(DateTime.now()).inDays % 365) + 1;
+  }
+
+  static int daysTillBirthday(DateTime birthday) {
+    DateTime yearDay = DateTime(
+      hadBirthday(birthday) ? DateTime.now().year + 1 : DateTime.now().year,
+      birthday.month,
+      birthday.day,
+      birthday.hour,
+      birthday.minute,
+    );
     return yearDay.difference(DateTime.now()).inDays % 365;
   }
 
   static int hoursTillBirthday(DateTime birthday) {
     DateTime yearDay = DateTime(
-      DateTime.now().year,
+      hadBirthday(birthday) ? DateTime.now().year + 1 : DateTime.now().year,
       birthday.month,
       birthday.day,
       birthday.hour,
@@ -150,7 +180,7 @@ class Calculator {
 
   static int minutesTillBirthday(DateTime birthday) {
     DateTime yearDay = DateTime(
-      DateTime.now().year,
+      hadBirthday(birthday) ? DateTime.now().year + 1 : DateTime.now().year,
       birthday.month,
       birthday.day,
       birthday.hour,
@@ -161,7 +191,7 @@ class Calculator {
 
   static int secondsTillBirthday(DateTime birthday) {
     DateTime yearDay = DateTime(
-      DateTime.now().year,
+      hadBirthday(birthday) ? DateTime.now().year + 1 : DateTime.now().year,
       birthday.month,
       birthday.day,
       birthday.hour,
