@@ -11,8 +11,11 @@ final birthDayList = [
   [4, 'Max', DateTime(2005, 2, 24)],
   [5, 'Colin', DateTime(2004, 11, 11)],
   [6, 'Vincent', DateTime(2004, 3, 14)],
+  [7, 'Riley', DateTime(2000, 6, 13)],
+  [8, 'Riley', DateTime(2000, 6, 13)],
+  [9, 'Riley', DateTime(2000, 6, 13)],
   [
-    9,
+    10,
     'Peter',
     DateTime(
       2005,
@@ -22,7 +25,6 @@ final birthDayList = [
       DateTime.now().minute + 1,
     )
   ],
-  [10, 'Riley', DateTime(2000, 6, 13)],
 ];
 
 class HomePage extends StatefulWidget {

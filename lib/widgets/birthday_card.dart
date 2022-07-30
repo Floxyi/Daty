@@ -39,7 +39,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
             const SizedBox(width: 15),
             birthdayInfo(),
             const Spacer(),
-            Calculator.hasBirthday(widget.birthday)
+            Calculator.hasBirthdayToday(widget.birthday)
                 ? partyIcon()
                 : dayCounter(),
           ],
@@ -159,7 +159,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
           color: Constants.whiteSecondary,
         ),
         Text(
-          '${Calculator.nextBirthday(widget.birthday)}',
+          '${Calculator.calculateAge(widget.birthday) + 1}',
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,

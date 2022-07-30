@@ -20,7 +20,7 @@ class BirthdayInfoPage extends StatefulWidget {
 class _BirthdayInfoPageState extends State<BirthdayInfoPage>
     with WidgetsBindingObserver {
   late Timer timer;
-  Duration duration = const Duration(milliseconds: 1);
+  Duration duration = const Duration(milliseconds: 100);
 
   @override
   void initState() {
