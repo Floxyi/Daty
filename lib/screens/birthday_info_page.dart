@@ -59,18 +59,20 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
     return Scaffold(
       backgroundColor: Constants.blackPrimary,
       appBar: appBar(context),
-      body: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-            iconWithName(),
-            const SizedBox(height: 20),
-            preciseAge(),
-            const SizedBox(height: 20),
-            birthdayInfo(),
-            const SizedBox(height: 50),
-            birthdayCountdown(),
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              const SizedBox(height: 30),
+              iconWithName(),
+              const SizedBox(height: 20),
+              preciseAge(),
+              const SizedBox(height: 20),
+              birthdayInfo(),
+              const SizedBox(height: 50),
+              birthdayCountdown(),
+            ],
+          ),
         ),
       ),
     );
