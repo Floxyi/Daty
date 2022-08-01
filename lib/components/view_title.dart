@@ -15,7 +15,10 @@ class ViewTitle extends StatelessWidget {
         children: [
           Text(
             ' $title',
-            style: const TextStyle(color: Constants.lighterGrey, fontSize: 18),
+            style: const TextStyle(
+              color: Constants.lighterGrey,
+              fontSize: Constants.normalFontSize,
+            ),
           )
         ],
       ),

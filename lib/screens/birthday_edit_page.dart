@@ -71,7 +71,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
         "Edit Birthday",
         style: TextStyle(
           color: Constants.bluePrimary,
-          fontSize: 30,
+          fontSize: Constants.titleFontSizeSize,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -113,7 +113,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
           labelText: ' Name *',
           labelStyle: TextStyle(
             color: Constants.whiteSecondary,
-            fontSize: 18,
+            fontSize: Constants.normalFontSize,
           ),
         ),
         onChanged: (String? value) {
@@ -141,7 +141,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
             const SizedBox(width: 10),
             Text(
               '${newDate.day}.${newDate.month}.${newDate.year}',
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: Constants.normalFontSize),
             ),
           ],
         ),
@@ -178,7 +178,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
             const SizedBox(width: 10),
             Text(
               newTime.format(context),
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: Constants.normalFontSize),
             ),
           ],
         ),
@@ -218,7 +218,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
           'Save',
           style: TextStyle(
               color: Constants.whiteSecondary,
-              fontSize: 18,
+              fontSize: Constants.normalFontSize,
               fontWeight: FontWeight.bold),
         ),
         onPressed: () {
@@ -252,7 +252,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Constants.darkerGrey,
-                  fontSize: 18,
+                  fontSize: Constants.normalFontSize,
                 ),
               ),
             ),

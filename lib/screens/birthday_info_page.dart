@@ -89,7 +89,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
           'Birthday Info',
           style: TextStyle(
             color: Constants.bluePrimary,
-            fontSize: 30,
+            fontSize: Constants.titleFontSizeSize,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -105,7 +105,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
           children: const [
             Text(
               'Edit',
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: Constants.normalFontSize),
             ),
             SizedBox(width: 5),
             Icon(
@@ -137,7 +137,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
           widget.name,
           style: const TextStyle(
             color: Constants.whiteSecondary,
-            fontSize: 30,
+            fontSize: Constants.titleFontSizeSize,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -152,7 +152,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
           '${Calculator.getDayName(widget.birthday.weekday)}, ${widget.birthday.day}. ${Calculator.getMonthName(widget.birthday.month)} ${widget.birthday.year}',
           style: const TextStyle(
             color: Constants.whiteSecondary,
-            fontSize: 15,
+            fontSize: Constants.normalFontSize,
           ),
         ),
         const SizedBox(height: 5),
@@ -170,7 +170,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
           Calculator.calculateAge(widget.birthday).toString(),
           style: const TextStyle(
             color: Constants.whiteSecondary,
-            fontSize: 30,
+            fontSize: Constants.titleFontSizeSize,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -178,7 +178,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
           Calculator.calculatePreciseAge(widget.birthday, 8).toString(),
           style: const TextStyle(
             color: Constants.whiteSecondary,
-            fontSize: 25,
+            fontSize: Constants.biggerFontSize,
           ),
         ),
       ],
@@ -204,7 +204,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
               'Countdown',
               style: TextStyle(
                 color: Constants.whiteSecondary,
-                fontSize: 20,
+                fontSize: Constants.biggerFontSize,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -238,7 +238,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
             time.toString(),
             style: const TextStyle(
               color: Constants.whiteSecondary,
-              fontSize: 25,
+              fontSize: Constants.biggerFontSize,
               fontWeight: FontWeight.bold,
             ),
           ),

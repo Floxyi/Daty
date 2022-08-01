@@ -60,7 +60,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
         'Add Birthday',
         style: TextStyle(
           color: Constants.bluePrimary,
-          fontSize: 30,
+          fontSize: Constants.titleFontSizeSize,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -91,7 +91,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
               borderSide: BorderSide.none),
           floatingLabelStyle: TextStyle(
               color: Constants.bluePrimary,
-              fontSize: 20,
+              fontSize: Constants.biggerFontSize,
               fontWeight: FontWeight.bold),
           hintText: 'Whats the name of the person?',
           hintStyle: TextStyle(
@@ -101,7 +101,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
           labelText: ' Name *',
           labelStyle: TextStyle(
             color: Constants.whiteSecondary,
-            fontSize: 18,
+            fontSize: Constants.normalFontSize,
           ),
         ),
         onChanged: (String? value) {
@@ -129,7 +129,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
             const SizedBox(width: 10),
             Text(
               '${birthday.day}.${birthday.month}.${birthday.year}',
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: Constants.normalFontSize),
             ),
           ],
         ),
@@ -166,7 +166,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
             const SizedBox(width: 10),
             Text(
               time.format(context),
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: Constants.normalFontSize),
             ),
           ],
         ),
@@ -206,7 +206,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
           'Save',
           style: TextStyle(
               color: Constants.whiteSecondary,
-              fontSize: 18,
+              fontSize: Constants.normalFontSize,
               fontWeight: FontWeight.bold),
         ),
         onPressed: () {
@@ -232,7 +232,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Constants.darkerGrey,
-                  fontSize: 18,
+                  fontSize: Constants.normalFontSize,
                 ),
               ),
             ),

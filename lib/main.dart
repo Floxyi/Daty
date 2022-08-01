@@ -35,12 +35,12 @@ class _DatyAppState extends State<DatyApp> {
   AppBar appBar() {
     return AppBar(
       automaticallyImplyLeading: false,
-      backgroundColor: Colors.black,
+      backgroundColor: Constants.blackPrimary,
       title: Text(
         DatyApp.pageIndex == 0 ? 'Birthdays' : 'Settings',
         style: const TextStyle(
           color: Constants.bluePrimary,
-          fontSize: 30,
+          fontSize: Constants.titleFontSizeSize,
           fontWeight: FontWeight.bold,
         ),
       ),

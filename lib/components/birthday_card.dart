@@ -70,14 +70,14 @@ class _BirthdayCardState extends State<BirthdayCard> {
           Text(
             (Calculator.remainingDaysTillBirthday(widget.birthday)).toString(),
             style: const TextStyle(
-                fontSize: 19,
+                fontSize: Constants.normalFontSize,
                 fontWeight: FontWeight.bold,
                 color: Constants.whiteSecondary),
           ),
           const Text(
             'days',
             style: TextStyle(
-              fontSize: 13,
+              fontSize: Constants.smallerFontSize,
               fontWeight: FontWeight.bold,
               color: Constants.whiteSecondary,
             ),
@@ -109,7 +109,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
           Text(
             '🎉',
             style: TextStyle(
-              fontSize: 35,
+              fontSize: Constants.titleFontSizeSize,
               fontWeight: FontWeight.bold,
               shadows: [
                 Shadow(
@@ -132,7 +132,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
         Text(
           widget.name,
           style: const TextStyle(
-            fontSize: 20,
+            fontSize: Constants.biggerFontSize,
             fontWeight: FontWeight.bold,
             color: Constants.whiteSecondary,
           ),
@@ -140,7 +140,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
         Text(
           '${Calculator.getDayName(widget.birthday.weekday)}, ${widget.birthday.day}. ${Calculator.getMonthName(widget.birthday.month)}',
           style: const TextStyle(
-            fontSize: 13,
+            fontSize: Constants.smallerFontSize,
             color: Constants.whiteSecondary,
           ),
         ),
@@ -161,7 +161,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
         Text(
           '${Calculator.calculateAge(widget.birthday) + 1}',
           style: const TextStyle(
-            fontSize: 20,
+            fontSize: Constants.biggerFontSize,
             fontWeight: FontWeight.bold,
             color: Constants.whiteSecondary,
           ),

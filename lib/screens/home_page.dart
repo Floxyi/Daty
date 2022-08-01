@@ -108,8 +108,10 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Text(
                   'Delete',
-                  style:
-                      TextStyle(color: Constants.whiteSecondary, fontSize: 20),
+                  style: TextStyle(
+                    color: Constants.whiteSecondary,
+                    fontSize: Constants.normalFontSize,
+                  ),
                 ),
               ],
             ),
@@ -188,9 +190,9 @@ class _HomePageState extends State<HomePage> {
           fixedSize: const Size(60, 60),
           shape: const CircleBorder(),
         ),
-        child: const Text(
-          '+',
-          style: TextStyle(fontSize: 25),
+        child: const Icon(
+          Icons.add_rounded,
+          size: Constants.titleFontSizeSize,
         ),
         onPressed: () {
           Navigator.of(context)
