@@ -45,7 +45,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
             saveButton(context),
             const SizedBox(height: 10),
             infoText(
-              'Note that all properties can be canged later, by tapping on a birthday card on the Home screen.',
+              'Note that all properties can be changed later, by tapping on a birthday card on the Home screen.',
             ),
           ],
         ),
@@ -111,7 +111,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
         },
         validator: (String? value) {
           return (value != null && value.length > 12)
-              ? 'The max name lenght is 13 characters!'
+              ? 'The max name length is 13 characters!'
               : null;
         },
       ),
