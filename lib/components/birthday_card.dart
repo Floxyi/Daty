@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../screens/birthday_info_page.dart';
-import '../constants.dart';
-import '../calculator.dart';
+import '../utilities/constants.dart';
+import '../utilities/calculator.dart';
 
 class BirthdayCard extends StatefulWidget {
   final String name;

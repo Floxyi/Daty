@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../widgets/birthday_card.dart';
+import '../components/birthday_card.dart';
 import 'birthday_add_page.dart';
-import '../constants.dart';
-import '../calculator.dart';
+import '../utilities/constants.dart';
+import '../utilities/calculator.dart';
 
 final birthDayList = [
   [1, 'Florian', DateTime(2005, 6, 15, 23, 4)],

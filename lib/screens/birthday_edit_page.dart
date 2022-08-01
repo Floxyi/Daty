@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../widgets/birthday_card.dart';
-import '../widgets/view_title.dart';
-import '../constants.dart';
+import '../components/birthday_card.dart';
+import '../components/view_title.dart';
+import '../utilities/constants.dart';
 import 'home_page.dart';
 
 class BirthdayEditPage extends StatefulWidget {
