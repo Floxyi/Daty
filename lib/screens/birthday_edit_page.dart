@@ -25,6 +25,8 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
 
   final _formKey = GlobalKey<FormState>();
 
+  bool isInputCorrect = true;
+
   @override
   void initState() {
     id = widget.id;
@@ -60,6 +62,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
             cardPreview(),
             const SizedBox(height: 40),
             saveButton(context),
+            SizedBox(height: 40),
           ],
         ),
       ),
@@ -87,54 +90,66 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
       margin: const EdgeInsets.all(20),
-      child: TextFormField(
+      padding: EdgeInsets.all(10),
+      child: Form(
         key: _formKey,
-        initialValue: newName,
-        style: const TextStyle(color: Constants.whiteSecondary),
-        inputFormatters: [
-          LengthLimitingTextInputFormatter(12),
-        ],
-        decoration: const InputDecoration(
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 3, color: Constants.bluePrimary),
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-          ),
-          fillColor: Constants.bluePrimary,
-          focusColor: Constants.bluePrimary,
-          border: OutlineInputBorder(
+        child: TextFormField(
+          keyboardType: TextInputType.text,
+          keyboardAppearance: Brightness.dark,
+          style: const TextStyle(color: Constants.whiteSecondary),
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(12),
+          ],
+          decoration: const InputDecoration(
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 3, color: Constants.bluePrimary),
               borderRadius: BorderRadius.all(Radius.circular(15)),
-              borderSide: BorderSide.none),
-          floatingLabelStyle: TextStyle(
+            ),
+            fillColor: Constants.bluePrimary,
+            focusColor: Constants.bluePrimary,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderSide: BorderSide.none,
+            ),
+            floatingLabelStyle: TextStyle(
               color: Constants.bluePrimary,
-              fontSize: 20,
-              fontWeight: FontWeight.bold),
-          hintText: 'Whats the name of the person?',
-          hintStyle: TextStyle(
-            color: Constants.lighterGrey,
-            fontSize: 15,
+              fontSize: Constants.biggerFontSize,
+              fontWeight: FontWeight.bold,
+            ),
+            hintText: 'What is the name of the person?',
+            hintStyle: TextStyle(
+              color: Constants.lighterGrey,
+              fontSize: 15,
+            ),
+            labelText: 'Name',
+            labelStyle: TextStyle(
+              color: Constants.whiteSecondary,
+              fontSize: Constants.normalFontSize,
+            ),
+            errorStyle: TextStyle(
+              fontSize: Constants.smallerFontSize,
+            ),
           ),
-          labelText: ' Name *',
-          labelStyle: TextStyle(
-            color: Constants.whiteSecondary,
-            fontSize: Constants.normalFontSize,
-          ),
-        ),
-        onChanged: (String? value) {
-          setState(() {
-            newName = value.toString();
-          });
-        },
-        validator: (String? value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter a name.';
-          } else {
-            value.trim();
-            if (value.isEmpty) {
+          onChanged: (String? value) {
+            setState(() {
+              newName = value.toString();
+              if (_formKey.currentState!.validate()) {
+                isInputCorrect = true;
+              }
+            });
+          },
+          validator: (String? value) {
+            if (value == null || value.isEmpty) {
               return 'Please enter a name.';
+            } else {
+              value.trim();
+              if (value.isEmpty) {
+                return 'Please enter a name.';
+              }
             }
-          }
-          return null;
-        },
+            return null;
+          },
+        ),
       ),
     );
   }
@@ -223,6 +238,9 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
       margin: const EdgeInsets.all(10),
       width: double.infinity,
       child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: isInputCorrect ? Constants.bluePrimary : Colors.red,
+        ),
         child: const Text(
           'Save',
           style: TextStyle(
@@ -244,6 +262,10 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
               newTime.minute,
             );
             birthDayList.add([id, newName.trim(), newDate]);
+          } else {
+            setState(() {
+              isInputCorrect = false;
+            });
           }
         },
       ),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../components/birthday_card.dart';
 import 'birthday_add_page.dart';
@@ -39,6 +40,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var lastDeleted = ['', DateTime.now()];
+
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -100,36 +103,45 @@ class _HomePageState extends State<HomePage> {
 
   Expanded birthdayListView() {
     return Expanded(
-      child: ListView.builder(
-        itemCount: birthDayList.length,
-        itemBuilder: (context, index) {
-          birthDayList.sort(((a, b) =>
-              Calculator.remainingDaysTillBirthday(a[2] as DateTime).compareTo(
-                  Calculator.remainingDaysTillBirthday(b[2] as DateTime))));
-          final item = birthDayList[index];
-
-          return Column(
-            children: [
-              Dismissible(
-                direction: DismissDirection.endToStart,
-                key: Key(item[0].toString()),
-                background: dismissibleBackground(),
-                onDismissed: (direction) {
-                  setState(() {
-                    lastDeleted = birthDayList.elementAt(index);
-                    birthDayList.removeAt(index);
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    dismissibleSnackBar(item, context),
-                  );
-                },
-                child: Container(
-                    margin: const EdgeInsets.only(right: 10, left: 10),
-                    child: makeBirthdayCard(index)),
-              ),
-            ],
-          );
-        },
+      child: RawScrollbar(
+        thumbColor: Constants.lighterGrey,
+        radius: Radius.circular(20),
+        thickness: 5,
+        thumbVisibility: true,
+        controller: _scrollController,
+        child: ListView.builder(
+          controller: _scrollController,
+          itemCount: birthDayList.length,
+          itemBuilder: (context, index) {
+            birthDayList.sort(((a, b) =>
+                Calculator.remainingDaysTillBirthday(a[2] as DateTime)
+                    .compareTo(
+                  Calculator.remainingDaysTillBirthday(b[2] as DateTime),
+                )));
+            final item = birthDayList[index];
+            return Column(
+              children: [
+                Dismissible(
+                  direction: DismissDirection.endToStart,
+                  key: Key(item[0].toString()),
+                  background: dismissibleBackground(),
+                  onDismissed: (direction) {
+                    setState(() {
+                      lastDeleted = birthDayList.elementAt(index);
+                      birthDayList.removeAt(index);
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      dismissibleSnackBar(item, context),
+                    );
+                  },
+                  child: Container(
+                      margin: const EdgeInsets.only(right: 10, left: 10),
+                      child: makeBirthdayCard(index)),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

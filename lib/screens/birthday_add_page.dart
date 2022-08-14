@@ -20,6 +20,8 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
 
   final _formKey = GlobalKey<FormState>();
 
+  bool isInputCorrect = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,6 +52,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
             infoText(
               'Note that all properties can be changed later, by tapping on a birthday card on the Home screen.',
             ),
+            SizedBox(height: 40),
           ],
         ),
       ),
@@ -81,17 +84,19 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
       child: Form(
         key: _formKey,
         child: TextFormField(
+          keyboardType: TextInputType.text,
+          keyboardAppearance: Brightness.dark,
           style: const TextStyle(color: Constants.whiteSecondary),
           inputFormatters: [
             LengthLimitingTextInputFormatter(12),
           ],
           decoration: const InputDecoration(
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 3, color: Constants.greySecondary),
+              borderSide: BorderSide(width: 3, color: Constants.bluePrimary),
               borderRadius: BorderRadius.all(Radius.circular(15)),
             ),
-            fillColor: Constants.greySecondary,
-            focusColor: Constants.greySecondary,
+            fillColor: Constants.bluePrimary,
+            focusColor: Constants.bluePrimary,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(15)),
               borderSide: BorderSide.none,
@@ -118,6 +123,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
           onChanged: (String? value) {
             setState(() {
               name = value.toString();
+              isInputCorrect = true;
             });
           },
           validator: (String? value) {
@@ -220,6 +226,9 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
       margin: const EdgeInsets.all(10),
       width: double.infinity,
       child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: isInputCorrect ? Constants.bluePrimary : Colors.red,
+        ),
         child: const Text(
           'Save',
           style: TextStyle(
@@ -244,6 +253,10 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
               birthdayWithTime,
               name,
             );
+          } else {
+            setState(() {
+              isInputCorrect = false;
+            });
           }
         },
       ),
