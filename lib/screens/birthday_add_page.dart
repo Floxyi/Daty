@@ -1,9 +1,11 @@
+import 'package:daty/utilities/calculator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../components/birthday_card.dart';
 import '../components/view_title.dart';
 import '../utilities/constants.dart';
 import 'home_page.dart';
+import '../utilities/notifications.dart';
 
 class AddBirthdayPage extends StatefulWidget {
   const AddBirthdayPage({Key? key}) : super(key: key);
@@ -211,9 +213,18 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
         ),
         onPressed: () {
           Navigator.pop(context);
-          DateTime birthdayWithTime = DateTime(birthday.year, birthday.month,
-              birthday.day, time.hour, time.minute);
+          DateTime birthdayWithTime = DateTime(
+            birthday.year,
+            birthday.month,
+            birthday.day,
+            time.hour,
+            time.minute,
+          );
           birthDayList.add([getHighestID() + 1, name, birthdayWithTime]);
+          createBirthdayReminderNotification(
+            birthdayWithTime,
+            name,
+          );
         },
       ),
     );

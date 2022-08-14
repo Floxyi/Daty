@@ -38,8 +38,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_launcher_icons: "^0.10.0"
+  awesome_notifications: any # Any attribute updates automatically your source to the last version
 
 flutter_icons:
   android: "launcher_icon"

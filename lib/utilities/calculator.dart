@@ -52,7 +52,7 @@ class Calculator {
   }
 
   static int calculateAge(DateTime birthday) {
-    int diffToBirthday = DateTime.now().difference(birthday).inDays;
+    int diffToBirthday = DateTime.now().difference(birthday).inDays; // + 1d
     int age = 0;
 
     for (int i = birthday.year; i <= DateTime.now().year; i++) {
@@ -67,6 +67,10 @@ class Calculator {
       }
     }
 
+    if (hasBirthdayToday(birthday)) {
+      age++;
+    }
+
     return age;
   }
 
@@ -79,6 +83,7 @@ class Calculator {
 
   static String calculatePreciseAge(DateTime birthday, places) {
     DateTime now = DateTime.now();
+
     DateTime lastBirthday = DateTime(
       hadBirthdayThisYear(birthday) ? now.year : now.year - 1,
       birthday.month,

@@ -159,7 +159,9 @@ class _BirthdayCardState extends State<BirthdayCard> {
           color: Constants.whiteSecondary,
         ),
         Text(
-          '${Calculator.calculateAge(widget.birthday) + 1}',
+          Calculator.hasBirthdayToday(widget.birthday)
+              ? '${Calculator.calculateAge(widget.birthday)}'
+              : '${Calculator.calculateAge(widget.birthday) + 1}',
           style: const TextStyle(
             fontSize: Constants.biggerFontSize,
             fontWeight: FontWeight.bold,

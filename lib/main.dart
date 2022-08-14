@@ -2,8 +2,30 @@ import 'package:daty/screens/home_page.dart';
 import 'package:daty/screens/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'utilities/constants.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 void main() {
+  AwesomeNotifications().initialize(
+    null,
+    [
+      NotificationChannel(
+        channelGroupKey: 'scheduled_channel_group',
+        channelKey: 'scheduled_channel',
+        channelName: 'Scheduled Notifications',
+        channelDescription: 'Notification channel for basic notifications',
+        defaultColor: Constants.bluePrimary,
+        importance: NotificationImportance.High,
+        channelShowBadge: true,
+      )
+    ],
+    // Channel groups are only visual and are not required
+    channelGroups: [
+      NotificationChannelGroup(
+          channelGroupkey: 'basic_channel_group',
+          channelGroupName: 'Basic group')
+    ],
+  );
+
   runApp(const MaterialApp(
     home: DatyApp(),
     title: "Daty",

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '../components/birthday_card.dart';
 import 'birthday_add_page.dart';
 import '../utilities/constants.dart';
 import '../utilities/calculator.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 final birthDayList = [
   [1, 'Florian', DateTime(2005, 6, 15, 23, 4)],
@@ -36,6 +39,54 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var lastDeleted = ['', DateTime.now()];
+
+  @override
+  void initState() {
+    super.initState();
+    AwesomeNotifications().isNotificationAllowed().then(
+      (isAllowed) {
+        if (!isAllowed) {
+          if (Platform.isIOS) {
+            AwesomeNotifications().requestPermissionToSendNotifications();
+          } else {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text('Allow Notifications'),
+                content: Text(
+                  'Our app would like to send you notifications to let you know whenever someone has birthday.',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Don\'t Allow',
+                      style: TextStyle(color: Colors.grey, fontSize: 18),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => AwesomeNotifications()
+                        .requestPermissionToSendNotifications()
+                        .then((_) => Navigator.pop(context)),
+                    child: Text(
+                      'Allow',
+                      style: TextStyle(
+                        color: Colors.teal,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
