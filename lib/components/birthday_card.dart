@@ -7,8 +7,10 @@ class BirthdayCard extends StatefulWidget {
   final String name;
   final DateTime birthday;
   final int id;
+  final bool canTap;
 
-  const BirthdayCard(this.id, this.name, this.birthday, {super.key});
+  const BirthdayCard(this.id, this.name, this.birthday, this.canTap,
+      {super.key});
 
   @override
   State<BirthdayCard> createState() => _BirthdayCardState();
@@ -19,10 +21,12 @@ class _BirthdayCardState extends State<BirthdayCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (BuildContext context) {
-          return BirthdayInfoPage(widget.id, widget.name, widget.birthday);
-        }));
+        if (widget.canTap) {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (BuildContext context) {
+            return BirthdayInfoPage(widget.id, widget.name, widget.birthday);
+          }));
+        }
       },
       child: Container(
         margin: const EdgeInsets.all(10.0),
@@ -174,4 +178,3 @@ class _BirthdayCardState extends State<BirthdayCard> {
 }
 
 // TODO: update day counter
-// TODO: ability to send notifications

@@ -1,4 +1,3 @@
-import 'package:daty/utilities/calculator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../components/birthday_card.dart';
@@ -18,6 +17,8 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
   DateTime birthday = DateTime.now();
   TimeOfDay time = const TimeOfDay(hour: 0, minute: 0);
   String name = 'Name';
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -76,46 +77,61 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
       margin: const EdgeInsets.all(20),
-      child: TextFormField(
-        style: const TextStyle(color: Constants.whiteSecondary),
-        inputFormatters: [
-          LengthLimitingTextInputFormatter(15),
-        ],
-        decoration: const InputDecoration(
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 3, color: Constants.bluePrimary),
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-          ),
-          fillColor: Constants.bluePrimary,
-          focusColor: Constants.bluePrimary,
-          border: OutlineInputBorder(
+      padding: EdgeInsets.all(10),
+      child: Form(
+        key: _formKey,
+        child: TextFormField(
+          style: const TextStyle(color: Constants.whiteSecondary),
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(12),
+          ],
+          decoration: const InputDecoration(
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 3, color: Constants.greySecondary),
               borderRadius: BorderRadius.all(Radius.circular(15)),
-              borderSide: BorderSide.none),
-          floatingLabelStyle: TextStyle(
+            ),
+            fillColor: Constants.greySecondary,
+            focusColor: Constants.greySecondary,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderSide: BorderSide.none,
+            ),
+            floatingLabelStyle: TextStyle(
               color: Constants.bluePrimary,
               fontSize: Constants.biggerFontSize,
-              fontWeight: FontWeight.bold),
-          hintText: 'Whats the name of the person?',
-          hintStyle: TextStyle(
-            color: Constants.lighterGrey,
-            fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+            hintText: 'What is the name of the person?',
+            hintStyle: TextStyle(
+              color: Constants.lighterGrey,
+              fontSize: 15,
+            ),
+            labelText: 'Name',
+            labelStyle: TextStyle(
+              color: Constants.whiteSecondary,
+              fontSize: Constants.normalFontSize,
+            ),
+            errorStyle: TextStyle(
+              fontSize: Constants.smallerFontSize,
+            ),
           ),
-          labelText: ' Name *',
-          labelStyle: TextStyle(
-            color: Constants.whiteSecondary,
-            fontSize: Constants.normalFontSize,
-          ),
+          onChanged: (String? value) {
+            setState(() {
+              name = value.toString();
+            });
+          },
+          validator: (String? value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter a name.';
+            } else {
+              value.trim();
+              if (value.isEmpty) {
+                return 'Please enter a name.';
+              }
+            }
+            return null;
+          },
         ),
-        onChanged: (String? value) {
-          setState(() {
-            name = value.toString();
-          });
-        },
-        validator: (String? value) {
-          return (value != null && value.length > 12)
-              ? 'The max name length is 13 characters!'
-              : null;
-        },
       ),
     );
   }
@@ -195,7 +211,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
   Container cardPreview() {
     return Container(
       margin: const EdgeInsets.all(10),
-      child: BirthdayCard(getHighestID() + 1, name, birthday),
+      child: BirthdayCard(getHighestID() + 1, name, birthday, false),
     );
   }
 
@@ -212,19 +228,23 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
               fontWeight: FontWeight.bold),
         ),
         onPressed: () {
-          Navigator.pop(context);
-          DateTime birthdayWithTime = DateTime(
-            birthday.year,
-            birthday.month,
-            birthday.day,
-            time.hour,
-            time.minute,
-          );
-          birthDayList.add([getHighestID() + 1, name, birthdayWithTime]);
-          createBirthdayReminderNotification(
-            birthdayWithTime,
-            name,
-          );
+          if (_formKey.currentState!.validate()) {
+            Navigator.pop(context);
+            DateTime birthdayWithTime = DateTime(
+              birthday.year,
+              birthday.month,
+              birthday.day,
+              time.hour,
+              time.minute,
+            );
+            birthDayList.add(
+              [getHighestID() + 1, name.trim(), birthdayWithTime],
+            );
+            createBirthdayReminderNotification(
+              birthdayWithTime,
+              name,
+            );
+          }
         },
       ),
     );

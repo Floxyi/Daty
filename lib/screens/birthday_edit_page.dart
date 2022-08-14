@@ -23,6 +23,8 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
   DateTime newDate = DateTime.now();
   TimeOfDay newTime = const TimeOfDay(hour: 0, minute: 0);
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     id = widget.id;
@@ -86,10 +88,11 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
       ),
       margin: const EdgeInsets.all(20),
       child: TextFormField(
+        key: _formKey,
         initialValue: newName,
         style: const TextStyle(color: Constants.whiteSecondary),
         inputFormatters: [
-          LengthLimitingTextInputFormatter(15),
+          LengthLimitingTextInputFormatter(12),
         ],
         decoration: const InputDecoration(
           focusedBorder: OutlineInputBorder(
@@ -122,9 +125,15 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
           });
         },
         validator: (String? value) {
-          return (value != null && value.length > 12)
-              ? 'The max name length is 13 characters!'
-              : null;
+          if (value == null || value.isEmpty) {
+            return 'Please enter a name.';
+          } else {
+            value.trim();
+            if (value.isEmpty) {
+              return 'Please enter a name.';
+            }
+          }
+          return null;
         },
       ),
     );
@@ -205,7 +214,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
   Container cardPreview() {
     return Container(
       margin: const EdgeInsets.all(10),
-      child: BirthdayCard(getHighestID() + 1, newName, newDate),
+      child: BirthdayCard(getHighestID() + 1, newName, newDate, false),
     );
   }
 
@@ -222,18 +231,20 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
               fontWeight: FontWeight.bold),
         ),
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/');
-          birthDayList.removeAt(birthDayList.indexWhere(
-            (birthdayData) => birthdayData[0] == id,
-          ));
-          newDate = DateTime(
-            newDate.year,
-            newDate.month,
-            newDate.day,
-            newTime.hour,
-            newTime.minute,
-          );
-          birthDayList.add([id, newName, newDate]);
+          if (_formKey.currentState!.validate()) {
+            Navigator.pushReplacementNamed(context, '/');
+            birthDayList.removeAt(birthDayList.indexWhere(
+              (birthdayData) => birthdayData[0] == id,
+            ));
+            newDate = DateTime(
+              newDate.year,
+              newDate.month,
+              newDate.day,
+              newTime.hour,
+              newTime.minute,
+            );
+            birthDayList.add([id, newName.trim(), newDate]);
+          }
         },
       ),
     );

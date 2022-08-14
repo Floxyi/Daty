@@ -228,8 +228,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   BirthdayCard makeBirthdayCard(int index) {
-    return BirthdayCard(birthDayList[index][0] as int,
-        birthDayList[index][1].toString(), birthDayList[index][2] as DateTime);
+    return BirthdayCard(
+        birthDayList[index][0] as int,
+        birthDayList[index][1].toString(),
+        birthDayList[index][2] as DateTime,
+        true);
   }
 
   Container addButton(BuildContext context) {
