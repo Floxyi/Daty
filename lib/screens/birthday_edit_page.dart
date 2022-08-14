@@ -23,8 +23,9 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
   DateTime newDate = DateTime.now();
   TimeOfDay newTime = const TimeOfDay(hour: 0, minute: 0);
 
-  final _formKey = GlobalKey<FormState>();
+  final ScrollController _scrollController = ScrollController();
 
+  final _formKey = GlobalKey<FormState>();
   bool isInputCorrect = true;
 
   @override
@@ -41,29 +42,37 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
     return Scaffold(
       backgroundColor: Constants.blackPrimary,
       appBar: appBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            const ViewTitle('Choose a new name:'),
-            inputNameField(),
-            const SizedBox(height: 40),
-            const ViewTitle('Choose a new date:'),
-            datePicker(context),
-            const SizedBox(height: 40),
-            const ViewTitle('Choose a time:'),
-            timePicker(context),
-            infoText(
-              "Note that you can leave this as default if you don't know the exact time",
-            ),
-            const SizedBox(height: 40),
-            const ViewTitle('Preview:'),
-            cardPreview(),
-            const SizedBox(height: 40),
-            saveButton(context),
-            SizedBox(height: 40),
-          ],
+      body: RawScrollbar(
+        thumbColor: Constants.lighterGrey,
+        radius: Radius.circular(20),
+        thickness: 5,
+        thumbVisibility: true,
+        controller: _scrollController,
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              const ViewTitle('Choose a new name:'),
+              inputNameField(),
+              const SizedBox(height: 40),
+              const ViewTitle('Choose a new date:'),
+              datePicker(context),
+              const SizedBox(height: 40),
+              const ViewTitle('Choose a time:'),
+              timePicker(context),
+              infoText(
+                "Note that you can leave this as default if you don't know the exact time",
+              ),
+              const SizedBox(height: 40),
+              const ViewTitle('Preview:'),
+              cardPreview(),
+              const SizedBox(height: 40),
+              saveButton(context),
+              SizedBox(height: 40),
+            ],
+          ),
         ),
       ),
     );

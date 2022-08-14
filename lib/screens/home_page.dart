@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../components/birthday_card.dart';
 import 'birthday_add_page.dart';

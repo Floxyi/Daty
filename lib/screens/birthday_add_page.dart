@@ -18,8 +18,9 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
   TimeOfDay time = const TimeOfDay(hour: 0, minute: 0);
   String name = 'Name';
 
-  final _formKey = GlobalKey<FormState>();
+  final ScrollController _scrollController = ScrollController();
 
+  final _formKey = GlobalKey<FormState>();
   bool isInputCorrect = true;
 
   @override
@@ -27,33 +28,41 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
     return Scaffold(
       backgroundColor: Constants.blackPrimary,
       appBar: appBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            const ViewTitle('Choose a name:'),
-            inputNameField(),
-            const SizedBox(height: 40),
-            const ViewTitle('Choose a date:'),
-            datePicker(context),
-            const SizedBox(height: 40),
-            const ViewTitle('Choose a time:'),
-            timePicker(context),
-            infoText(
-              "Note that you can leave this as default if you don't know the exact time",
-            ),
-            const SizedBox(height: 40),
-            const ViewTitle('Preview:'),
-            cardPreview(),
-            const SizedBox(height: 40),
-            saveButton(context),
-            const SizedBox(height: 10),
-            infoText(
-              'Note that all properties can be changed later, by tapping on a birthday card on the Home screen.',
-            ),
-            SizedBox(height: 40),
-          ],
+      body: RawScrollbar(
+        thumbColor: Constants.lighterGrey,
+        radius: Radius.circular(20),
+        thickness: 5,
+        thumbVisibility: true,
+        controller: _scrollController,
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              const ViewTitle('Choose a name:'),
+              inputNameField(),
+              const SizedBox(height: 40),
+              const ViewTitle('Choose a date:'),
+              datePicker(context),
+              const SizedBox(height: 40),
+              const ViewTitle('Choose a time:'),
+              timePicker(context),
+              infoText(
+                "Note that you can leave this as default if you don't know the exact time",
+              ),
+              const SizedBox(height: 40),
+              const ViewTitle('Preview:'),
+              cardPreview(),
+              const SizedBox(height: 40),
+              saveButton(context),
+              const SizedBox(height: 10),
+              infoText(
+                'Note that all properties can be changed later, by tapping on a birthday card on the Home screen.',
+              ),
+              SizedBox(height: 40),
+            ],
+          ),
         ),
       ),
     );
