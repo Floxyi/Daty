@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                     birthDayList.removeAt(index);
                   });
                   ScaffoldMessenger.of(context).showSnackBar(
-                    dismissibleSnackbar(item, context),
+                    dismissibleSnackBar(item, context),
                   );
                 },
                 child: Container(
@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  SnackBar dismissibleSnackbar(List<Object> item, BuildContext context) {
+  SnackBar dismissibleSnackBar(List<Object> item, BuildContext context) {
     return SnackBar(
       backgroundColor: Constants.greySecondary,
       behavior: SnackBarBehavior.floating,

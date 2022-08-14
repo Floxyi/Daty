@@ -25,7 +25,7 @@ class Calculator {
       case 1:
         return 'January';
       case 2:
-        return 'Feburary';
+        return 'February';
       case 3:
         return 'March';
       case 4:
@@ -39,7 +39,7 @@ class Calculator {
       case 8:
         return 'August';
       case 9:
-        return 'Spetember';
+        return 'September';
       case 10:
         return 'October';
       case 11:
@@ -151,7 +151,7 @@ class Calculator {
   }
 
   static int daysTillBirthday(DateTime birthday) {
-    DateTime nextBrithday = DateTime(
+    DateTime nextBirthday = DateTime(
       hadBirthdayThisYear(birthday)
           ? DateTime.now().year + 1
           : DateTime.now().year,
@@ -160,11 +160,11 @@ class Calculator {
       birthday.hour,
       birthday.minute,
     );
-    return nextBrithday.difference(DateTime.now()).inDays % 365;
+    return nextBirthday.difference(DateTime.now()).inDays % 365;
   }
 
   static int hoursTillBirthday(DateTime birthday) {
-    DateTime nextBrithday = DateTime(
+    DateTime nextBirthday = DateTime(
       hadBirthdayThisYear(birthday)
           ? DateTime.now().year + 1
           : DateTime.now().year,
@@ -173,11 +173,11 @@ class Calculator {
       birthday.hour,
       birthday.minute,
     );
-    return nextBrithday.difference(DateTime.now()).inHours % 24;
+    return nextBirthday.difference(DateTime.now()).inHours % 24;
   }
 
   static int minutesTillBirthday(DateTime birthday) {
-    DateTime nextBrithday = DateTime(
+    DateTime nextBirthday = DateTime(
       hadBirthdayThisYear(birthday)
           ? DateTime.now().year + 1
           : DateTime.now().year,
@@ -186,11 +186,11 @@ class Calculator {
       birthday.hour,
       birthday.minute,
     );
-    return nextBrithday.difference(DateTime.now()).inMinutes % 60;
+    return nextBirthday.difference(DateTime.now()).inMinutes % 60;
   }
 
   static int secondsTillBirthday(DateTime birthday) {
-    DateTime nextBrithday = DateTime(
+    DateTime nextBirthday = DateTime(
       hadBirthdayThisYear(birthday)
           ? DateTime.now().year + 1
           : DateTime.now().year,
@@ -199,6 +199,6 @@ class Calculator {
       birthday.hour,
       birthday.minute,
     );
-    return (nextBrithday.difference(DateTime.now()).inSeconds + 1) % 60;
+    return (nextBirthday.difference(DateTime.now()).inSeconds + 1) % 60;
   }
 }

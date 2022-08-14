@@ -123,7 +123,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
         },
         validator: (String? value) {
           return (value != null && value.length > 12)
-              ? 'The max name lenght is 13 characters!'
+              ? 'The max name length is 13 characters!'
               : null;
         },
       ),
