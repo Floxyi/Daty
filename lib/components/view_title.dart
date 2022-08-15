@@ -8,6 +8,7 @@ class ViewTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(right: 15, left: 15),
       padding: const EdgeInsets.all(3),
       color: Constants.darkGreySecondary,
       child: Row(
