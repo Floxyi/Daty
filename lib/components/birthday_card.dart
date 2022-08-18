@@ -176,5 +176,3 @@ class _BirthdayCardState extends State<BirthdayCard> {
     );
   }
 }
-
-// TODO: update day counter
