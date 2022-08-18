@@ -21,8 +21,9 @@ void main() {
     // Channel groups are only visual and are not required
     channelGroups: [
       NotificationChannelGroup(
-          channelGroupkey: 'basic_channel_group',
-          channelGroupName: 'Basic group')
+        channelGroupkey: 'basic_channel_group',
+        channelGroupName: 'Basic group',
+      )
     ],
   );
 
