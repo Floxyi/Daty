@@ -4,7 +4,7 @@ import '../components/birthday_card.dart';
 import '../components/view_title.dart';
 import '../utilities/constants.dart';
 import 'home_page.dart';
-import '../utilities/notifications.dart';
+import '../utilities/notification_manager.dart';
 
 class AddBirthdayPage extends StatefulWidget {
   const AddBirthdayPage({Key? key}) : super(key: key);

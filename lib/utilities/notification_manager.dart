@@ -1,5 +1,30 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daty/utilities/calculator.dart';
+import '../utilities/constants.dart';
+
+void initializeNotificationSystem() {
+  AwesomeNotifications().initialize(
+    null,
+    [
+      NotificationChannel(
+        channelGroupKey: 'scheduled_channel_group',
+        channelKey: 'scheduled_channel',
+        channelName: 'Scheduled Notifications',
+        channelDescription: 'Notification channel for basic notifications',
+        defaultColor: Constants.bluePrimary,
+        importance: NotificationImportance.High,
+        channelShowBadge: true,
+      )
+    ],
+    // Channel groups are only visual and are not required
+    channelGroups: [
+      NotificationChannelGroup(
+        channelGroupkey: 'basic_channel_group',
+        channelGroupName: 'Basic group',
+      )
+    ],
+  );
+}
 
 Future<void> createBirthdayReminderNotification(
   DateTime birthday,
