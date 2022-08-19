@@ -2,7 +2,7 @@
 
 ## Current goals for full release
 
-- [ ] fix design of name input  
+- [ ] fix design of name input
 - [ ] add red message below save button
 - [ ] update notification system (edit birthday)
 - [ ] open birthday page on notification click
@@ -16,3 +16,4 @@
 - [ ] add language switcher
 - [ ] advertisement
 - [ ] app rating
+- [ ] add a splash screen
