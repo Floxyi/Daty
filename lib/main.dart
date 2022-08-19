@@ -6,7 +6,6 @@ import 'utilities/notification_manager.dart';
 
 void main() {
   initializeNotificationSystem();
-
   runApp(const MaterialApp(
     home: DatyApp(),
     title: "Daty",

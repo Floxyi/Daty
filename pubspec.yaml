@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  flutter_native_splash: any
+  flutter_native_splash: ^2.2.7
   awesome_notifications: any
   flutter_launcher_icons: any
 
@@ -35,8 +35,8 @@ flutter_icons:
     icon_size: 48
 
 flutter_native_splash:
-  image: images/app_splash.png
-  background_image: images/app_background.png
+  background_image: "images/app_background_dark.png"
+  image: images/app_splash_white.png
 
 flutter_lints: ^2.0.0
 

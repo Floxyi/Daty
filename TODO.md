@@ -16,4 +16,4 @@
 - [ ] add language switcher
 - [ ] advertisement
 - [ ] app rating
-- [ ] add a splash screen
+- [x] add a splash screen
