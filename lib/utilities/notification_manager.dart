@@ -34,7 +34,7 @@ Future<void> createBirthdayReminderNotification(
     content: NotificationContent(
       id: createUniqueId(),
       channelKey: 'scheduled_channel',
-      title: "It's birtday time! ${Emojis.smile_partying_face}",
+      title: "It's birthday time! ${Emojis.smile_partying_face}",
       body: personName +
           " just turned " +
           Calculator.calculateAge(birthday).toString() +
