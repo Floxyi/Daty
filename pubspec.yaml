@@ -12,11 +12,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_native_splash: any
   awesome_notifications: any
+  flutter_launcher_icons: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.10.0"
 
 flutter_icons:
   android: "launcher_icon"
@@ -25,14 +25,18 @@ flutter_icons:
   image_path_android: "images/app_icon_android.png"
   adaptive_icon_background: "images/app_icon_android_background.png"
   adaptive_icon_foreground: "images/app_icon_android_foreground.png"
-  min_sdk_android: 21 # android min sdk min:16, default 21
+  min_sdk_android: 21
   web:
     generate: true
     image_path: "images/app_icon_android.png"
   windows:
     generate: true
     image_path: "images/app_icon_ios.png"
-    icon_size: 48 # min:48, max:256, default: 48
+    icon_size: 48
+
+flutter_native_splash:
+  image: images/app_splash.png
+  background_image: images/app_background.png
 
 flutter_lints: ^2.0.0
 
