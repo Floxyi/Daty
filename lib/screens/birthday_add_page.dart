@@ -259,9 +259,9 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
               [getHighestID() + 1, name.trim(), birthdayWithTime],
             );
             createBirthdayReminderNotification(
-              birthdayWithTime,
-              name,
-            );
+                getHighestID() + 1, birthdayWithTime, name);
+            createBirthdayReminderNotification(
+                getHighestID() + 1, birthdayWithTime, name);
           } else {
             setState(() {
               isInputCorrect = false;

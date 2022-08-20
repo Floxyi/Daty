@@ -25,7 +25,10 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(duration, (Timer t) => setState(() {}));
+    timer = Timer.periodic(
+      duration,
+      (Timer t) => mounted ? setState(() {}) : timer.cancel(),
+    );
     WidgetsBinding.instance.addObserver(this);
   }
 

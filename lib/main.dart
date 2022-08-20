@@ -25,6 +25,12 @@ class DatyApp extends StatefulWidget {
 
 class _DatyAppState extends State<DatyApp> {
   @override
+  void dispose() {
+    disposeNotificationSystem();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.blackPrimary,
