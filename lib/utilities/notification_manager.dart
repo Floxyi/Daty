@@ -91,7 +91,7 @@ void addNotificationListener(Navigator navigator, BuildContext context) {
       }
       int id = int.parse(notification.payload!.entries.first.value);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
-        // return BirthdayInfoPage(id, "test", DateTime.now());
+        return BirthdayInfoPage(id, "Notification", DateTime.now());
       }));
     }
   });
