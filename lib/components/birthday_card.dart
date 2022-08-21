@@ -24,7 +24,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
         if (widget.canTap) {
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (BuildContext context) {
-            return BirthdayInfoPage(widget.id, widget.name, widget.birthday);
+            return BirthdayInfoPage(widget.id);
           }));
         }
       },

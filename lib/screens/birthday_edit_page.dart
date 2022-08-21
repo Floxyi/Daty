@@ -3,25 +3,21 @@ import 'package:flutter/services.dart';
 import '../components/birthday_card.dart';
 import '../components/view_title.dart';
 import '../utilities/constants.dart';
-import 'home_page.dart';
+import '/utilities/data_storage.dart';
 
 class BirthdayEditPage extends StatefulWidget {
-  final int id;
-  final String name;
-  final DateTime birthday;
+  final int birthdayId;
 
-  const BirthdayEditPage(this.id, this.name, this.birthday, {Key? key})
-      : super(key: key);
+  const BirthdayEditPage(this.birthdayId, {Key? key}) : super(key: key);
 
   @override
   State<BirthdayEditPage> createState() => _BirthdayEditPageState();
 }
 
 class _BirthdayEditPageState extends State<BirthdayEditPage> {
-  int id = 0;
-  String newName = '';
-  DateTime newDate = DateTime.now();
-  TimeOfDay newTime = const TimeOfDay(hour: 0, minute: 0);
+  late String newName;
+  late DateTime newDate;
+  late TimeOfDay newTime;
 
   final ScrollController _scrollController = ScrollController();
 
@@ -30,9 +26,8 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
 
   @override
   void initState() {
-    id = widget.id;
-    newName = widget.name;
-    newDate = widget.birthday;
+    newName = getDataById(widget.birthdayId)![1] as String;
+    newDate = getDataById(widget.birthdayId)![2] as DateTime;
     newTime = TimeOfDay(hour: newDate.hour, minute: newDate.minute);
     super.initState();
   }
@@ -103,6 +98,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
       child: Form(
         key: _formKey,
         child: TextFormField(
+          initialValue: getDataById(widget.birthdayId)![1] as String,
           keyboardType: TextInputType.text,
           keyboardAppearance: Brightness.dark,
           style: const TextStyle(color: Constants.whiteSecondary),
@@ -238,7 +234,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
   Container cardPreview() {
     return Container(
       margin: const EdgeInsets.all(10),
-      child: BirthdayCard(getHighestID() + 1, newName, newDate, false),
+      child: BirthdayCard(getNewBirthdayId() + 1, newName, newDate, false),
     );
   }
 
@@ -259,10 +255,6 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
         ),
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            Navigator.pushReplacementNamed(context, '/');
-            birthDayList.removeAt(birthDayList.indexWhere(
-              (birthdayData) => birthdayData[0] == id,
-            ));
             newDate = DateTime(
               newDate.year,
               newDate.month,
@@ -270,7 +262,8 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
               newTime.hour,
               newTime.minute,
             );
-            birthDayList.add([id, newName.trim(), newDate]);
+            updateBirthday(widget.birthdayId, newName, newDate);
+            Navigator.pop(context);
           } else {
             setState(() {
               isInputCorrect = false;
@@ -303,14 +296,4 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
       ],
     );
   }
-}
-
-int getHighestID() {
-  int id = birthDayList[0][0] as int;
-  for (int i = 0; i < birthDayList.length; i++) {
-    if (birthDayList[i][0] as int > id) {
-      id = birthDayList[i][0] as int;
-    }
-  }
-  return id;
 }

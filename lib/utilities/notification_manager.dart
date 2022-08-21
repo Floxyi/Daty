@@ -2,15 +2,20 @@ import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daty/screens/birthday_info_page.dart';
 import 'package:daty/utilities/calculator.dart';
+import 'package:daty/utilities/data_storage.dart';
 import 'package:flutter/material.dart';
 import '../utilities/constants.dart';
 
-void requestAccess(BuildContext context) {
-  AwesomeNotifications().isNotificationAllowed().then(
+bool hasAddedListener = false;
+
+void requestNotificationAccess(BuildContext context) async {
+  await AwesomeNotifications().isNotificationAllowed().then(
     (isAllowed) {
       if (!isAllowed) {
         if (Platform.isIOS) {
-          AwesomeNotifications().requestPermissionToSendNotifications();
+          AwesomeNotifications()
+              .requestPermissionToSendNotifications()
+              .then((value) => value ? addNotificationListener(context) : null);
         } else {
           showDialog(
             context: context,
@@ -30,9 +35,16 @@ void requestAccess(BuildContext context) {
                   ),
                 ),
                 TextButton(
-                  onPressed: () => AwesomeNotifications()
-                      .requestPermissionToSendNotifications()
-                      .then((_) => Navigator.pop(context)),
+                  onPressed: () {
+                    AwesomeNotifications()
+                        .requestPermissionToSendNotifications()
+                        .then(
+                      (value) {
+                        value ? addNotificationListener(context) : null;
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
                   child: Text(
                     'Allow',
                     style: TextStyle(
@@ -80,63 +92,57 @@ void disposeNotificationSystem() {
   AwesomeNotifications().createdSink.close();
 }
 
-void addNotificationListener(Navigator navigator, BuildContext context) {
+void addNotificationListener(BuildContext context) {
+  if (!hasAddedListener) {
+    hasAddedListener = true;
+  } else {
+    return;
+  }
+
   AwesomeNotifications().actionStream.listen((notification) {
+    if (Platform.isIOS) {
+      AwesomeNotifications().getGlobalBadgeCounter().then(
+          (value) => AwesomeNotifications().setGlobalBadgeCounter(value - 1));
+    }
+
     if (notification.channelKey == 'scheduled_channel') {
-      if (Platform.isIOS) {
-        AwesomeNotifications().getGlobalBadgeCounter().then(
-              (value) =>
-                  AwesomeNotifications().setGlobalBadgeCounter(value - 1),
-            );
-      }
       int id = int.parse(notification.payload!.entries.first.value);
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return BirthdayInfoPage(id, "Notification", DateTime.now());
-      }));
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return BirthdayInfoPage(id);
+        }),
+      );
     }
   });
 }
 
-Future<void> createBirthdayReminderNotification(
-  int id,
-  DateTime birthday,
-  String personName,
-) async {
+Future<void> createNotification(int birthdayId, int notificationId) async {
+  String name = getDataById(birthdayId)![1].toString();
+  int age = Calculator.calculateAge(getDataById(birthdayId)![2] as DateTime);
+  DateTime birthday = getDataById(birthdayId)![2] as DateTime;
+
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
-        id: createUniqueId(),
-        channelKey: 'scheduled_channel',
-        title: "It's birthday time! ${Emojis.smile_partying_face}",
-        body: personName +
-            " just turned " +
-            Calculator.calculateAge(birthday).toString() +
-            "!",
-        notificationLayout: NotificationLayout.Default,
-        payload: {"id": id.toString()}),
+      id: notificationId,
+      channelKey: 'scheduled_channel',
+      title: "It's birthday time! ${Emojis.smile_partying_face}",
+      body: name + " just turned " + age.toString() + "!",
+      notificationLayout: NotificationLayout.Default,
+      payload: {"id": birthdayId.toString()},
+    ),
     actionButtons: [
       NotificationActionButton(
         key: 'MARK_DONE',
         label: 'Open Birthday',
       ),
     ],
-    /*
     schedule: NotificationCalendar(
-      month: birthday.month,
+      /*month: birthday.month,
       day: birthday.day,
       hour: birthday.hour,
-      minute: birthday.minute,
-      second: 0,
-      millisecond: 0,
-      repeats: true,
-      allowWhileIdle: true,
-      preciseAlarm: true,
-    ),
-    */
-    schedule: NotificationCalendar(
-      month: DateTime.now().month,
-      day: DateTime.now().day,
-      hour: DateTime.now().hour,
-      minute: DateTime.now().minute + 1,
+      minute: birthday.minute,*/
       second: 0,
       millisecond: 0,
       repeats: true,
@@ -146,6 +152,6 @@ Future<void> createBirthdayReminderNotification(
   );
 }
 
-int createUniqueId() {
+int getNewNotificationId() {
   return DateTime.now().millisecondsSinceEpoch.remainder(100000);
 }

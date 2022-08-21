@@ -1,32 +1,11 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
 import '../components/birthday_card.dart';
 import 'birthday_add_page.dart';
 import '../utilities/constants.dart';
 import '../utilities/calculator.dart';
-
-final birthDayList = [
-  [1, 'Florian', DateTime(2005, 6, 15, 23, 4)],
-  [2, 'Liam', DateTime(2004, 7, 27)],
-  [3, 'Jannes', DateTime(2004, 12, 9)],
-  [4, 'Max', DateTime(2005, 2, 24)],
-  [5, 'Colin', DateTime(2004, 11, 11)],
-  [6, 'Vincent', DateTime(2004, 3, 14)],
-  [7, 'Riley', DateTime(2000, 6, 13)],
-  [8, 'Riley', DateTime(2000, 6, 13)],
-  [9, 'Riley', DateTime(2000, 6, 13)],
-  [
-    10,
-    'Peter',
-    DateTime(
-      2005,
-      DateTime.now().month,
-      DateTime.now().day,
-      DateTime.now().hour,
-      DateTime.now().minute + 1,
-    )
-  ],
-];
+import '/utilities/data_storage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -36,15 +15,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var lastDeleted = ['', DateTime.now()];
-
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    requestAccess(context);
-    addNotificationListener(Navigator(), context);
+    AwesomeNotifications().isNotificationAllowed().then(
+          ((value) => value
+              ? addNotificationListener(context)
+              : requestNotificationAccess(context)),
+        );
   }
 
   @override
@@ -67,14 +47,14 @@ class _HomePageState extends State<HomePage> {
         controller: _scrollController,
         child: ListView.builder(
           controller: _scrollController,
-          itemCount: birthDayList.length,
+          itemCount: birthdayList.length,
           itemBuilder: (context, index) {
-            birthDayList.sort(((a, b) =>
+            birthdayList.sort(((a, b) =>
                 Calculator.remainingDaysTillBirthday(a[2] as DateTime)
                     .compareTo(
                   Calculator.remainingDaysTillBirthday(b[2] as DateTime),
                 )));
-            final item = birthDayList[index];
+            final item = birthdayList[index];
             return Column(
               children: [
                 Dismissible(
@@ -83,8 +63,7 @@ class _HomePageState extends State<HomePage> {
                   background: dismissibleBackground(),
                   onDismissed: (direction) {
                     setState(() {
-                      lastDeleted = birthDayList.elementAt(index);
-                      birthDayList.removeAt(index);
+                      removeBirthday(birthdayList.elementAt(index)[0]);
                     });
                     ScaffoldMessenger.of(context).showSnackBar(
                       dismissibleSnackBar(item, context),
@@ -140,7 +119,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  SnackBar dismissibleSnackBar(List<Object> item, BuildContext context) {
+  SnackBar dismissibleSnackBar(List<Object> birthday, BuildContext context) {
     return SnackBar(
       backgroundColor: Constants.greySecondary,
       behavior: SnackBarBehavior.floating,
@@ -153,7 +132,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Birthday of ${item[1]} removed!'),
+              Text('Removed birthday of ${birthday[1]}!'),
             ],
           ),
           const Spacer(),
@@ -167,15 +146,20 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   ScaffoldMessenger.of(context).hideCurrentSnackBar();
                   setState(() {
-                    birthDayList.add(lastDeleted);
+                    if (restoreBirthday()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content:
+                              Text('Restored birthday of ${lastDeleted[1]}!'),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                          ),
+                        ),
+                      );
+                    }
                   });
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Birthday restored!'),
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    ),
-                  ));
                 },
                 child: Row(
                   children: const [
@@ -197,9 +181,9 @@ class _HomePageState extends State<HomePage> {
 
   BirthdayCard makeBirthdayCard(int index) {
     return BirthdayCard(
-        birthDayList[index][0] as int,
-        birthDayList[index][1].toString(),
-        birthDayList[index][2] as DateTime,
+        birthdayList[index][0] as int,
+        birthdayList[index][1].toString(),
+        birthdayList[index][2] as DateTime,
         true);
   }
 

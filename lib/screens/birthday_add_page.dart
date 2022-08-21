@@ -3,8 +3,7 @@ import 'package:flutter/services.dart';
 import '../components/birthday_card.dart';
 import '../components/view_title.dart';
 import '../utilities/constants.dart';
-import 'home_page.dart';
-import '../utilities/notification_manager.dart';
+import '/utilities/data_storage.dart';
 
 class AddBirthdayPage extends StatefulWidget {
   const AddBirthdayPage({Key? key}) : super(key: key);
@@ -226,7 +225,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
   Container cardPreview() {
     return Container(
       margin: const EdgeInsets.all(10),
-      child: BirthdayCard(getHighestID() + 1, name, birthday, false),
+      child: BirthdayCard(getNewBirthdayId() + 1, name, birthday, false),
     );
   }
 
@@ -247,7 +246,6 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
         ),
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            Navigator.pop(context);
             DateTime birthdayWithTime = DateTime(
               birthday.year,
               birthday.month,
@@ -255,13 +253,8 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
               time.hour,
               time.minute,
             );
-            birthDayList.add(
-              [getHighestID() + 1, name.trim(), birthdayWithTime],
-            );
-            createBirthdayReminderNotification(
-                getHighestID() + 1, birthdayWithTime, name);
-            createBirthdayReminderNotification(
-                getHighestID() + 1, birthdayWithTime, name);
+            addBirthday(name, birthdayWithTime);
+            Navigator.pop(context);
           } else {
             setState(() {
               isInputCorrect = false;
@@ -294,14 +287,4 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
       ],
     );
   }
-}
-
-int getHighestID() {
-  int id = birthDayList[0][0] as int;
-  for (int i = 0; i < birthDayList.length; i++) {
-    if (birthDayList[i][0] as int > id) {
-      id = birthDayList[i][0] as int;
-    }
-  }
-  return id;
 }

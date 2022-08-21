@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import '../screens/birthday_edit_page.dart';
 import '../utilities/constants.dart';
 import '../utilities/calculator.dart';
+import '../utilities/data_storage.dart';
 
 class BirthdayInfoPage extends StatefulWidget {
-  final int id;
-  final String name;
-  final DateTime birthday;
+  final int birthdayId;
 
-  const BirthdayInfoPage(this.id, this.name, this.birthday, {Key? key})
-      : super(key: key);
+  const BirthdayInfoPage(this.birthdayId, {Key? key}) : super(key: key);
 
   @override
   State<BirthdayInfoPage> createState() => _BirthdayInfoPageState();
@@ -19,12 +17,17 @@ class BirthdayInfoPage extends StatefulWidget {
 
 class _BirthdayInfoPageState extends State<BirthdayInfoPage>
     with WidgetsBindingObserver {
+  late String name;
+  late DateTime birthday;
+
   late Timer timer;
   Duration duration = const Duration(milliseconds: 100);
 
   @override
   void initState() {
     super.initState();
+    name = getDataById(widget.birthdayId)![1] as String;
+    birthday = getDataById(widget.birthdayId)![2] as DateTime;
     timer = Timer.periodic(
       duration,
       (Timer t) => mounted ? setState(() {}) : timer.cancel(),
@@ -74,6 +77,15 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
               birthdayInfo(),
               const SizedBox(height: 50),
               birthdayCountdown(),
+              const SizedBox(height: 20),
+              Text(
+                'BID: ${widget.birthdayId.toString()} / NID: ${getDataById(widget.birthdayId)![3]}',
+                style: TextStyle(
+                  color: Constants.greySecondary,
+                  fontSize: Constants.normalFontSize,
+                  fontStyle: FontStyle.italic,
+                ),
+              )
             ],
           ),
         ),
@@ -121,7 +133,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
       onTap: () {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (BuildContext context) {
-          return BirthdayEditPage(widget.id, widget.name, widget.birthday);
+          return BirthdayEditPage(widget.birthdayId);
         }));
       },
     );
@@ -137,7 +149,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
         ),
         const SizedBox(height: 10),
         Text(
-          widget.name,
+          name,
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.titleFontSizeSize,
@@ -152,7 +164,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
     return Column(
       children: [
         Text(
-          '${Calculator.getDayName(widget.birthday.weekday)}, ${widget.birthday.day}. ${Calculator.getMonthName(widget.birthday.month)} ${widget.birthday.year}',
+          '${Calculator.getDayName(birthday.weekday)}, ${birthday.day}. ${Calculator.getMonthName(birthday.month)} ${birthday.year}',
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.normalFontSize,
@@ -170,7 +182,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
       textBaseline: TextBaseline.alphabetic,
       children: [
         Text(
-          Calculator.calculateAge(widget.birthday).toString(),
+          Calculator.calculateAge(birthday).toString(),
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.titleFontSizeSize,
@@ -178,7 +190,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
           ),
         ),
         Text(
-          Calculator.calculatePreciseAge(widget.birthday, 8).toString(),
+          Calculator.calculatePreciseAge(birthday, 8).toString(),
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.biggerFontSize,
@@ -224,10 +236,10 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        counter('Days', Calculator.daysTillBirthday(widget.birthday)),
-        counter('Hours', Calculator.hoursTillBirthday(widget.birthday)),
-        counter('Minutes', Calculator.minutesTillBirthday(widget.birthday)),
-        counter('Seconds', Calculator.secondsTillBirthday(widget.birthday)),
+        counter('Days', Calculator.daysTillBirthday(birthday)),
+        counter('Hours', Calculator.hoursTillBirthday(birthday)),
+        counter('Minutes', Calculator.minutesTillBirthday(birthday)),
+        counter('Seconds', Calculator.secondsTillBirthday(birthday)),
       ],
     );
   }
