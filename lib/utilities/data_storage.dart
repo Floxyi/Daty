@@ -1,8 +1,9 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:daty/utilities/Birthday.dart';
 
 import 'notification_manager.dart';
 
-var birthdayList = [
+List<Birthday> birthdayList = [
   /*
   [1, 'Florian', DateTime(2005, 6, 15, 23, 4)],
   [2, 'Liam', DateTime(2004, 7, 27)],
@@ -26,58 +27,55 @@ var birthdayList = [
   ],*/
 ];
 
-var lastDeleted;
+Birthday? lastDeleted;
 
-void addBirthday(String name, DateTime birthday) {
-  int birthdayId = getNewBirthdayId();
-  int notificationId = getNewNotificationId();
+void addBirthday(Birthday birthday) {
+  birthday.setbirthdayId = getNewBirthdayId();
+  birthday.setnotificationId = getNewNotificationId();
 
-  birthdayList.add([birthdayId, name.trim(), birthday, notificationId]);
-  createNotification(birthdayId, notificationId);
+  birthdayList.add(birthday);
+  createNotification(birthday);
 }
 
 void removeBirthday(birthdayId) {
-  lastDeleted = getDataById(birthdayId);
+  Birthday? removedBirthday = getDataById(birthdayId);
 
-  AwesomeNotifications().cancel(lastDeleted[3]);
+  lastDeleted = removedBirthday;
+
+  AwesomeNotifications().cancel(removedBirthday.notificationId);
   birthdayList.removeAt(
-    birthdayList.indexWhere((element) => element[0] == birthdayId),
+    birthdayList.indexWhere((birthday) => birthday.birthdayId == birthdayId),
   );
 }
 
-void updateBirthday(int birthdayId, String name, DateTime birthday) {
-  int oldNotificationId = getDataById(birthdayId)![3] as int;
-  int newNotificationId = getNewNotificationId();
+void updateBirthday(int oldBirthdayId, Birthday newBirthday) {
+  Birthday? oldBirthday = getDataById(oldBirthdayId);
 
-  birthdayList
-      .elementAt(birthdayList
-          .indexWhere((birthdayData) => birthdayData[0] == birthdayId))
-      .setAll(
-    0,
-    [birthdayId, name, birthday, newNotificationId],
-  );
-  createNotification(birthdayId, newNotificationId);
-  AwesomeNotifications().cancel(oldNotificationId);
+  newBirthday.setbirthdayId = oldBirthdayId;
+
+  removeBirthday(oldBirthdayId);
+  addBirthday(newBirthday);
+
+  AwesomeNotifications().cancel(oldBirthday.notificationId);
 }
 
 bool restoreBirthday() {
-  if (!birthdayList.contains(lastDeleted)) {
-    birthdayList.add(
-      [getNewBirthdayId(), lastDeleted[1], lastDeleted[2], lastDeleted[3]],
-    );
-    return true;
+  if (birthdayList.contains(lastDeleted)) {
+    return false;
   }
-  return false;
+
+  birthdayList.add(lastDeleted!);
+  return true;
 }
 
-List<Object>? getDataById(int birthdayId) {
+Birthday getDataById(int birthdayId) {
   for (int i = 0; i < birthdayList.length; i++) {
-    if (birthdayList[i][0] as int == birthdayId) {
+    if (birthdayList[i].birthdayId == birthdayId) {
       return birthdayList[i];
     }
   }
 
-  return null;
+  return birthdayList.first;
 }
 
 int getNewBirthdayId() {
@@ -85,12 +83,12 @@ int getNewBirthdayId() {
     return 0;
   }
 
-  int id = birthdayList[0][0] as int;
+  int highestId = birthdayList[0].birthdayId;
   for (int i = 0; i < birthdayList.length; i++) {
-    if (birthdayList[i][0] as int > id) {
-      id = birthdayList[i][0] as int;
+    if (birthdayList[i].birthdayId > highestId) {
+      highestId = birthdayList[i].birthdayId;
     }
   }
 
-  return id + 1;
+  return highestId + 1;
 }

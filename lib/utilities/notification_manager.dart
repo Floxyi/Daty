@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daty/screens/birthday_info_page.dart';
+import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/calculator.dart';
-import 'package:daty/utilities/data_storage.dart';
 import 'package:flutter/material.dart';
 import '../utilities/constants.dart';
 
@@ -118,19 +118,18 @@ void addNotificationListener(BuildContext context) {
   });
 }
 
-Future<void> createNotification(int birthdayId, int notificationId) async {
-  String name = getDataById(birthdayId)![1].toString();
-  int age = Calculator.calculateAge(getDataById(birthdayId)![2] as DateTime);
-  DateTime birthday = getDataById(birthdayId)![2] as DateTime;
+Future<void> createNotification(Birthday birthday) async {
+  String name = birthday.name;
+  int age = Calculator.calculateAge(birthday.date);
 
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
-      id: notificationId,
+      id: birthday.notificationId,
       channelKey: 'scheduled_channel',
       title: "It's birthday time! ${Emojis.smile_partying_face}",
       body: name + " just turned " + age.toString() + "!",
       notificationLayout: NotificationLayout.Default,
-      payload: {"id": birthdayId.toString()},
+      payload: {"id": birthday.birthdayId.toString()},
     ),
     actionButtons: [
       NotificationActionButton(
@@ -139,10 +138,10 @@ Future<void> createNotification(int birthdayId, int notificationId) async {
       ),
     ],
     schedule: NotificationCalendar(
-      /*month: birthday.month,
-      day: birthday.day,
-      hour: birthday.hour,
-      minute: birthday.minute,*/
+      month: birthday.date.month,
+      day: birthday.date.day,
+      hour: birthday.date.hour,
+      minute: birthday.date.minute,
       second: 0,
       millisecond: 0,
       repeats: true,

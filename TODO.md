@@ -6,7 +6,9 @@
 - [x] open birthday page on notification click
 - [x] update notification system (edit birthday)
 - [x] icon on ios in app view still old flutter icon
+- [x] make own class for birthdayData objects
 - [ ] save birthday and notification data
+- [ ] more precise time picker
 - [ ] notification settings
 - [ ] about information (on settings)
 - [ ] save notification settings (use for allowance check)

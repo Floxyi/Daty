@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
 import '../components/birthday_card.dart';
@@ -49,29 +50,32 @@ class _HomePageState extends State<HomePage> {
           controller: _scrollController,
           itemCount: birthdayList.length,
           itemBuilder: (context, index) {
-            birthdayList.sort(((a, b) =>
-                Calculator.remainingDaysTillBirthday(a[2] as DateTime)
-                    .compareTo(
-                  Calculator.remainingDaysTillBirthday(b[2] as DateTime),
-                )));
+            birthdayList.sort(
+              ((a, b) => Calculator.remainingDaysTillBirthday(a.date)
+                  .compareTo(Calculator.remainingDaysTillBirthday(b.date))),
+            );
             final item = birthdayList[index];
             return Column(
               children: [
                 Dismissible(
                   direction: DismissDirection.endToStart,
-                  key: Key(item[0].toString()),
+                  key: Key(item.birthdayId.toString()),
                   background: dismissibleBackground(),
                   onDismissed: (direction) {
                     setState(() {
-                      removeBirthday(birthdayList.elementAt(index)[0]);
+                      removeBirthday(birthdayList.elementAt(index).birthdayId);
                     });
                     ScaffoldMessenger.of(context).showSnackBar(
                       dismissibleSnackBar(item, context),
                     );
                   },
                   child: Container(
-                      margin: const EdgeInsets.only(right: 10, left: 10),
-                      child: makeBirthdayCard(index)),
+                    margin: const EdgeInsets.only(right: 10, left: 10),
+                    child: BirthdayCard(
+                      getDataById(index),
+                      true,
+                    ),
+                  ),
                 ),
               ],
             );
@@ -119,7 +123,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  SnackBar dismissibleSnackBar(List<Object> birthday, BuildContext context) {
+  SnackBar dismissibleSnackBar(Birthday birthday, BuildContext context) {
     return SnackBar(
       backgroundColor: Constants.greySecondary,
       behavior: SnackBarBehavior.floating,
@@ -132,7 +136,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Removed birthday of ${birthday[1]}!'),
+              Text('Removed birthday of ${birthday.name}!'),
             ],
           ),
           const Spacer(),
@@ -149,8 +153,8 @@ class _HomePageState extends State<HomePage> {
                     if (restoreBirthday()) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content:
-                              Text('Restored birthday of ${lastDeleted[1]}!'),
+                          content: Text(
+                              'Restored birthday of ${lastDeleted!.name}!'),
                           behavior: SnackBarBehavior.floating,
                           shape: RoundedRectangleBorder(
                             borderRadius:
@@ -177,14 +181,6 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
-  }
-
-  BirthdayCard makeBirthdayCard(int index) {
-    return BirthdayCard(
-        birthdayList[index][0] as int,
-        birthdayList[index][1].toString(),
-        birthdayList[index][2] as DateTime,
-        true);
   }
 
   Container addButton(BuildContext context) {

@@ -1,3 +1,4 @@
+import 'package:daty/utilities/Birthday.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../components/birthday_card.dart';
@@ -13,9 +14,9 @@ class AddBirthdayPage extends StatefulWidget {
 }
 
 class _AddBirthdayPageState extends State<AddBirthdayPage> {
-  DateTime birthday = DateTime.now();
-  TimeOfDay time = const TimeOfDay(hour: 0, minute: 0);
   String name = 'Name';
+  DateTime date = DateTime.now();
+  TimeOfDay time = const TimeOfDay(hour: 0, minute: 0);
 
   final ScrollController _scrollController = ScrollController();
 
@@ -160,7 +161,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
             const Icon(Icons.date_range_rounded),
             const SizedBox(width: 10),
             Text(
-              '${birthday.day}.${birthday.month}.${birthday.year}',
+              '${date.day}.${date.month}.${date.year}',
               style: const TextStyle(fontSize: Constants.normalFontSize),
             ),
           ],
@@ -175,14 +176,14 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
   void _selectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
       context: context,
-      initialDate: birthday,
+      initialDate: date,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
 
-    if (selected != null && selected != birthday) {
+    if (selected != null && selected != date) {
       setState(() {
-        birthday = selected;
+        date = selected;
       });
     }
   }
@@ -225,7 +226,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
   Container cardPreview() {
     return Container(
       margin: const EdgeInsets.all(10),
-      child: BirthdayCard(getNewBirthdayId() + 1, name, birthday, false),
+      child: new BirthdayCard(Birthday(name, date), false),
     );
   }
 
@@ -247,13 +248,13 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             DateTime birthdayWithTime = DateTime(
-              birthday.year,
-              birthday.month,
-              birthday.day,
+              date.year,
+              date.month,
+              date.day,
               time.hour,
               time.minute,
             );
-            addBirthday(name, birthdayWithTime);
+            addBirthday(Birthday(name, birthdayWithTime));
             Navigator.pop(context);
           } else {
             setState(() {

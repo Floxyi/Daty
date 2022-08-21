@@ -17,21 +17,18 @@ class BirthdayInfoPage extends StatefulWidget {
 
 class _BirthdayInfoPageState extends State<BirthdayInfoPage>
     with WidgetsBindingObserver {
-  late String name;
-  late DateTime birthday;
-
   late Timer timer;
   Duration duration = const Duration(milliseconds: 100);
 
   @override
   void initState() {
     super.initState();
-    name = getDataById(widget.birthdayId)![1] as String;
-    birthday = getDataById(widget.birthdayId)![2] as DateTime;
+
     timer = Timer.periodic(
       duration,
       (Timer t) => mounted ? setState(() {}) : timer.cancel(),
     );
+
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -79,7 +76,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
               birthdayCountdown(),
               const SizedBox(height: 20),
               Text(
-                'BID: ${widget.birthdayId.toString()} / NID: ${getDataById(widget.birthdayId)![3]}',
+                'BID: ${getDataById(widget.birthdayId).birthdayId.toString()} / NID: ${getDataById(widget.birthdayId).notificationId}',
                 style: TextStyle(
                   color: Constants.greySecondary,
                   fontSize: Constants.normalFontSize,
@@ -149,7 +146,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
         ),
         const SizedBox(height: 10),
         Text(
-          name,
+          getDataById(widget.birthdayId).name,
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.titleFontSizeSize,
@@ -164,7 +161,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
     return Column(
       children: [
         Text(
-          '${Calculator.getDayName(birthday.weekday)}, ${birthday.day}. ${Calculator.getMonthName(birthday.month)} ${birthday.year}',
+          '${Calculator.getDayName(getDataById(widget.birthdayId).date.weekday)}, ${getDataById(widget.birthdayId).date.day}. ${Calculator.getMonthName(getDataById(widget.birthdayId).date.month)} ${getDataById(widget.birthdayId).date.year}',
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.normalFontSize,
@@ -182,7 +179,8 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
       textBaseline: TextBaseline.alphabetic,
       children: [
         Text(
-          Calculator.calculateAge(birthday).toString(),
+          Calculator.calculateAge(getDataById(widget.birthdayId).date)
+              .toString(),
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.titleFontSizeSize,
@@ -190,7 +188,8 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
           ),
         ),
         Text(
-          Calculator.calculatePreciseAge(birthday, 8).toString(),
+          Calculator.calculatePreciseAge(getDataById(widget.birthdayId).date, 8)
+              .toString(),
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.biggerFontSize,
@@ -236,10 +235,22 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        counter('Days', Calculator.daysTillBirthday(birthday)),
-        counter('Hours', Calculator.hoursTillBirthday(birthday)),
-        counter('Minutes', Calculator.minutesTillBirthday(birthday)),
-        counter('Seconds', Calculator.secondsTillBirthday(birthday)),
+        counter(
+          'Days',
+          Calculator.daysTillBirthday(getDataById(widget.birthdayId).date),
+        ),
+        counter(
+          'Hours',
+          Calculator.hoursTillBirthday(getDataById(widget.birthdayId).date),
+        ),
+        counter(
+          'Minutes',
+          Calculator.minutesTillBirthday(getDataById(widget.birthdayId).date),
+        ),
+        counter(
+          'Seconds',
+          Calculator.secondsTillBirthday(getDataById(widget.birthdayId).date),
+        ),
       ],
     );
   }

@@ -1,3 +1,4 @@
+import 'package:daty/utilities/Birthday.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../components/birthday_card.dart';
@@ -26,8 +27,8 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
 
   @override
   void initState() {
-    newName = getDataById(widget.birthdayId)![1] as String;
-    newDate = getDataById(widget.birthdayId)![2] as DateTime;
+    newName = getDataById(widget.birthdayId).name;
+    newDate = getDataById(widget.birthdayId).date;
     newTime = TimeOfDay(hour: newDate.hour, minute: newDate.minute);
     super.initState();
   }
@@ -98,7 +99,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
       child: Form(
         key: _formKey,
         child: TextFormField(
-          initialValue: getDataById(widget.birthdayId)![1] as String,
+          initialValue: getDataById(widget.birthdayId).name,
           keyboardType: TextInputType.text,
           keyboardAppearance: Brightness.dark,
           style: const TextStyle(color: Constants.whiteSecondary),
@@ -234,7 +235,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
   Container cardPreview() {
     return Container(
       margin: const EdgeInsets.all(10),
-      child: BirthdayCard(getNewBirthdayId() + 1, newName, newDate, false),
+      child: BirthdayCard(Birthday(newName, newDate), false),
     );
   }
 
@@ -262,8 +263,8 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
               newTime.hour,
               newTime.minute,
             );
-            updateBirthday(widget.birthdayId, newName, newDate);
-            Navigator.pop(context);
+            updateBirthday(widget.birthdayId, Birthday(newName, newDate));
+            Navigator.pushReplacementNamed(context, '/');
           } else {
             setState(() {
               isInputCorrect = false;
