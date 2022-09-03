@@ -54,7 +54,6 @@ class _HomePageState extends State<HomePage> {
               ((a, b) => Calculator.remainingDaysTillBirthday(a.date)
                   .compareTo(Calculator.remainingDaysTillBirthday(b.date))),
             );
-            print("8");
             final item = birthdayList[index];
             return Column(
               children: [

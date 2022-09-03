@@ -90,9 +90,7 @@ Future<void> removeBirthday(birthdayId) async {
 }
 
 void updateBirthday(int oldBirthdayId, Birthday newBirthday) {
-  print("1");
   Birthday? oldBirthday = getDataById(oldBirthdayId);
-  print("2");
   newBirthday.setbirthdayId = oldBirthdayId;
 
   removeBirthday(oldBirthdayId);
@@ -111,7 +109,6 @@ bool restoreBirthday() {
 }
 
 Birthday getDataById(int birthdayId) {
-  print("3");
   for (int i = 0; i <= birthdayList.length; i++) {
     if (birthdayList[i].birthdayId == birthdayId) {
       return birthdayList[i];
