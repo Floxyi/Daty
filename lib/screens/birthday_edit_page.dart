@@ -188,6 +188,24 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
       initialDate: newDate,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Constants.bluePrimary,
+              onPrimary: Constants.blackPrimary,
+              onSurface: Constants.whiteSecondary,
+            ),
+            dialogBackgroundColor: Constants.darkGreySecondary,
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: Constants.whiteSecondary,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (selected != null && selected != newDate) {
@@ -224,6 +242,25 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
       context: context,
       initialTime: newTime,
       initialEntryMode: TimePickerEntryMode.dial,
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData(
+            primarySwatch: Colors.blue,
+            timePickerTheme: TimePickerThemeData(
+              dayPeriodTextColor: Constants.whiteSecondary,
+              dayPeriodBorderSide: BorderSide(color: Constants.bluePrimary),
+              dialHandColor: Constants.bluePrimary,
+              dialTextColor: Constants.whiteSecondary,
+              entryModeIconColor: Constants.whiteSecondary,
+              hourMinuteTextColor: Constants.whiteSecondary,
+              helpTextStyle: TextStyle(color: Constants.whiteSecondary),
+              hourMinuteColor: Constants.greySecondary,
+              backgroundColor: Constants.darkGreySecondary,
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (timeOfDay != null && timeOfDay != newTime) {
       setState(() {
