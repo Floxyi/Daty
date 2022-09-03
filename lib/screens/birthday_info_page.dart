@@ -20,15 +20,18 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
   late Timer timer;
   Duration duration = const Duration(milliseconds: 100);
 
-  @override
-  void initState() {
-    super.initState();
-
+  void startTimer() {
     timer = Timer.periodic(
       duration,
       (Timer t) => mounted ? setState(() {}) : timer.cancel(),
     );
+  }
 
+  @override
+  void initState() {
+    super.initState();
+
+    startTimer();
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -36,6 +39,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
   void dispose() {
     timer.cancel();
     WidgetsBinding.instance.removeObserver(this);
+
     super.dispose();
   }
 
@@ -128,10 +132,11 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
         ),
       ),
       onTap: () {
+        timer.cancel();
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (BuildContext context) {
           return BirthdayEditPage(widget.birthdayId);
-        }));
+        })).then((value) => startTimer());
       },
     );
   }

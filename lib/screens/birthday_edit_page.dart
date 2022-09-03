@@ -264,7 +264,8 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
               newTime.minute,
             );
             updateBirthday(widget.birthdayId, Birthday(newName, newDate));
-            Navigator.pushReplacementNamed(context, '/');
+            //Navigator.pushReplacementNamed(context, '/');
+            Navigator.pop(context);
           } else {
             setState(() {
               isInputCorrect = false;
