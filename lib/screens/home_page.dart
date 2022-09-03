@@ -54,6 +54,7 @@ class _HomePageState extends State<HomePage> {
               ((a, b) => Calculator.remainingDaysTillBirthday(a.date)
                   .compareTo(Calculator.remainingDaysTillBirthday(b.date))),
             );
+            print("8");
             final item = birthdayList[index];
             return Column(
               children: [
@@ -146,7 +147,8 @@ class _HomePageState extends State<HomePage> {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    primary: Constants.darkGreySecondary),
+                  primary: Constants.darkGreySecondary,
+                ),
                 onPressed: () {
                   ScaffoldMessenger.of(context).hideCurrentSnackBar();
                   setState(() {
@@ -154,11 +156,13 @@ class _HomePageState extends State<HomePage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                              'Restored birthday of ${lastDeleted!.name}!'),
+                            'Restored birthday of ${lastDeleted!.name}!',
+                          ),
                           behavior: SnackBarBehavior.floating,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
+                            ),
                           ),
                         ),
                       );

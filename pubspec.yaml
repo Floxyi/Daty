@@ -13,6 +13,7 @@ dependencies:
   flutter_native_splash: ^2.2.7
   awesome_notifications: any
   flutter_launcher_icons: any
+  shared_preferences: any
 
 dev_dependencies:
   flutter_test:
