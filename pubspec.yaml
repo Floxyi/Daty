@@ -14,6 +14,7 @@ dependencies:
   awesome_notifications: any
   flutter_launcher_icons: any
   shared_preferences: any
+  flutter_slidable: any
 
 dev_dependencies:
   flutter_test:

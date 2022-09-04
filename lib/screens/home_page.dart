@@ -7,6 +7,7 @@ import 'birthday_add_page.dart';
 import '../utilities/constants.dart';
 import '../utilities/calculator.dart';
 import '/utilities/data_storage.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -21,11 +22,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    AwesomeNotifications().isNotificationAllowed().then(
-          ((value) => value
-              ? addNotificationListener(context)
-              : requestNotificationAccess(context)),
-        );
+    AwesomeNotifications().isNotificationAllowed().then((value) => value
+        ? addNotificationListener(context)
+        : requestNotificationAccess(context));
   }
 
   @override
@@ -51,31 +50,15 @@ class _HomePageState extends State<HomePage> {
           itemCount: birthdayList.length,
           itemBuilder: (context, index) {
             birthdayList.sort(
-              ((a, b) => Calculator.remainingDaysTillBirthday(a.date)
-                  .compareTo(Calculator.remainingDaysTillBirthday(b.date))),
+              (a, b) => Calculator.remainingDaysTillBirthday(a.date).compareTo(
+                Calculator.remainingDaysTillBirthday(b.date),
+              ),
             );
-            final item = birthdayList[index];
             return Column(
               children: [
-                Dismissible(
-                  direction: DismissDirection.endToStart,
-                  key: Key(item.birthdayId.toString()),
-                  background: dismissibleBackground(),
-                  onDismissed: (direction) {
-                    setState(() {
-                      removeBirthday(birthdayList.elementAt(index).birthdayId);
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      dismissibleSnackBar(item, context),
-                    );
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 10, left: 10),
-                    child: BirthdayCard(
-                      getDataById(index),
-                      true,
-                    ),
-                  ),
+                Container(
+                  padding: EdgeInsets.all(15.0),
+                  child: slidableCard(index, birthdayList[index]),
                 ),
               ],
             );
@@ -85,45 +68,40 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Container dismissibleBackground() {
-    return Container(
-      margin: const EdgeInsets.all(13),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        color: Colors.red,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.max,
+  Slidable slidableCard(int index, Birthday item) {
+    return Slidable(
+      endActionPane: ActionPane(
+        motion: const DrawerMotion(),
+        extentRatio: 0.3,
         children: [
-          Container(
-            margin: const EdgeInsets.all(20.0),
-            child: Row(
-              children: const [
-                Icon(
-                  Icons.delete_sweep_outlined,
-                  color: Constants.whiteSecondary,
-                  size: 30,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Delete',
-                  style: TextStyle(
-                    color: Constants.whiteSecondary,
-                    fontSize: Constants.normalFontSize,
-                  ),
-                ),
-              ],
-            ),
+          SlidableAction(
+            onPressed: (context) {
+              setState(() {
+                removeBirthday(birthdayList.elementAt(index).birthdayId);
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                dismissibleSnackBar(item),
+              );
+            },
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            icon: Icons.delete_sweep_outlined,
+            label: 'Delete',
+            borderRadius: BorderRadius.all(Radius.circular(20)),
           ),
         ],
+      ),
+      child: Container(
+        margin: const EdgeInsets.only(right: 10, left: 10),
+        child: BirthdayCard(
+          getDataById(index),
+          true,
+        ),
       ),
     );
   }
 
-  SnackBar dismissibleSnackBar(Birthday birthday, BuildContext context) {
+  SnackBar dismissibleSnackBar(Birthday birthday) {
     return SnackBar(
       backgroundColor: Constants.greySecondary,
       behavior: SnackBarBehavior.floating,

@@ -27,7 +27,6 @@ class _BirthdayCardState extends State<BirthdayCard> {
         }
       },
       child: Container(
-        margin: const EdgeInsets.all(10.0),
         padding: const EdgeInsets.all(15.0),
         decoration: const BoxDecoration(
           color: Constants.greySecondary,
