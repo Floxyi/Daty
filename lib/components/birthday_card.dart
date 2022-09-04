@@ -43,6 +43,16 @@ class _BirthdayCardState extends State<BirthdayCard> {
             Calculator.hasBirthdayToday(widget.birthday.date)
                 ? partyIcon()
                 : dayCounter(),
+            Container(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: widget.canTap
+                  ? Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Constants.whiteSecondary,
+                      size: 20,
+                    )
+                  : null,
+            ),
           ],
         ),
       ),
