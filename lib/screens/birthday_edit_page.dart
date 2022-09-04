@@ -271,6 +271,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
 
   Container cardPreview() {
     return Container(
+      padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
       child: BirthdayCard(Birthday(newName, newDate), false),
     );
