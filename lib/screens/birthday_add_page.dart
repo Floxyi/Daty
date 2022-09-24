@@ -191,7 +191,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
             dialogBackgroundColor: Constants.darkGreySecondary,
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                primary: Constants.whiteSecondary,
+                foregroundColor: Constants.whiteSecondary,
               ),
             ),
           ),
@@ -275,7 +275,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: isInputCorrect ? Constants.bluePrimary : Colors.red,
+          backgroundColor: isInputCorrect ? Constants.bluePrimary : Colors.red,
         ),
         child: const Text(
           'Save',

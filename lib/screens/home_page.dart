@@ -92,7 +92,6 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       child: Container(
-        margin: const EdgeInsets.only(right: 10, left: 10),
         child: BirthdayCard(
           getDataById(index),
           true,
@@ -124,7 +123,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Constants.darkGreySecondary,
+                  backgroundColor: Constants.darkGreySecondary,
                 ),
                 onPressed: () {
                   ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -169,7 +168,7 @@ class _HomePageState extends State<HomePage> {
       margin: const EdgeInsets.all(8.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Constants.darkGreySecondary,
+          backgroundColor: Constants.darkGreySecondary,
           fixedSize: const Size(60, 60),
           shape: const CircleBorder(),
         ),

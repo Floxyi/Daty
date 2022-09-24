@@ -199,7 +199,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
             dialogBackgroundColor: Constants.darkGreySecondary,
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                primary: Constants.whiteSecondary,
+                foregroundColor: Constants.whiteSecondary,
               ),
             ),
           ),

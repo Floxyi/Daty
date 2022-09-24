@@ -11,11 +11,6 @@ String idKey = "takenIds";
 Future<void> loadData() async {
   final prefs = await SharedPreferences.getInstance();
 
-  //final success = await prefs.remove('takenIds');
-  //final success3 = await prefs.remove('0');
-  //final success2 = await prefs.remove('1');
-  //final success4 = await prefs.remove('2');
-
   List<String>? takenIds = await prefs.getStringList(idKey);
   if (takenIds == null) {
     return;
