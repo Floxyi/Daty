@@ -29,11 +29,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        birthdayListView(),
-        addButton(context),
-      ],
+    return Center(
+      child: Column(
+        children: [
+          birthdayList.isNotEmpty ? birthdayListView() : infoText(),
+          addButton(context),
+        ],
+      ),
     );
   }
 
@@ -70,18 +72,19 @@ class _HomePageState extends State<HomePage> {
 
   Slidable slidableCard(int index, Birthday item) {
     return Slidable(
+      key: const ValueKey(0),
       endActionPane: ActionPane(
         motion: const DrawerMotion(),
-        extentRatio: 0.3,
+        dismissible: DismissiblePane(
+          onDismissed: () {
+            deleteBirthday(index, context, item);
+          },
+        ),
+        extentRatio: 0.25,
         children: [
           SlidableAction(
             onPressed: (context) {
-              setState(() {
-                removeBirthday(birthdayList.elementAt(index).birthdayId);
-              });
-              ScaffoldMessenger.of(context).showSnackBar(
-                dismissibleSnackBar(item),
-              );
+              deleteBirthday(index, context, item);
             },
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
@@ -92,12 +95,21 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       child: Container(
+        margin: const EdgeInsets.only(left: 8.0, right: 8.0),
         child: BirthdayCard(
           getDataById(index),
           true,
         ),
       ),
     );
+  }
+
+  void deleteBirthday(int index, BuildContext context, Birthday item) {
+    setState(() {
+      removeBirthday(birthdayList.elementAt(index).birthdayId);
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(dismissibleSnackBar(item));
   }
 
   SnackBar dismissibleSnackBar(Birthday birthday) {
@@ -163,9 +175,34 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget infoText() {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'To add a new birthday entry, \npress the "+" button at the bottom.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: Constants.normalFontSize,
+              color: Constants.lighterGrey,
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 10.0),
+            child: Icon(
+              Icons.keyboard_double_arrow_down_rounded,
+              color: Constants.lighterGrey,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   Container addButton(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.only(top: 8.0, bottom: 8.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Constants.darkGreySecondary,
