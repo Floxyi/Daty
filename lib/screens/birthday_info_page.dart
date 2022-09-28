@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:math';
 
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import '../screens/birthday_edit_page.dart';
 import '../utilities/constants.dart';
@@ -20,6 +22,8 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
   late Timer timer;
   Duration duration = const Duration(milliseconds: 100);
 
+  late ConfettiController controllerCenter;
+
   void startTimer() {
     timer = Timer.periodic(
       duration,
@@ -33,12 +37,22 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
 
     startTimer();
     WidgetsBinding.instance.addObserver(this);
+
+    controllerCenter = ConfettiController(
+      duration: const Duration(seconds: 10),
+    );
+
+    Calculator.hasBirthdayToday(getDataById(widget.birthdayId).date)
+        ? controllerCenter.play()
+        : null;
   }
 
   @override
   void dispose() {
     timer.cancel();
     WidgetsBinding.instance.removeObserver(this);
+
+    controllerCenter.dispose();
 
     super.dispose();
   }
@@ -70,6 +84,17 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
         child: Center(
           child: Column(
             children: [
+              ConfettiWidget(
+                confettiController: controllerCenter,
+                blastDirectionality: BlastDirectionality.explosive,
+                colors: const [
+                  Colors.green,
+                  Colors.blue,
+                  Colors.pink,
+                  Colors.orange,
+                  Colors.purple
+                ],
+              ),
               const SizedBox(height: 30),
               iconWithName(),
               const SizedBox(height: 20),

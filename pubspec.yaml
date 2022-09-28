@@ -15,6 +15,7 @@ dependencies:
   flutter_launcher_icons: any
   shared_preferences: any
   flutter_slidable: any
+  confetti: any
 
 dev_dependencies:
   flutter_test:
