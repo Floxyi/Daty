@@ -323,7 +323,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
