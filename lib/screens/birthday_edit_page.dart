@@ -283,7 +283,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: isInputCorrect ? Constants.bluePrimary : Colors.red,
+          backgroundColor: isInputCorrect ? Constants.bluePrimary : Colors.red,
         ),
         child: const Text(
           'Save',
