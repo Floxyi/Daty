@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import '../utilities/constants.dart';
 
 bool hasAddedListener = false;
-bool notificationEnabled = false;
 
 void initializeNotificationSystem() async {
   await AwesomeNotifications().initialize(
@@ -23,7 +22,6 @@ void initializeNotificationSystem() async {
         channelShowBadge: true,
       )
     ],
-    // Channel groups are only visual and are not required
     channelGroups: [
       NotificationChannelGroup(
         channelGroupkey: 'basic_channel_group',
@@ -31,65 +29,62 @@ void initializeNotificationSystem() async {
       )
     ],
   );
-
-  notificationEnabled = await AwesomeNotifications().isNotificationAllowed();
 }
 
 void requestNotificationAccess(BuildContext context) async {
-  await AwesomeNotifications().isNotificationAllowed().then(
-    (isAllowed) {
-      if (!isAllowed) {
-        if (Platform.isIOS) {
-          AwesomeNotifications()
-              .requestPermissionToSendNotifications()
-              .then((value) => value ? addNotificationListener(context) : null);
-        } else {
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Allow Notifications'),
-              content: Text(
-                'Our app would like to send you notifications to let you know whenever someone has birthday.',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'Don\'t Allow',
-                    style: TextStyle(color: Colors.grey, fontSize: 18),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    AwesomeNotifications()
-                        .requestPermissionToSendNotifications()
-                        .then(
-                      (value) {
-                        value ? addNotificationListener(context) : null;
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
-                  child: Text(
-                    'Allow',
-                    style: TextStyle(
-                      color: Colors.teal,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
+  await AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    if (!isAllowed) {
+      if (Platform.isIOS) {
+        AwesomeNotifications()
+            .requestPermissionToSendNotifications()
+            .then((value) => value ? addNotificationListener(context) : null);
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Allow Notifications'),
+            content: Text(
+              'Our app would like to send you notifications to let you know whenever someone has birthday.',
             ),
-          );
-        }
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Don\'t Allow',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  AwesomeNotifications()
+                      .requestPermissionToSendNotifications()
+                      .then(
+                    (value) {
+                      value ? addNotificationListener(context) : null;
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+                child: Text(
+                  'Allow',
+                  style: TextStyle(
+                    color: Colors.teal,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
       }
-    },
-  );
-
-  notificationEnabled = await AwesomeNotifications().isNotificationAllowed();
+    }
+  });
 }
 
 void disposeNotificationSystem() {
@@ -98,9 +93,7 @@ void disposeNotificationSystem() {
 }
 
 void addNotificationListener(BuildContext context) {
-  if (!hasAddedListener) {
-    hasAddedListener = true;
-  } else {
+  if (hasAddedListener) {
     return;
   }
 
@@ -115,12 +108,16 @@ void addNotificationListener(BuildContext context) {
 
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) {
-          return BirthdayInfoPage(id);
-        }),
+        MaterialPageRoute(
+          builder: (context) {
+            return BirthdayInfoPage(id);
+          },
+        ),
       );
     }
   });
+
+  hasAddedListener = true;
 }
 
 Future<void> createNotification(Birthday birthday) async {

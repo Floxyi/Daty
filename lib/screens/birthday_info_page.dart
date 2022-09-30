@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../screens/birthday_edit_page.dart';
 import '../utilities/constants.dart';
 import '../utilities/calculator.dart';
-import '../utilities/data_storage.dart';
+import '../utilities/birthday_data.dart';
 
 class BirthdayInfoPage extends StatefulWidget {
   final int birthdayId;
@@ -18,10 +18,9 @@ class BirthdayInfoPage extends StatefulWidget {
 
 class _BirthdayInfoPageState extends State<BirthdayInfoPage>
     with WidgetsBindingObserver {
+  late ConfettiController confetti;
   late Timer timer;
   Duration duration = const Duration(milliseconds: 100);
-
-  late ConfettiController controllerCenter;
 
   void startTimer() {
     timer = Timer.periodic(
@@ -33,45 +32,39 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
   @override
   void initState() {
     super.initState();
-
-    startTimer();
     WidgetsBinding.instance.addObserver(this);
 
-    controllerCenter = ConfettiController(
-      duration: const Duration(seconds: 10),
-    );
+    startTimer();
 
+    confetti = ConfettiController(duration: const Duration(seconds: 10));
     Calculator.hasBirthdayToday(getDataById(widget.birthdayId).date)
-        ? controllerCenter.play()
+        ? confetti.play()
         : null;
   }
 
   @override
   void dispose() {
     timer.cancel();
+    confetti.dispose();
+
     WidgetsBinding.instance.removeObserver(this);
-
-    controllerCenter.dispose();
-
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    setState(() {
-      switch (state) {
-        case AppLifecycleState.paused:
-          timer.cancel();
-          break;
-        case AppLifecycleState.inactive:
-          timer.cancel();
-          break;
-        case AppLifecycleState.resumed:
-          timer = Timer.periodic(duration, (Timer t) => setState(() {}));
-          break;
-        default:
-      }
-    });
+    switch (state) {
+      case AppLifecycleState.paused:
+        timer.cancel();
+        break;
+      case AppLifecycleState.inactive:
+        timer.cancel();
+        break;
+      case AppLifecycleState.resumed:
+        timer = Timer.periodic(duration, (Timer t) => setState(() {}));
+        break;
+      default:
+    }
   }
 
   @override
@@ -84,7 +77,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
           child: Column(
             children: [
               ConfettiWidget(
-                confettiController: controllerCenter,
+                confettiController: confetti,
                 blastDirectionality: BlastDirectionality.explosive,
                 colors: const [
                   Colors.green,

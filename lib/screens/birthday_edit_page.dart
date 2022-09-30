@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import '../components/birthday_card.dart';
 import '../components/view_title.dart';
 import '../utilities/constants.dart';
-import '/utilities/data_storage.dart';
+import '../utilities/birthday_data.dart';
 
 class BirthdayEditPage extends StatefulWidget {
   final int birthdayId;

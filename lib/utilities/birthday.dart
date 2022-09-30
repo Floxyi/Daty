@@ -1,4 +1,4 @@
-import 'package:daty/utilities/data_storage.dart';
+import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/notification_manager.dart';
 
 class Birthday {
