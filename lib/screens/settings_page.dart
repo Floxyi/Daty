@@ -104,4 +104,37 @@ class _SettingsPageState extends State<SettingsPage>
       ),
     );
   }
+
+  /*
+  Row settingRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Dark Mode',
+          style: TextStyle(
+            color: Constants.whiteSecondary,
+            fontSize: Constants.normalFontSize,
+          ),
+        ),
+        const Spacer(),
+        SizedBox(
+          width: 70,
+          height: 55,
+          child: FittedBox(
+            fit: BoxFit.fill,
+            child: Switch(
+              value: true,
+              onChanged: (value) {
+                setState(() {});
+              },
+              inactiveThumbColor: Constants.lighterGrey,
+              inactiveTrackColor: Constants.darkGreySecondary,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+  */
 }
