@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../utilities/constants.dart';
 
 class ViewTitle extends StatelessWidget {

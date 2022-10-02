@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+
 import '../screens/birthday_edit_page.dart';
-import '../utilities/constants.dart';
-import '../utilities/calculator.dart';
 import '../utilities/birthday_data.dart';
+import '../utilities/calculator.dart';
+import '../utilities/constants.dart';
 
 class BirthdayInfoPage extends StatefulWidget {
   final int birthdayId;

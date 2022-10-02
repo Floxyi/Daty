@@ -3,6 +3,7 @@ import 'package:daty/screens/settings_page.dart';
 import 'package:daty/utilities/birthday_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+
 import 'utilities/constants.dart';
 import 'utilities/notification_manager.dart';
 

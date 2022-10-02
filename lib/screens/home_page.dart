@@ -3,12 +3,13 @@ import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/app_data.dart';
 import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
-import '../components/birthday_card.dart';
-import 'birthday_add_page.dart';
-import '../utilities/constants.dart';
-import '../utilities/calculator.dart';
-import '../utilities/birthday_data.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+
+import '../components/birthday_card.dart';
+import '../utilities/birthday_data.dart';
+import '../utilities/calculator.dart';
+import '../utilities/constants.dart';
+import 'birthday_add_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

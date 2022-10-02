@@ -1,10 +1,11 @@
 import 'package:daty/utilities/Birthday.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../components/birthday_card.dart';
 import '../components/view_title.dart';
-import '../utilities/constants.dart';
 import '../utilities/birthday_data.dart';
+import '../utilities/constants.dart';
 
 class BirthdayEditPage extends StatefulWidget {
   final int birthdayId;

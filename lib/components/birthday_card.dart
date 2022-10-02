@@ -1,8 +1,9 @@
 import 'package:daty/utilities/Birthday.dart';
 import 'package:flutter/material.dart';
+
 import '../screens/birthday_info_page.dart';
-import '../utilities/constants.dart';
 import '../utilities/calculator.dart';
+import '../utilities/constants.dart';
 
 class BirthdayCard extends StatefulWidget {
   final Birthday birthday;
