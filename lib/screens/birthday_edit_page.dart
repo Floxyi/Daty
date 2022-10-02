@@ -77,7 +77,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
 
   AppBar appBar() {
     return AppBar(
-      backgroundColor: Colors.black,
+      backgroundColor: Constants.blackPrimary,
       title: const Text(
         "Edit Birthday",
         style: TextStyle(
@@ -246,7 +246,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
       builder: (context, child) {
         return Theme(
           data: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Constants.bluePrimary as MaterialColor,
             timePickerTheme: TimePickerThemeData(
               dayPeriodTextColor: Constants.whiteSecondary,
               dayPeriodBorderSide: BorderSide(color: Constants.bluePrimary),

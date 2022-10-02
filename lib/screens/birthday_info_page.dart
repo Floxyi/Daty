@@ -114,7 +114,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
 
   AppBar appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.black,
+      backgroundColor: Constants.blackPrimary,
       actions: [
         editButton(context),
       ],

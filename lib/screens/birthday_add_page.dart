@@ -71,7 +71,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
 
   AppBar appBar() {
     return AppBar(
-      backgroundColor: Colors.black,
+      backgroundColor: Constants.blackPrimary,
       title: const Text(
         'Add Birthday',
         style: TextStyle(
@@ -238,7 +238,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
       builder: (context, child) {
         return Theme(
           data: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Constants.bluePrimary as MaterialColor,
             timePickerTheme: TimePickerThemeData(
               dayPeriodTextColor: Constants.whiteSecondary,
               dayPeriodBorderSide: BorderSide(color: Constants.bluePrimary),
