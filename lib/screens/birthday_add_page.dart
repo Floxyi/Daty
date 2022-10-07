@@ -59,7 +59,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
               saveButton(context),
               const SizedBox(height: 10),
               infoText(
-                'Note that all properties can be changed later, by tapping on a birthday card on the Home screen.',
+                'Note that all properties can be changed later, by tapping on a birthday card on the home screen.',
               ),
               SizedBox(height: 40),
             ],
