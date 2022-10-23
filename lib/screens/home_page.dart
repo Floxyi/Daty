@@ -36,11 +36,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: [
-          birthdayList.isNotEmpty ? birthdayListView() : infoText(),
-          addButton(context),
-        ],
+      child: Container(
+        margin: const EdgeInsets.only(top: 10),
+        child: Column(
+          children: [
+            birthdayList.isNotEmpty ? birthdayListView() : infoText(),
+            addButton(context),
+          ],
+        ),
       ),
     );
   }
