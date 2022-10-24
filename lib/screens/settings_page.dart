@@ -1,4 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:daty/components/view_title.dart';
+import 'package:daty/utilities/app_data.dart';
 import 'package:daty/utilities/constants.dart';
 import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
@@ -33,28 +35,42 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FutureBuilder(
-          future: AwesomeNotifications().isNotificationAllowed(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (!(snapshot.data as bool)) {
-                return infoText();
+    return Container(
+      margin: const EdgeInsets.only(top: 20),
+      child: Column(
+        children: [
+          ViewTitle('Notifications'),
+          FutureBuilder(
+            future: AwesomeNotifications().isNotificationAllowed(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (!(snapshot.data as bool)) {
+                  return infoText();
+                }
               }
-            }
-            return Container();
-          },
-        ),
-        Container(
-          margin: const EdgeInsets.only(right: 50, left: 50),
-          child: Column(
-            children: [
-              Container(),
-            ],
+              return Container();
+            },
           ),
-        ),
-      ],
+          Container(
+            margin: const EdgeInsets.only(right: 50, left: 50, bottom: 30),
+            child: Column(
+              children: [
+                notificationOneWeekBefore(),
+                notificationOneMonthBefore(),
+              ],
+            ),
+          ),
+          ViewTitle('Theme'),
+          Container(
+            margin: const EdgeInsets.only(right: 50, left: 50, bottom: 30),
+            child: Column(
+              children: [
+                darkModeSetting(),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -105,8 +121,7 @@ class _SettingsPageState extends State<SettingsPage>
     );
   }
 
-  /*
-  Row settingRow() {
+  Row darkModeSetting() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -132,9 +147,76 @@ class _SettingsPageState extends State<SettingsPage>
               inactiveTrackColor: Constants.darkGreySecondary,
             ),
           ),
-        )
+        ),
       ],
     );
   }
-  */
+
+  Row notificationOneWeekBefore() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'One week before',
+          style: TextStyle(
+            color: Constants.whiteSecondary,
+            fontSize: Constants.normalFontSize,
+          ),
+        ),
+        const Spacer(),
+        SizedBox(
+          width: 70,
+          height: 55,
+          child: FittedBox(
+            fit: BoxFit.fill,
+            child: Switch(
+              value: notiOneWeekBefore,
+              onChanged: (value) {
+                setState(() {
+                  setNotificationOneWeekBefore(value);
+                  notiOneWeekBefore = value;
+                });
+              },
+              inactiveThumbColor: Constants.lighterGrey,
+              inactiveTrackColor: Constants.darkGreySecondary,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row notificationOneMonthBefore() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'One month before',
+          style: TextStyle(
+            color: Constants.whiteSecondary,
+            fontSize: Constants.normalFontSize,
+          ),
+        ),
+        const Spacer(),
+        SizedBox(
+          width: 70,
+          height: 55,
+          child: FittedBox(
+            fit: BoxFit.fill,
+            child: Switch(
+              value: notiOneMonthBefore,
+              onChanged: (value) {
+                setState(() {
+                  setNotificationOneMonthBefore(value);
+                  notiOneMonthBefore = value;
+                });
+              },
+              inactiveThumbColor: Constants.lighterGrey,
+              inactiveTrackColor: Constants.darkGreySecondary,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

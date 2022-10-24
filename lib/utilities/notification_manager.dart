@@ -5,10 +5,14 @@ import 'package:daty/screens/birthday_info_page.dart';
 import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/calculator.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utilities/constants.dart';
 
-bool hasAddedListener = false;
+bool addedNotificationListener = false;
+
+bool notiOneWeekBefore = false;
+bool notiOneMonthBefore = false;
 
 void initializeNotificationSystem() async {
   await AwesomeNotifications().initialize(
@@ -31,6 +35,32 @@ void initializeNotificationSystem() async {
       )
     ],
   );
+
+  final prefs = await SharedPreferences.getInstance();
+
+  bool? settingOneWeek = await prefs.getBool('notificationOneWeekBefore');
+  if (settingOneWeek == null) {
+    await prefs.setBool('notificationOneWeekBefore', false);
+  } else {
+    notiOneWeekBefore = settingOneWeek;
+  }
+
+  bool? settingOneMonth = await prefs.getBool('getNotificationOneMonthBefore');
+  if (settingOneMonth == null) {
+    await prefs.setBool('getNotificationOneMonthBefore', false);
+  } else {
+    notiOneMonthBefore = settingOneMonth;
+  }
+}
+
+setNotificationOneWeekBefore(bool value) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('notificationOneWeekBefore', value);
+}
+
+setNotificationOneMonthBefore(bool value) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('getNotificationOneMonthBefore', value);
 }
 
 void requestNotificationAccess(BuildContext context) async {
@@ -95,7 +125,7 @@ void disposeNotificationSystem() {
 }
 
 void addNotificationListener(BuildContext context) {
-  if (hasAddedListener) {
+  if (addedNotificationListener) {
     return;
   }
 
@@ -119,7 +149,7 @@ void addNotificationListener(BuildContext context) {
     }
   });
 
-  hasAddedListener = true;
+  addedNotificationListener = true;
 }
 
 Future<void> createNotification(Birthday birthday) async {
