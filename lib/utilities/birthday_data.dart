@@ -28,7 +28,7 @@ data representation of a saved Birthday object as an array:
 
 */
 
-loadBirthdays() async {
+Future<void> loadBirthdays() async {
   final prefs = await SharedPreferences.getInstance();
 
   List<String>? takenIds = await prefs.getStringList(takenIdsKey);
@@ -61,7 +61,7 @@ loadBirthdays() async {
         [
           int.parse(birthdayArray[7]),
           int.parse(birthdayArray[8]),
-          int.parse(birthdayArray[9])
+          int.parse(birthdayArray[9]),
         ],
       );
       birthdayList.add(birthday);
@@ -73,9 +73,9 @@ loadBirthdays() async {
   }
 }
 
-addBirthday(Birthday birthday) async {
+void addBirthday(Birthday birthday) async {
   birthdayList.add(birthday);
-  createNotification(birthday);
+  createNotifications(birthday);
 
   final prefs = await SharedPreferences.getInstance();
 
@@ -105,7 +105,7 @@ addBirthday(Birthday birthday) async {
   }
 }
 
-removeBirthday(birthdayId) async {
+void removeBirthday(birthdayId) async {
   Birthday? removedBirthday = getDataById(birthdayId);
 
   lastDeleted = removedBirthday;
@@ -129,7 +129,7 @@ removeBirthday(birthdayId) async {
   await prefs.setStringList(takenIdsKey, takenIds!);
 }
 
-updateBirthday(int oldBirthdayId, Birthday updatedBirthday) {
+void updateBirthday(int oldBirthdayId, Birthday updatedBirthday) {
   Birthday? oldBirthday = getDataById(oldBirthdayId);
 
   // keep same ids

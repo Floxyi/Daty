@@ -173,7 +173,7 @@ class _SettingsPageState extends State<SettingsPage>
               onChanged: (value) {
                 setState(() {
                   setNotificationOneWeekBefore(value);
-                  notiOneWeekBefore = value;
+                  setNotiOneMonthBefore(value);
                 });
               },
               inactiveThumbColor: Constants.lighterGrey,
@@ -207,7 +207,7 @@ class _SettingsPageState extends State<SettingsPage>
               onChanged: (value) {
                 setState(() {
                   setNotificationOneMonthBefore(value);
-                  notiOneMonthBefore = value;
+                  setNotiOneMonthBefore(value);
                 });
               },
               inactiveThumbColor: Constants.lighterGrey,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daty/screens/birthday_info_page.dart';
 import 'package:daty/utilities/Birthday.dart';
+import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/calculator.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +14,30 @@ bool addedNotificationListener = false;
 
 bool notiOneWeekBefore = false;
 bool notiOneMonthBefore = false;
+
+void setNotiOneWeekBefore(value) {
+  notiOneWeekBefore = value;
+
+  for (int i = 0; i < birthdayList.length; i++) {
+    if (notiOneWeekBefore) {
+      createNotificationOneWeekBefore(birthdayList[i]);
+    } else {
+      AwesomeNotifications().cancel(birthdayList[i].notificationIds[1]);
+    }
+  }
+}
+
+void setNotiOneMonthBefore(value) {
+  notiOneMonthBefore = value;
+
+  for (int i = 0; i < birthdayList.length; i++) {
+    if (notiOneMonthBefore) {
+      createNotificationOneMonthBefore(birthdayList[i]);
+    } else {
+      AwesomeNotifications().cancel(birthdayList[i].notificationIds[2]);
+    }
+  }
+}
 
 void initializeNotificationSystem() async {
   await AwesomeNotifications().initialize(
@@ -152,16 +177,52 @@ void addNotificationListener(BuildContext context) {
   addedNotificationListener = true;
 }
 
-Future<void> createNotification(Birthday birthday) async {
-  String name = birthday.name;
-  int age = Calculator.calculateAge(birthday.date);
+Future<void> createNotifications(Birthday birthday) async {
+  createNotification(birthday, birthday.date);
 
+  if (notiOneWeekBefore) {
+    createNotificationOneWeekBefore(birthday);
+  }
+
+  if (notiOneMonthBefore) {
+    createNotificationOneMonthBefore(birthday);
+  }
+}
+
+void createNotificationOneWeekBefore(Birthday birthday) {
+  DateTime time = DateTime(
+    birthday.date.year,
+    birthday.date.month,
+    birthday.date.day - 7,
+    birthday.date.hour,
+    birthday.date.minute,
+  );
+
+  createNotification(birthday, time);
+}
+
+void createNotificationOneMonthBefore(Birthday birthday) {
+  DateTime time = DateTime(
+    birthday.date.year,
+    birthday.date.month - 1,
+    birthday.date.day,
+    birthday.date.hour,
+    birthday.date.minute,
+  );
+
+  createNotification(birthday, time);
+}
+
+Future<void> createNotification(Birthday birthday, DateTime time) async {
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
       id: birthday.notificationIds[0],
       channelKey: 'scheduled_channel',
       title: "It's birthday time! ${Emojis.smile_partying_face}",
-      body: name + " just turned " + age.toString() + "!",
+      body: birthday.name +
+          " just turned " +
+          Calculator.calculateAge(birthday.date).toString() +
+          "!",
       notificationLayout: NotificationLayout.Default,
       payload: {"id": birthday.birthdayId.toString()},
     ),
@@ -172,10 +233,10 @@ Future<void> createNotification(Birthday birthday) async {
       ),
     ],
     schedule: NotificationCalendar(
-      month: birthday.date.month,
-      day: birthday.date.day,
-      hour: birthday.date.hour,
-      minute: birthday.date.minute,
+      month: time.month,
+      day: time.day,
+      hour: time.hour,
+      minute: time.minute,
       second: 0,
       millisecond: 0,
       repeats: true,
