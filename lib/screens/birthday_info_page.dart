@@ -98,7 +98,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
               birthdayCountdown(),
               const SizedBox(height: 20),
               Text(
-                'BID: ${getDataById(widget.birthdayId).birthdayId.toString()} / NID: ${getDataById(widget.birthdayId).notificationId}',
+                'BID: ${getDataById(widget.birthdayId).birthdayId.toString()} / NID: ${getDataById(widget.birthdayId).notificationIds}',
                 style: TextStyle(
                   color: Constants.greySecondary,
                   fontSize: Constants.normalFontSize,

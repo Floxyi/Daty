@@ -1,11 +1,10 @@
 import 'package:daty/utilities/birthday_data.dart';
-import 'package:daty/utilities/notification_manager.dart';
 
 class Birthday {
   late int _birthdayId;
   late String _name;
   late DateTime _date;
-  late int _notificationId;
+  late List<int> _notificationIds;
 
   int get birthdayId {
     return _birthdayId;
@@ -31,16 +30,23 @@ class Birthday {
     _date = _date;
   }
 
-  int get notificationId {
-    return _notificationId;
+  List<int> get notificationIds {
+    return _notificationIds;
   }
 
-  set setnotificationId(int notificationId) {
-    _notificationId = notificationId;
+  set setnotificationIds(List<int> newNotificationIds) {
+    _notificationIds = newNotificationIds;
   }
 
-  Birthday(this._name, this._date) {
-    setbirthdayId = getNewBirthdayId();
-    setnotificationId = getNewNotificationId();
+  Birthday(this._name, this._date, [int? bdId, List<int>? notiIds]) {
+    setbirthdayId = bdId == null ? getNewBirthdayId() : bdId;
+
+    List<int>? newNotiIds = [
+      int.parse(birthdayId.toString() + "1"),
+      int.parse(birthdayId.toString() + "2"),
+      int.parse(birthdayId.toString() + "3")
+    ];
+
+    setnotificationIds = notiIds == null ? newNotiIds : notiIds;
   }
 }

@@ -158,7 +158,7 @@ Future<void> createNotification(Birthday birthday) async {
 
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
-      id: birthday.notificationId,
+      id: birthday.notificationIds[0],
       channelKey: 'scheduled_channel',
       title: "It's birthday time! ${Emojis.smile_partying_face}",
       body: name + " just turned " + age.toString() + "!",
@@ -183,8 +183,4 @@ Future<void> createNotification(Birthday birthday) async {
       preciseAlarm: true,
     ),
   );
-}
-
-int getNewNotificationId() {
-  return DateTime.now().millisecondsSinceEpoch.remainder(100000);
 }

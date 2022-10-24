@@ -1,6 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daty/components/view_title.dart';
-import 'package:daty/utilities/app_data.dart';
 import 'package:daty/utilities/constants.dart';
 import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';

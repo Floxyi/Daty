@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         margin: const EdgeInsets.only(left: 8.0, right: 8.0),
         child: BirthdayCard(
-          getDataById(index),
+          birthdayList[index],
           true,
         ),
       ),
