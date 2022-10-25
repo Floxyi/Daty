@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:confetti/confetti.dart';
+import 'package:daty/utilities/Birthday.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/birthday_edit_page.dart';
 import '../utilities/birthday_data.dart';
 import '../utilities/calculator.dart';
 import '../utilities/constants.dart';
+import '../utilities/notification_manager.dart';
 
 class BirthdayInfoPage extends StatefulWidget {
   final int birthdayId;
@@ -87,6 +89,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
                   Colors.orange,
                   Colors.purple
                 ],
+                emissionFrequency: 0.05,
               ),
               const SizedBox(height: 30),
               iconWithName(),
@@ -97,16 +100,63 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
               const SizedBox(height: 50),
               birthdayCountdown(),
               const SizedBox(height: 20),
-              Text(
-                'BID: ${getDataById(widget.birthdayId).birthdayId.toString()} / NID: ${getDataById(widget.birthdayId).notificationIds}',
-                style: TextStyle(
-                  color: Constants.greySecondary,
-                  fontSize: Constants.normalFontSize,
-                  fontStyle: FontStyle.italic,
-                ),
-              )
+              allowNotificationSwitch(),
+              const SizedBox(height: 20),
+              debugInfo()
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Padding allowNotificationSwitch() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 35.0, left: 35.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Allow Notifications',
+            style: TextStyle(
+              color: Constants.whiteSecondary,
+              fontSize: Constants.normalFontSize,
+            ),
+          ),
+          const Spacer(),
+          SizedBox(
+            width: 70,
+            height: 55,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: Switch(
+                value: getDataById(widget.birthdayId).allowNotifications,
+                onChanged: (value) {
+                  setState(() {
+                    Birthday birthday = getDataById(widget.birthdayId);
+                    birthday.setAllowNotifications = value;
+                  });
+                },
+                inactiveThumbColor: Constants.lighterGrey,
+                inactiveTrackColor: Constants.darkGreySecondary,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding debugInfo() {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Text(
+        'AN: ${getDataById(widget.birthdayId).allowNotifications} BID: ${getDataById(widget.birthdayId).birthdayId} / NID: ${getDataById(widget.birthdayId).notificationIds} / week: ${notiOneWeekBefore} month: ${notiOneMonthBefore}',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Constants.greySecondary,
+          fontSize: Constants.normalFontSize,
+          fontStyle: FontStyle.italic,
         ),
       ),
     );

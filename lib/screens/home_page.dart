@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     AwesomeNotifications().isNotificationAllowed().then((value) async {
       if (value) {
-        addNotificationListener(context);
+        addNotificationListener();
       } else if (await isFirstStartup()) {
         requestNotificationAccess(context);
       }

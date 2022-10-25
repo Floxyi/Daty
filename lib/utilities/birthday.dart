@@ -1,10 +1,13 @@
 import 'package:daty/utilities/birthday_data.dart';
 
+import 'notification_manager.dart';
+
 class Birthday {
   late int _birthdayId;
   late String _name;
   late DateTime _date;
   late List<int> _notificationIds;
+  late bool _allowNotifications;
 
   int get birthdayId {
     return _birthdayId;
@@ -38,8 +41,23 @@ class Birthday {
     _notificationIds = newNotificationIds;
   }
 
-  Birthday(this._name, this._date, [int? bdId, List<int>? notiIds]) {
-    setbirthdayId = bdId == null ? getNewBirthdayId() : bdId;
+  bool get allowNotifications {
+    return _allowNotifications;
+  }
+
+  set setAllowNotifications(bool value) {
+    _allowNotifications = value;
+
+    if (value) {
+      createAllNotifications(getDataById(_birthdayId));
+    } else {
+      cancelAllNotifications(getDataById(_birthdayId));
+    }
+  }
+
+  Birthday(this._name, this._date,
+      [int? bdId, List<int>? notiIds, bool? allowNoti]) {
+    _birthdayId = bdId == null ? getNewBirthdayId() : bdId;
 
     List<int>? newNotiIds = [
       int.parse(birthdayId.toString() + "1"),
@@ -47,6 +65,8 @@ class Birthday {
       int.parse(birthdayId.toString() + "3")
     ];
 
-    setnotificationIds = notiIds == null ? newNotiIds : notiIds;
+    _notificationIds = notiIds == null ? newNotiIds : notiIds;
+
+    _allowNotifications = allowNoti == null ? true : allowNoti;
   }
 }

@@ -25,6 +25,7 @@ data representation of a saved Birthday object as an array:
 - 7: notification id day
 - 8: notification id week
 - 9: notification id month
+- 10: allow notifications
 
 */
 
@@ -63,7 +64,11 @@ Future<void> loadBirthdays() async {
           int.parse(birthdayArray[8]),
           int.parse(birthdayArray[9]),
         ],
+
+        // allow notifications
+        birthdayArray[10].toLowerCase() == 'true',
       );
+
       birthdayList.add(birthday);
     } else {
       // if birthday id has no data remove it
@@ -75,7 +80,7 @@ Future<void> loadBirthdays() async {
 
 void addBirthday(Birthday birthday) async {
   birthdayList.add(birthday);
-  createNotifications(birthday);
+  createAllNotifications(birthday);
 
   final prefs = await SharedPreferences.getInstance();
 
@@ -92,6 +97,7 @@ void addBirthday(Birthday birthday) async {
       birthday.notificationIds[0].toString(),
       birthday.notificationIds[1].toString(),
       birthday.notificationIds[2].toString(),
+      birthday.allowNotifications.toString(),
     ],
   );
 
