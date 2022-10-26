@@ -3,12 +3,48 @@ import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daty/screens/birthday_info_page.dart';
 import 'package:daty/utilities/Birthday.dart';
+import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/calculator.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:daty/main.dart';
 
 import '../utilities/constants.dart';
 
-bool hasAddedListener = false;
+bool addedNotificationListener = false;
+
+bool notiOneWeekBefore = false;
+bool notiOneMonthBefore = false;
+
+void setNotiOneWeekBefore(value) {
+  notiOneWeekBefore = value;
+
+  for (int i = 0; i < birthdayList.length; i++) {
+    if (notiOneWeekBefore) {
+      createNotificationOneWeekBefore(birthdayList[i]);
+    } else {
+      AwesomeNotifications().cancel(birthdayList[i].notificationIds[1]);
+    }
+  }
+}
+
+void setNotiOneMonthBefore(value) {
+  notiOneMonthBefore = value;
+
+  for (int i = 0; i < birthdayList.length; i++) {
+    if (notiOneMonthBefore) {
+      createNotificationOneMonthBefore(birthdayList[i]);
+    } else {
+      AwesomeNotifications().cancel(birthdayList[i].notificationIds[2]);
+    }
+  }
+}
+
+void cancelAllNotifications(Birthday birthday) {
+  AwesomeNotifications().cancel(birthday.notificationIds[0]);
+  AwesomeNotifications().cancel(birthday.notificationIds[1]);
+  AwesomeNotifications().cancel(birthday.notificationIds[2]);
+}
 
 void initializeNotificationSystem() async {
   await AwesomeNotifications().initialize(
@@ -26,11 +62,37 @@ void initializeNotificationSystem() async {
     ],
     channelGroups: [
       NotificationChannelGroup(
-        channelGroupkey: 'basic_channel_group',
         channelGroupName: 'Basic group',
+        channelGroupKey: 'basic_channel_group',
       )
     ],
   );
+
+  final prefs = await SharedPreferences.getInstance();
+
+  bool? settingOneWeek = await prefs.getBool('notificationOneWeekBefore');
+  if (settingOneWeek == null) {
+    await prefs.setBool('notificationOneWeekBefore', false);
+  } else {
+    notiOneWeekBefore = settingOneWeek;
+  }
+
+  bool? settingOneMonth = await prefs.getBool('getNotificationOneMonthBefore');
+  if (settingOneMonth == null) {
+    await prefs.setBool('getNotificationOneMonthBefore', false);
+  } else {
+    notiOneMonthBefore = settingOneMonth;
+  }
+}
+
+setNotificationOneWeekBefore(bool value) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('notificationOneWeekBefore', value);
+}
+
+setNotificationOneMonthBefore(bool value) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('getNotificationOneMonthBefore', value);
 }
 
 void requestNotificationAccess(BuildContext context) async {
@@ -39,7 +101,7 @@ void requestNotificationAccess(BuildContext context) async {
       if (Platform.isIOS) {
         AwesomeNotifications()
             .requestPermissionToSendNotifications()
-            .then((value) => value ? addNotificationListener(context) : null);
+            .then((value) => value ? addNotificationListener() : null);
       } else {
         showDialog(
           context: context,
@@ -67,7 +129,7 @@ void requestNotificationAccess(BuildContext context) async {
                       .requestPermissionToSendNotifications()
                       .then(
                     (value) {
-                      value ? addNotificationListener(context) : null;
+                      value ? addNotificationListener() : null;
                       Navigator.pop(context);
                     },
                   );
@@ -89,51 +151,91 @@ void requestNotificationAccess(BuildContext context) async {
   });
 }
 
-void disposeNotificationSystem() {
-  AwesomeNotifications().actionSink.close();
-  AwesomeNotifications().createdSink.close();
-}
-
-void addNotificationListener(BuildContext context) {
-  if (hasAddedListener) {
+void addNotificationListener() {
+  if (addedNotificationListener) {
     return;
   }
 
-  AwesomeNotifications().actionStream.listen((notification) {
-    if (Platform.isIOS) {
-      AwesomeNotifications().getGlobalBadgeCounter().then(
-          (value) => AwesomeNotifications().setGlobalBadgeCounter(value - 1));
-    }
+  AwesomeNotifications().setListeners(
+    onActionReceivedMethod: onNotificationClick,
+  );
 
-    if (notification.channelKey == 'scheduled_channel') {
-      int id = int.parse(notification.payload!.entries.first.value);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return BirthdayInfoPage(id);
-          },
-        ),
-      );
-    }
-  });
-
-  hasAddedListener = true;
+  addedNotificationListener = true;
 }
 
-Future<void> createNotification(Birthday birthday) async {
-  String name = birthday.name;
-  int age = Calculator.calculateAge(birthday.date);
+@pragma('vm:entry-point')
+Future<void> onNotificationClick(ReceivedAction notification) async {
+  if (Platform.isIOS) {
+    AwesomeNotifications().getGlobalBadgeCounter().then(
+        (value) => AwesomeNotifications().setGlobalBadgeCounter(value - 1));
+  }
 
+  if (notification.channelKey != 'scheduled_channel') {
+    return;
+  }
+  String? value = notification.payload?.entries
+      .where((element) => element.key == "bid")
+      .first
+      .value;
+
+  if (value == null) {
+    return;
+  }
+
+  navigatorKey.currentState?.push(MaterialPageRoute(
+    builder: (context) => BirthdayInfoPage(int.parse(value)),
+  ));
+}
+
+Future<void> createAllNotifications(Birthday birthday) async {
+  createNotification(birthday, birthday.date, birthday.notificationIds[0]);
+
+  if (notiOneWeekBefore) {
+    createNotificationOneWeekBefore(birthday);
+  }
+
+  if (notiOneMonthBefore) {
+    createNotificationOneMonthBefore(birthday);
+  }
+}
+
+void createNotificationOneWeekBefore(Birthday birthday) {
+  DateTime time = DateTime(
+    birthday.date.year,
+    birthday.date.month,
+    birthday.date.day - 7,
+    birthday.date.hour,
+    birthday.date.minute,
+  );
+
+  createNotification(birthday, time, birthday.notificationIds[1]);
+}
+
+void createNotificationOneMonthBefore(Birthday birthday) {
+  DateTime time = DateTime(
+    birthday.date.year,
+    birthday.date.month - 1,
+    birthday.date.day,
+    birthday.date.hour,
+    birthday.date.minute,
+  );
+
+  createNotification(birthday, time, birthday.notificationIds[2]);
+}
+
+Future<void> createNotification(
+    Birthday birthday, DateTime time, int notificationId) async {
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
-      id: birthday.notificationId,
+      id: notificationId,
       channelKey: 'scheduled_channel',
       title: "It's birthday time! ${Emojis.smile_partying_face}",
-      body: name + " just turned " + age.toString() + "!",
+      body: birthday.name +
+          " just turned " +
+          Calculator.calculateAge(birthday.date).toString() +
+          "!",
       notificationLayout: NotificationLayout.Default,
-      payload: {"id": birthday.birthdayId.toString()},
+      payload: {"bid": birthday.birthdayId.toString()},
     ),
     actionButtons: [
       NotificationActionButton(
@@ -142,10 +244,10 @@ Future<void> createNotification(Birthday birthday) async {
       ),
     ],
     schedule: NotificationCalendar(
-      month: birthday.date.month,
-      day: birthday.date.day,
-      hour: birthday.date.hour,
-      minute: birthday.date.minute,
+      month: time.month,
+      day: time.day,
+      hour: time.hour,
+      minute: time.minute,
       second: 0,
       millisecond: 0,
       repeats: true,
@@ -153,8 +255,4 @@ Future<void> createNotification(Birthday birthday) async {
       preciseAlarm: true,
     ),
   );
-}
-
-int getNewNotificationId() {
-  return DateTime.now().millisecondsSinceEpoch.remainder(100000);
 }

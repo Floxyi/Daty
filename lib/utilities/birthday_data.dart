@@ -1,46 +1,86 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daty/utilities/Birthday.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'notification_manager.dart';
 
+// list of all created birthdays
 List<Birthday> birthdayList = [];
+
+// list of all birthday ids to load the birthdays by their ids
+String takenIdsKey = "takenIds";
+
+// keep the last deleted birthday saved for restore option
 Birthday? lastDeleted;
 
-String idKey = "takenIds";
+/*
 
-Future<void> loadData() async {
+data representation of a saved Birthday object as an array:
+- 0: name
+- 1: year
+- 2: month
+- 3: day
+- 4: hour
+- 5: minute
+- 6: birthday id
+- 7: notification id day
+- 8: notification id week
+- 9: notification id month
+- 10: allow notifications
+
+*/
+
+Future<void> loadBirthdays() async {
   final prefs = await SharedPreferences.getInstance();
 
-  List<String>? takenIds = await prefs.getStringList(idKey);
+  List<String>? takenIds = await prefs.getStringList(takenIdsKey);
+
   if (takenIds == null) {
     return;
   }
 
   for (int i = 0; i < takenIds.length; i++) {
-    List<String>? birthdayData = await prefs.getStringList(takenIds[i]);
+    List<String>? birthdayArray = await prefs.getStringList(takenIds[i]);
 
-    Birthday? birthday = Birthday(
-      birthdayData![0],
-      DateTime(
-        int.parse(birthdayData[1]),
-        int.parse(birthdayData[2]),
-        int.parse(birthdayData[3]),
-        int.parse(birthdayData[4]),
-        int.parse(birthdayData[5]),
-      ),
-    );
+    if (birthdayArray != null) {
+      Birthday? birthday = Birthday(
+        // name of birthday
+        birthdayArray[0],
 
-    birthdayList.add(birthday);
+        // time of birthday
+        DateTime(
+          int.parse(birthdayArray[1]),
+          int.parse(birthdayArray[2]),
+          int.parse(birthdayArray[3]),
+          int.parse(birthdayArray[4]),
+          int.parse(birthdayArray[5]),
+        ),
+
+        // birthday id
+        int.parse(birthdayArray[6]),
+
+        // notification ids
+        [
+          int.parse(birthdayArray[7]),
+          int.parse(birthdayArray[8]),
+          int.parse(birthdayArray[9]),
+        ],
+
+        // allow notifications
+        birthdayArray[10].toLowerCase() == 'true',
+      );
+
+      birthdayList.add(birthday);
+    } else {
+      // if birthday id has no data remove it
+      takenIds.remove(takenIds[i]);
+      await prefs.setStringList(takenIdsKey, takenIds);
+    }
   }
 }
 
-Future<void> addBirthday(Birthday birthday) async {
-  birthday.setbirthdayId = getNewBirthdayId();
-  birthday.setnotificationId = getNewNotificationId();
-
+void addBirthday(Birthday birthday) async {
   birthdayList.add(birthday);
-  createNotification(birthday);
+  createAllNotifications(birthday);
 
   final prefs = await SharedPreferences.getInstance();
 
@@ -53,24 +93,32 @@ Future<void> addBirthday(Birthday birthday) async {
       birthday.date.day.toString(),
       birthday.date.hour.toString(),
       birthday.date.minute.toString(),
-      birthday.notificationId.toString(),
+      birthday.birthdayId.toString(),
+      birthday.notificationIds[0].toString(),
+      birthday.notificationIds[1].toString(),
+      birthday.notificationIds[2].toString(),
+      birthday.allowNotifications.toString(),
     ],
   );
 
-  List<String>? takenIds = prefs.getStringList(idKey);
+  // add its id to the list of ids for later access
+  List<String>? takenIds = prefs.getStringList(takenIdsKey);
   if (takenIds == null) {
-    await prefs.setStringList(idKey, [birthday.birthdayId.toString()]);
+    await prefs.setStringList(takenIdsKey, [birthday.birthdayId.toString()]);
   } else {
     takenIds.add(birthday.birthdayId.toString());
-    await prefs.setStringList(idKey, takenIds);
+    await prefs.setStringList(takenIdsKey, takenIds);
   }
 }
 
-Future<void> removeBirthday(birthdayId) async {
+void removeBirthday(birthdayId) async {
   Birthday? removedBirthday = getDataById(birthdayId);
+
   lastDeleted = removedBirthday;
 
-  AwesomeNotifications().cancel(removedBirthday.notificationId);
+  AwesomeNotifications().cancel(removedBirthday.notificationIds[0]);
+  AwesomeNotifications().cancel(removedBirthday.notificationIds[1]);
+  AwesomeNotifications().cancel(removedBirthday.notificationIds[2]);
 
   birthdayList.removeAt(
     birthdayList.indexWhere((birthday) => birthday.birthdayId == birthdayId),
@@ -78,21 +126,28 @@ Future<void> removeBirthday(birthdayId) async {
 
   final prefs = await SharedPreferences.getInstance();
 
+  // remove birthday data array
   await prefs.remove(birthdayId.toString());
 
-  List<String>? takenIds = prefs.getStringList(idKey);
+  // remove birthday id in id array
+  List<String>? takenIds = prefs.getStringList(takenIdsKey);
   takenIds?.remove(birthdayId.toString());
-  await prefs.setStringList(idKey, takenIds!);
+  await prefs.setStringList(takenIdsKey, takenIds!);
 }
 
-void updateBirthday(int oldBirthdayId, Birthday newBirthday) {
+void updateBirthday(int oldBirthdayId, Birthday updatedBirthday) {
   Birthday? oldBirthday = getDataById(oldBirthdayId);
-  newBirthday.setbirthdayId = oldBirthdayId;
+
+  // keep same ids
+  updatedBirthday.setbirthdayId = oldBirthdayId;
+  updatedBirthday.setnotificationIds = [
+    oldBirthday.notificationIds[0],
+    oldBirthday.notificationIds[1],
+    oldBirthday.notificationIds[2],
+  ];
 
   removeBirthday(oldBirthdayId);
-  AwesomeNotifications().cancel(oldBirthday.notificationId);
-
-  addBirthday(newBirthday);
+  addBirthday(updatedBirthday);
 }
 
 bool restoreBirthday() {
@@ -116,7 +171,7 @@ Birthday getDataById(int birthdayId) {
 
 int getNewBirthdayId() {
   if (birthdayList.length == 0) {
-    return 0;
+    return 1;
   }
 
   int highestId = birthdayList[0].birthdayId;

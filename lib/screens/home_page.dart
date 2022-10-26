@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     AwesomeNotifications().isNotificationAllowed().then((value) async {
       if (value) {
-        addNotificationListener(context);
+        addNotificationListener();
       } else if (await isFirstStartup()) {
         requestNotificationAccess(context);
       }
@@ -36,11 +36,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: [
-          birthdayList.isNotEmpty ? birthdayListView() : infoText(),
-          addButton(context),
-        ],
+      child: Container(
+        margin: const EdgeInsets.only(top: 10),
+        child: Column(
+          children: [
+            birthdayList.isNotEmpty ? birthdayListView() : infoText(),
+            addButton(context),
+          ],
+        ),
       ),
     );
   }
@@ -78,7 +81,7 @@ class _HomePageState extends State<HomePage> {
 
   Slidable slidableCard(int index, Birthday item) {
     return Slidable(
-      key: const ValueKey(0),
+      key: UniqueKey(),
       endActionPane: ActionPane(
         motion: const DrawerMotion(),
         dismissible: DismissiblePane(
@@ -103,7 +106,7 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         margin: const EdgeInsets.only(left: 8.0, right: 8.0),
         child: BirthdayCard(
-          getDataById(index),
+          birthdayList[index],
           true,
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daty/screens/home_page.dart';
 import 'package:daty/screens/settings_page.dart';
 import 'package:daty/utilities/birthday_data.dart';
@@ -7,18 +8,21 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'utilities/constants.dart';
 import 'utilities/notification_manager.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   initializeNotificationSystem();
-  await loadData().then((value) => FlutterNativeSplash.remove());
+  await loadBirthdays().then((value) => FlutterNativeSplash.remove());
 
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     home: DatyApp(),
     title: "Daty",
     debugShowCheckedModeBanner: false,
     initialRoute: '/',
+    navigatorKey: navigatorKey,
   ));
 }
 
@@ -34,7 +38,7 @@ class DatyApp extends StatefulWidget {
 class _DatyAppState extends State<DatyApp> {
   @override
   void dispose() {
-    disposeNotificationSystem();
+    AwesomeNotifications().dispose();
     super.dispose();
   }
 
