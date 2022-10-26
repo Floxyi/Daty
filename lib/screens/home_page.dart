@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
 
   Slidable slidableCard(int index, Birthday item) {
     return Slidable(
-      key: const ValueKey(0),
+      key: UniqueKey(),
       endActionPane: ActionPane(
         motion: const DrawerMotion(),
         dismissible: DismissiblePane(
