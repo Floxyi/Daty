@@ -16,36 +16,6 @@ bool addedNotificationListener = false;
 bool notiOneWeekBefore = false;
 bool notiOneMonthBefore = false;
 
-void setNotiOneWeekBefore(value) {
-  notiOneWeekBefore = value;
-
-  for (int i = 0; i < birthdayList.length; i++) {
-    if (notiOneWeekBefore) {
-      createNotificationOneWeekBefore(birthdayList[i]);
-    } else {
-      AwesomeNotifications().cancel(birthdayList[i].notificationIds[1]);
-    }
-  }
-}
-
-void setNotiOneMonthBefore(value) {
-  notiOneMonthBefore = value;
-
-  for (int i = 0; i < birthdayList.length; i++) {
-    if (notiOneMonthBefore) {
-      createNotificationOneMonthBefore(birthdayList[i]);
-    } else {
-      AwesomeNotifications().cancel(birthdayList[i].notificationIds[2]);
-    }
-  }
-}
-
-void cancelAllNotifications(Birthday birthday) {
-  AwesomeNotifications().cancel(birthday.notificationIds[0]);
-  AwesomeNotifications().cancel(birthday.notificationIds[1]);
-  AwesomeNotifications().cancel(birthday.notificationIds[2]);
-}
-
 void initializeNotificationSystem() async {
   await AwesomeNotifications().initialize(
     null,
@@ -83,16 +53,6 @@ void initializeNotificationSystem() async {
   } else {
     notiOneMonthBefore = settingOneMonth;
   }
-}
-
-setNotificationOneWeekBefore(bool value) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setBool('notificationOneWeekBefore', value);
-}
-
-setNotificationOneMonthBefore(bool value) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setBool('getNotificationOneMonthBefore', value);
 }
 
 void requestNotificationAccess(BuildContext context) async {
@@ -166,8 +126,9 @@ void addNotificationListener() {
 @pragma('vm:entry-point')
 Future<void> onNotificationClick(ReceivedAction notification) async {
   if (Platform.isIOS) {
-    AwesomeNotifications().getGlobalBadgeCounter().then(
-        (value) => AwesomeNotifications().setGlobalBadgeCounter(value - 1));
+    AwesomeNotifications().getGlobalBadgeCounter().then((value) {
+      return AwesomeNotifications().setGlobalBadgeCounter(value - 1);
+    });
   }
 
   if (notification.channelKey != 'scheduled_channel') {
@@ -185,6 +146,36 @@ Future<void> onNotificationClick(ReceivedAction notification) async {
   navigatorKey.currentState?.push(MaterialPageRoute(
     builder: (context) => BirthdayInfoPage(int.parse(value)),
   ));
+}
+
+Future<void> setNotificationOneWeekBefore(value) async {
+  notiOneWeekBefore = value;
+
+  for (int i = 0; i < birthdayList.length; i++) {
+    if (notiOneWeekBefore) {
+      createNotificationOneWeekBefore(birthdayList[i]);
+    } else {
+      AwesomeNotifications().cancel(birthdayList[i].notificationIds[1]);
+    }
+  }
+
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('notificationOneWeekBefore', value);
+}
+
+Future<void> setNotificationOneMonthBefore(value) async {
+  notiOneMonthBefore = value;
+
+  for (int i = 0; i < birthdayList.length; i++) {
+    if (notiOneMonthBefore) {
+      createNotificationOneMonthBefore(birthdayList[i]);
+    } else {
+      AwesomeNotifications().cancel(birthdayList[i].notificationIds[2]);
+    }
+  }
+
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('getNotificationOneMonthBefore', value);
 }
 
 Future<void> createAllNotifications(Birthday birthday) async {
@@ -221,6 +212,12 @@ void createNotificationOneMonthBefore(Birthday birthday) {
   );
 
   createNotification(birthday, time, birthday.notificationIds[2]);
+}
+
+void cancelAllNotifications(Birthday birthday) {
+  AwesomeNotifications().cancel(birthday.notificationIds[0]);
+  AwesomeNotifications().cancel(birthday.notificationIds[1]);
+  AwesomeNotifications().cancel(birthday.notificationIds[2]);
 }
 
 Future<void> createNotification(
