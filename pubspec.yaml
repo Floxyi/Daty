@@ -11,11 +11,12 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   flutter_native_splash: ^2.2.7
-  awesome_notifications: any
-  flutter_launcher_icons: any
-  shared_preferences: any
-  flutter_slidable: any
-  confetti: any
+  awesome_notifications: ^0.7.4+1
+  flutter_launcher_icons: ^0.10.0
+  shared_preferences: ^2.0.15
+  flutter_slidable: ^2.0.0
+  confetti: ^0.7.0
+  curved_navigation_bar: ^1.0.3
 
 dev_dependencies:
   flutter_test:

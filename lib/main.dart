@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:daty/screens/home_page.dart';
 import 'package:daty/screens/settings_page.dart';
 import 'package:daty/utilities/birthday_data.dart';
@@ -47,8 +48,12 @@ class _DatyAppState extends State<DatyApp> {
     return Scaffold(
       backgroundColor: Constants.blackPrimary,
       appBar: appBar(),
-      body: DatyApp.pageIndex == 0 ? const HomePage() : const SettingsPage(),
-      bottomNavigationBar: bottomNavigationBar(),
+      body: DatyApp.pageIndex == 0
+          ? const HomePage()
+          : DatyApp.pageIndex == 1
+              ? const SettingsPage()
+              : const HomePage(),
+      bottomNavigationBar: curvedNavigationBar(),
     );
   }
 
@@ -57,7 +62,11 @@ class _DatyAppState extends State<DatyApp> {
       automaticallyImplyLeading: false,
       backgroundColor: Constants.blackPrimary,
       title: Text(
-        DatyApp.pageIndex == 0 ? 'Birthdays' : 'Settings',
+        DatyApp.pageIndex == 0
+            ? 'Birthdays'
+            : DatyApp.pageIndex == 1
+                ? 'Settings'
+                : 'About',
         style: const TextStyle(
           color: Constants.bluePrimary,
           fontSize: Constants.titleFontSizeSize,
@@ -67,26 +76,14 @@ class _DatyAppState extends State<DatyApp> {
     );
   }
 
-  BottomNavigationBar bottomNavigationBar() {
-    return BottomNavigationBar(
-      currentIndex: DatyApp.pageIndex,
-      type: BottomNavigationBarType.fixed,
+  CurvedNavigationBar curvedNavigationBar() {
+    return CurvedNavigationBar(
+      color: Constants.bluePrimary,
       backgroundColor: Constants.blackPrimary,
-      selectedItemColor: Constants.bluePrimary,
-      unselectedItemColor: Constants.whiteSecondary,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home,
-          ),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.settings,
-          ),
-          label: 'Settings',
-        ),
+      items: <Widget>[
+        Icon(Icons.home, size: 30),
+        Icon(Icons.settings, size: 30),
+        Icon(Icons.info, size: 30),
       ],
       onTap: (int index) {
         setState(() {
