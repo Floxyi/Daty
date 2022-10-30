@@ -183,6 +183,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
 
   GestureDetector editButton(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       child: Center(
         child: Container(
           margin: EdgeInsets.all(15),
