@@ -183,20 +183,23 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
 
   GestureDetector editButton(BuildContext context) {
     return GestureDetector(
-      child: Container(
-        margin: const EdgeInsets.only(right: 20),
-        child: Row(
-          children: const [
-            Text(
-              'Edit',
-              style: TextStyle(fontSize: Constants.normalFontSize),
-            ),
-            SizedBox(width: 5),
-            Icon(
-              Icons.edit,
-              size: 15,
-            ),
-          ],
+      child: Center(
+        child: Container(
+          margin: EdgeInsets.all(15),
+          child: Row(
+            children: const [
+              Text(
+                'Edit',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: Constants.normalFontSize),
+              ),
+              SizedBox(width: 5),
+              Icon(
+                Icons.edit,
+                size: 15,
+              ),
+            ],
+          ),
         ),
       ),
       onTap: () {
