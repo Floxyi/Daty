@@ -276,6 +276,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
     return Container(
       margin: const EdgeInsets.all(10),
       width: double.infinity,
+      height: 50,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: isInputCorrect ? Constants.bluePrimary : Colors.red,
