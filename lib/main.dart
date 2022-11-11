@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:daty/screens/home_page.dart';
@@ -45,6 +47,12 @@ class _DatyAppState extends State<DatyApp> {
 
   @override
   Widget build(BuildContext context) {
+    if (Platform.isIOS) {
+      AwesomeNotifications().getGlobalBadgeCounter().then((value) {
+        return AwesomeNotifications().setGlobalBadgeCounter(value - 1);
+      });
+    }
+
     return Scaffold(
       backgroundColor: Constants.blackPrimary,
       appBar: appBar(),
@@ -80,7 +88,7 @@ class _DatyAppState extends State<DatyApp> {
     return CurvedNavigationBar(
       color: Constants.bluePrimary,
       backgroundColor: Constants.blackPrimary,
-      items: <Widget>[
+      items: [
         Icon(Icons.home, size: 30),
         Icon(Icons.settings, size: 30),
         Icon(Icons.info, size: 30),

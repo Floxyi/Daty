@@ -222,6 +222,7 @@ void cancelAllNotifications(Birthday birthday) {
 
 Future<void> createNotification(
     Birthday birthday, DateTime time, int notificationId) async {
+  print('created totification ' + time.toString());
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
       id: notificationId,

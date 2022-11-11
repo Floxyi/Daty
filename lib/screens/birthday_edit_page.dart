@@ -245,7 +245,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
     final TimeOfDay? timeOfDay = await showTimePicker(
       context: context,
       initialTime: newTime,
-      initialEntryMode: TimePickerEntryMode.dial,
+      initialEntryMode: TimePickerEntryMode.input,
       builder: (context, child) {
         return Theme(
           data: ThemeData(
