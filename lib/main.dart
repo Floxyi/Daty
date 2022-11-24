@@ -32,8 +32,6 @@ void main() async {
 class DatyApp extends StatefulWidget {
   const DatyApp({Key? key}) : super(key: key);
 
-  static int pageIndex = 0;
-
   @override
   State<DatyApp> createState() => _DatyAppState();
 }
@@ -53,51 +51,6 @@ class _DatyAppState extends State<DatyApp> {
       });
     }
 
-    return Scaffold(
-      backgroundColor: Constants.blackPrimary,
-      appBar: appBar(),
-      body: DatyApp.pageIndex == 0
-          ? const HomePage()
-          : DatyApp.pageIndex == 1
-              ? const SettingsPage()
-              : const HomePage(),
-      bottomNavigationBar: curvedNavigationBar(),
-    );
-  }
-
-  AppBar appBar() {
-    return AppBar(
-      automaticallyImplyLeading: false,
-      backgroundColor: Constants.blackPrimary,
-      title: Text(
-        DatyApp.pageIndex == 0
-            ? 'Birthdays'
-            : DatyApp.pageIndex == 1
-                ? 'Settings'
-                : 'About',
-        style: const TextStyle(
-          color: Constants.bluePrimary,
-          fontSize: Constants.titleFontSizeSize,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-
-  CurvedNavigationBar curvedNavigationBar() {
-    return CurvedNavigationBar(
-      color: Constants.bluePrimary,
-      backgroundColor: Constants.blackPrimary,
-      items: [
-        Icon(Icons.home, size: 30),
-        Icon(Icons.settings, size: 30),
-        Icon(Icons.info, size: 30),
-      ],
-      onTap: (int index) {
-        setState(() {
-          DatyApp.pageIndex = index;
-        });
-      },
-    );
+    return const HomePage();
   }
 }

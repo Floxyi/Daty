@@ -1,4 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:daty/screens/about_page.dart';
+import 'package:daty/screens/settings_page.dart';
 import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/app_data.dart';
 import 'package:daty/utilities/notification_manager.dart';
@@ -35,9 +37,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Constants.blackPrimary,
+      appBar: appBar(),
+      body: body(),
+    );
+  }
+
+  Widget body() {
     return Center(
       child: Container(
-        margin: const EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(top: 10, bottom: 30),
         child: Column(
           children: [
             birthdayList.isNotEmpty ? birthdayListView() : infoText(),
@@ -45,6 +55,65 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+    );
+  }
+
+  AppBar appBar() {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: Constants.blackPrimary,
+      title: Text(
+        'Birthdays',
+        style: const TextStyle(
+          color: Constants.bluePrimary,
+          fontSize: Constants.titleFontSizeSize,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      actions: [
+        settingsButton(context),
+      ],
+      leading: infoButton(context),
+    );
+  }
+
+  GestureDetector settingsButton(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      child: Container(
+        margin: EdgeInsets.only(right: 15),
+        child: Icon(
+          Icons.settings_outlined,
+          size: 30,
+        ),
+      ),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (BuildContext context) {
+            return SettingsPage();
+          },
+        ));
+      },
+    );
+  }
+
+  GestureDetector infoButton(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      child: Container(
+        margin: EdgeInsets.only(left: 15),
+        child: Icon(
+          Icons.info_outline,
+          size: 30,
+        ),
+      ),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (BuildContext context) {
+            return AboutPage();
+          },
+        ));
+      },
     );
   }
 
@@ -215,12 +284,12 @@ class _HomePageState extends State<HomePage> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Constants.darkGreySecondary,
-          fixedSize: const Size(60, 60),
+          fixedSize: const Size(70, 70),
           shape: const CircleBorder(),
         ),
         child: const Icon(
           Icons.add_rounded,
-          size: Constants.titleFontSizeSize,
+          size: 35,
         ),
         onPressed: () {
           Navigator.of(context)

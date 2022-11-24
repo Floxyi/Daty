@@ -34,6 +34,46 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Constants.blackPrimary,
+      appBar: appBar(),
+      body: body(),
+    );
+  }
+
+  AppBar appBar() {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: Constants.blackPrimary,
+      title: Text(
+        'Settings',
+        style: const TextStyle(
+          color: Constants.bluePrimary,
+          fontSize: Constants.titleFontSizeSize,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      leading: backButton(context),
+    );
+  }
+
+  GestureDetector backButton(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      child: Container(
+        margin: EdgeInsets.only(left: 15),
+        child: Icon(
+          Icons.arrow_back,
+          size: 30,
+        ),
+      ),
+      onTap: () {
+        Navigator.pop(context);
+      },
+    );
+  }
+
+  Widget body() {
     return Container(
       margin: const EdgeInsets.only(top: 20),
       child: Column(
