@@ -1,5 +1,6 @@
 import 'package:daty/components/birthday_card.dart';
 import 'package:daty/components/view_title.dart';
+import 'package:daty/screens/about_page.dart';
 import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/constants.dart';
@@ -88,6 +89,23 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
           fontWeight: FontWeight.bold,
         ),
       ),
+      leading: cancelButton(context),
+    );
+  }
+
+  GestureDetector cancelButton(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      child: Container(
+        margin: EdgeInsets.only(left: 15),
+        child: Icon(
+          Icons.cancel_outlined,
+          size: 25,
+        ),
+      ),
+      onTap: () {
+        Navigator.of(context).pop();
+      },
     );
   }
 

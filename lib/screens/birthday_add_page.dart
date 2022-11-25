@@ -82,6 +82,23 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
           fontWeight: FontWeight.bold,
         ),
       ),
+      leading: cancelButton(context),
+    );
+  }
+
+  GestureDetector cancelButton(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      child: Container(
+        margin: EdgeInsets.only(left: 15),
+        child: Icon(
+          Icons.cancel_outlined,
+          size: 25,
+        ),
+      ),
+      onTap: () {
+        Navigator.of(context).pop();
+      },
     );
   }
 
