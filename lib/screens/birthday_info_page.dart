@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:confetti/confetti.dart';
+import 'package:daty/screens/birthday_edit_page.dart';
 import 'package:daty/utilities/Birthday.dart';
+import 'package:daty/utilities/birthday_data.dart';
+import 'package:daty/utilities/calculator.dart';
+import 'package:daty/utilities/constants.dart';
+import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
-
-import '../screens/birthday_edit_page.dart';
-import '../utilities/birthday_data.dart';
-import '../utilities/calculator.dart';
-import '../utilities/constants.dart';
-import '../utilities/notification_manager.dart';
 
 class BirthdayInfoPage extends StatefulWidget {
   final int birthdayId;
@@ -102,7 +101,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
               const SizedBox(height: 20),
               allowNotificationSwitch(),
               const SizedBox(height: 20),
-              debugInfo()
+              //debugInfo()
             ],
           ),
         ),

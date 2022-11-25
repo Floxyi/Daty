@@ -1,16 +1,16 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:daty/components/birthday_card.dart';
 import 'package:daty/screens/about_page.dart';
 import 'package:daty/screens/settings_page.dart';
 import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/app_data.dart';
+import 'package:daty/utilities/birthday_data.dart';
+import 'package:daty/utilities/calculator.dart';
+import 'package:daty/utilities/constants.dart';
 import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import '../components/birthday_card.dart';
-import '../utilities/birthday_data.dart';
-import '../utilities/calculator.dart';
-import '../utilities/constants.dart';
 import 'birthday_add_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -281,14 +281,17 @@ class _HomePageState extends State<HomePage> {
   Container addButton(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 8.0, bottom: 23.0),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: Constants.whiteSecondary,
           backgroundColor: Constants.darkGreySecondary,
           fixedSize: const Size(70, 70),
-          shape: const CircleBorder(),
+          side: BorderSide(color: Constants.greySecondary, width: 3),
+          shape: const StadiumBorder(),
         ),
         child: const Icon(
           Icons.add_rounded,
+          color: Constants.whiteSecondary,
           size: 35,
         ),
         onPressed: () {

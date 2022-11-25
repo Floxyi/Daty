@@ -1,11 +1,10 @@
+import 'package:daty/components/birthday_card.dart';
+import 'package:daty/components/view_title.dart';
 import 'package:daty/utilities/Birthday.dart';
+import 'package:daty/utilities/birthday_data.dart';
+import 'package:daty/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../components/birthday_card.dart';
-import '../components/view_title.dart';
-import '../utilities/birthday_data.dart';
-import '../utilities/constants.dart';
 
 class AddBirthdayPage extends StatefulWidget {
   const AddBirthdayPage({Key? key}) : super(key: key);

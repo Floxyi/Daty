@@ -5,11 +5,10 @@ import 'package:daty/screens/birthday_info_page.dart';
 import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/calculator.dart';
+import 'package:daty/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:daty/main.dart';
-
-import '../utilities/constants.dart';
 
 bool addedNotificationListener = false;
 
