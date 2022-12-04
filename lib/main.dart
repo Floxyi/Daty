@@ -17,7 +17,7 @@ void main() async {
   await loadBirthdays().then((value) => FlutterNativeSplash.remove());
 
   runApp(MaterialApp(
-    home: DatyApp(),
+    home: const DatyApp(),
     title: "Daty",
     debugShowCheckedModeBanner: false,
     initialRoute: '/',

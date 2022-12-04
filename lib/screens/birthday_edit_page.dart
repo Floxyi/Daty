@@ -40,7 +40,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
       appBar: appBar(),
       body: RawScrollbar(
         thumbColor: Constants.lighterGrey,
-        radius: Radius.circular(20),
+        radius: const Radius.circular(20),
         thickness: 5,
         thumbVisibility: true,
         controller: _scrollController,
@@ -68,7 +68,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
                 cardPreview(),
                 const SizedBox(height: 40),
                 saveButton(context),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
               ],
             ),
           ),
@@ -96,8 +96,8 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       child: Container(
-        margin: EdgeInsets.only(left: 15),
-        child: Icon(
+        margin: const EdgeInsets.only(left: 15),
+        child: const Icon(
           Icons.cancel_outlined,
           size: 25,
         ),
@@ -115,7 +115,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
       margin: const EdgeInsets.all(20),
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: Form(
         key: _formKey,
         child: TextFormField(
@@ -211,7 +211,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: Constants.bluePrimary,
               onPrimary: Constants.blackPrimary,
               onSurface: Constants.whiteSecondary,
@@ -265,7 +265,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
       builder: (context, child) {
         return Theme(
           data: ThemeData(
-            timePickerTheme: TimePickerThemeData(
+            timePickerTheme: const TimePickerThemeData(
               dayPeriodTextColor: Constants.whiteSecondary,
               dayPeriodBorderSide: BorderSide(color: Constants.bluePrimary),
               dialHandColor: Constants.bluePrimary,

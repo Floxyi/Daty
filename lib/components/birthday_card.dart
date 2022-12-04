@@ -46,7 +46,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
             Container(
               padding: const EdgeInsets.only(left: 10.0),
               child: widget.canTap
-                  ? Icon(
+                  ? const Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: Constants.whiteSecondary,
                       size: 20,

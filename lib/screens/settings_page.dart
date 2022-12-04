@@ -45,9 +45,9 @@ class _SettingsPageState extends State<SettingsPage>
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Constants.blackPrimary,
-      title: Text(
+      title: const Text(
         'Settings',
-        style: const TextStyle(
+        style: TextStyle(
           color: Constants.bluePrimary,
           fontSize: Constants.titleFontSizeSize,
           fontWeight: FontWeight.bold,
@@ -61,8 +61,8 @@ class _SettingsPageState extends State<SettingsPage>
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       child: Container(
-        margin: EdgeInsets.only(left: 15),
-        child: Icon(
+        margin: const EdgeInsets.only(left: 15),
+        child: const Icon(
           Icons.arrow_back,
           size: 30,
         ),
@@ -78,7 +78,7 @@ class _SettingsPageState extends State<SettingsPage>
       margin: const EdgeInsets.only(top: 20),
       child: Column(
         children: [
-          ViewTitle('Notifications'),
+          const ViewTitle('Notifications'),
           FutureBuilder(
             future: AwesomeNotifications().isNotificationAllowed(),
             builder: (context, snapshot) {
@@ -99,7 +99,7 @@ class _SettingsPageState extends State<SettingsPage>
               ],
             ),
           ),
-          ViewTitle('Theme'),
+          const ViewTitle('Theme'),
           Container(
             margin: const EdgeInsets.only(right: 50, left: 50, bottom: 30),
             child: Column(
@@ -117,21 +117,21 @@ class _SettingsPageState extends State<SettingsPage>
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Constants.darkGreySecondary,
           borderRadius: BorderRadius.all(Radius.circular(5)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
+            const Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: Text(
                   'Please allow us to send you birthday notifications.',
                   //'test',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Constants.lighterGrey,
                     fontSize: Constants.smallerFontSize + 2,
                   ),
@@ -147,7 +147,7 @@ class _SettingsPageState extends State<SettingsPage>
                   }),
                   child: const Text(
                     'Activate',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: Constants.smallerFontSize + 2,
                     ),
                   ),
@@ -164,7 +164,7 @@ class _SettingsPageState extends State<SettingsPage>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           'Dark Mode',
           style: TextStyle(
             color: Constants.whiteSecondary,
@@ -195,7 +195,7 @@ class _SettingsPageState extends State<SettingsPage>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           'One week before',
           style: TextStyle(
             color: Constants.whiteSecondary,
@@ -228,7 +228,7 @@ class _SettingsPageState extends State<SettingsPage>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           'One month before',
           style: TextStyle(
             color: Constants.whiteSecondary,

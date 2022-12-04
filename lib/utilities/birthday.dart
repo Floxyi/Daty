@@ -56,16 +56,16 @@ class Birthday {
 
   Birthday(this._name, this._date,
       [int? bdId, List<int>? notiIds, bool? allowNoti]) {
-    _birthdayId = bdId == null ? getNewBirthdayId() : bdId;
+    _birthdayId = bdId ?? getNewBirthdayId();
 
     List<int>? newNotiIds = [
-      int.parse(birthdayId.toString() + "1"),
-      int.parse(birthdayId.toString() + "2"),
-      int.parse(birthdayId.toString() + "3")
+      int.parse("${birthdayId}1"),
+      int.parse("${birthdayId}2"),
+      int.parse("${birthdayId}3")
     ];
 
-    _notificationIds = notiIds == null ? newNotiIds : notiIds;
+    _notificationIds = notiIds ?? newNotiIds;
 
-    _allowNotifications = allowNoti == null ? true : allowNoti;
+    _allowNotifications = allowNoti ?? true;
   }
 }

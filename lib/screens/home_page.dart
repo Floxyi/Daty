@@ -61,9 +61,9 @@ class _HomePageState extends State<HomePage> {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Constants.blackPrimary,
-      title: Text(
+      title: const Text(
         'Birthdays',
-        style: const TextStyle(
+        style: TextStyle(
           color: Constants.bluePrimary,
           fontSize: Constants.titleFontSizeSize,
           fontWeight: FontWeight.bold,
@@ -80,8 +80,8 @@ class _HomePageState extends State<HomePage> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       child: Container(
-        margin: EdgeInsets.only(right: 15),
-        child: Icon(
+        margin: const EdgeInsets.only(right: 15),
+        child: const Icon(
           Icons.settings_outlined,
           size: 30,
         ),
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) {
-            return SettingsPage();
+            return const SettingsPage();
           },
         ));
       },
@@ -100,8 +100,8 @@ class _HomePageState extends State<HomePage> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       child: Container(
-        margin: EdgeInsets.only(left: 15),
-        child: Icon(
+        margin: const EdgeInsets.only(left: 15),
+        child: const Icon(
           Icons.info_outline,
           size: 30,
         ),
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) {
-            return AboutPage();
+            return const AboutPage();
           },
         ));
       },
@@ -120,7 +120,7 @@ class _HomePageState extends State<HomePage> {
     return Expanded(
       child: RawScrollbar(
         thumbColor: Constants.lighterGrey,
-        radius: Radius.circular(20),
+        radius: const Radius.circular(20),
         thickness: 5,
         thumbVisibility: true,
         controller: _scrollController,
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
             return Column(
               children: [
                 Container(
-                  padding: EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: slidableCard(index, birthdayList[index]),
                 ),
               ],
@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> {
             foregroundColor: Colors.white,
             icon: Icons.delete_sweep_outlined,
             label: 'Delete',
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
           ),
         ],
       ),
@@ -224,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                             'Restored birthday of ${lastDeleted!.name}!',
                           ),
                           behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
+                          shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(10.0),
                             ),
@@ -257,7 +257,7 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             'To add a new birthday entry, \npress the "+" button at the bottom.',
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -267,7 +267,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Container(
             margin: const EdgeInsets.only(top: 10.0),
-            child: Icon(
+            child: const Icon(
               Icons.keyboard_double_arrow_down_rounded,
               color: Constants.lighterGrey,
             ),
@@ -285,7 +285,7 @@ class _HomePageState extends State<HomePage> {
           foregroundColor: Constants.whiteSecondary,
           backgroundColor: Constants.darkGreySecondary,
           fixedSize: const Size(70, 70),
-          side: BorderSide(color: Constants.greySecondary, width: 3),
+          side: const BorderSide(color: Constants.greySecondary, width: 3),
           shape: const StadiumBorder(),
         ),
         child: const Icon(

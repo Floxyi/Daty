@@ -39,14 +39,14 @@ void initializeNotificationSystem() async {
 
   final prefs = await SharedPreferences.getInstance();
 
-  bool? settingOneWeek = await prefs.getBool('notificationOneWeekBefore');
+  bool? settingOneWeek = prefs.getBool('notificationOneWeekBefore');
   if (settingOneWeek == null) {
     await prefs.setBool('notificationOneWeekBefore', false);
   } else {
     notiOneWeekBefore = settingOneWeek;
   }
 
-  bool? settingOneMonth = await prefs.getBool('getNotificationOneMonthBefore');
+  bool? settingOneMonth = prefs.getBool('getNotificationOneMonthBefore');
   if (settingOneMonth == null) {
     await prefs.setBool('getNotificationOneMonthBefore', false);
   } else {
@@ -65,8 +65,8 @@ void requestNotificationAccess(BuildContext context) async {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Allow Notifications'),
-            content: Text(
+            title: const Text('Allow Notifications'),
+            content: const Text(
               'Our app would like to send you notifications to let you know whenever someone has birthday.',
             ),
             actions: [
@@ -74,7 +74,7 @@ void requestNotificationAccess(BuildContext context) async {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text(
+                child: const Text(
                   'Don\'t Allow',
                   style: TextStyle(
                     color: Colors.grey,
@@ -93,7 +93,7 @@ void requestNotificationAccess(BuildContext context) async {
                     },
                   );
                 },
-                child: Text(
+                child: const Text(
                   'Allow',
                   style: TextStyle(
                     color: Colors.teal,
@@ -221,16 +221,12 @@ void cancelAllNotifications(Birthday birthday) {
 
 Future<void> createNotification(
     Birthday birthday, DateTime time, int notificationId) async {
-  print('created totification ' + time.toString());
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
       id: notificationId,
       channelKey: 'scheduled_channel',
       title: "It's birthday time! ${Emojis.smile_partying_face}",
-      body: birthday.name +
-          " just turned " +
-          Calculator.calculateAge(birthday.date).toString() +
-          "!",
+      body: "${birthday.name} turned ${Calculator.calculateAge(birthday.date)}",
       notificationLayout: NotificationLayout.Default,
       payload: {"bid": birthday.birthdayId.toString()},
     ),

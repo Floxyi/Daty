@@ -32,14 +32,14 @@ data representation of a saved Birthday object as an array:
 Future<void> loadBirthdays() async {
   final prefs = await SharedPreferences.getInstance();
 
-  List<String>? takenIds = await prefs.getStringList(takenIdsKey);
+  List<String>? takenIds = prefs.getStringList(takenIdsKey);
 
   if (takenIds == null) {
     return;
   }
 
   for (int i = 0; i < takenIds.length; i++) {
-    List<String>? birthdayArray = await prefs.getStringList(takenIds[i]);
+    List<String>? birthdayArray = prefs.getStringList(takenIds[i]);
 
     if (birthdayArray != null) {
       Birthday? birthday = Birthday(
@@ -170,7 +170,7 @@ Birthday getDataById(int birthdayId) {
 }
 
 int getNewBirthdayId() {
-  if (birthdayList.length == 0) {
+  if (birthdayList.isEmpty) {
     return 1;
   }
 

@@ -115,7 +115,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             'Allow Notifications',
             style: TextStyle(
               color: Constants.whiteSecondary,
@@ -150,9 +150,9 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Text(
-        'AN: ${getDataById(widget.birthdayId).allowNotifications} BID: ${getDataById(widget.birthdayId).birthdayId} / NID: ${getDataById(widget.birthdayId).notificationIds} / week: ${notiOneWeekBefore} month: ${notiOneMonthBefore}',
+        'AN: ${getDataById(widget.birthdayId).allowNotifications} BID: ${getDataById(widget.birthdayId).birthdayId} / NID: ${getDataById(widget.birthdayId).notificationIds} / week: $notiOneWeekBefore month: $notiOneMonthBefore',
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: const TextStyle(
           color: Constants.greySecondary,
           fontSize: Constants.normalFontSize,
           fontStyle: FontStyle.italic,
@@ -184,8 +184,8 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       child: Container(
-        margin: EdgeInsets.only(right: 15),
-        child: Icon(
+        margin: const EdgeInsets.only(right: 15),
+        child: const Icon(
           Icons.edit,
           size: 25,
         ),
