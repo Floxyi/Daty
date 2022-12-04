@@ -1,6 +1,5 @@
 import 'package:daty/components/birthday_card.dart';
 import 'package:daty/components/view_title.dart';
-import 'package:daty/screens/about_page.dart';
 import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/constants.dart';

@@ -1,6 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daty/components/birthday_card.dart';
 import 'package:daty/screens/about_page.dart';
+import 'package:daty/screens/birthday_add_page.dart';
 import 'package:daty/screens/settings_page.dart';
 import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/app_data.dart';
@@ -10,8 +11,6 @@ import 'package:daty/utilities/constants.dart';
 import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
-import 'birthday_add_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

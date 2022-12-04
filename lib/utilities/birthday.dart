@@ -1,6 +1,5 @@
 import 'package:daty/utilities/birthday_data.dart';
-
-import 'notification_manager.dart';
+import 'package:daty/utilities/notification_manager.dart';
 
 class Birthday {
   late int _birthdayId;
