@@ -2,7 +2,7 @@ import 'package:daty/utilities/constants.dart';
 import 'package:flutter/material.dart';
 
 class AboutPage extends StatefulWidget {
-  AboutPage({Key? key}) : super(key: key);
+  const AboutPage({Key? key}) : super(key: key);
 
   @override
   State<AboutPage> createState() => _AboutPageState();
@@ -22,9 +22,9 @@ class _AboutPageState extends State<AboutPage> {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Constants.blackPrimary,
-      title: Text(
+      title: const Text(
         'About',
-        style: const TextStyle(
+        style: TextStyle(
           color: Constants.bluePrimary,
           fontSize: Constants.titleFontSizeSize,
           fontWeight: FontWeight.bold,
@@ -38,8 +38,8 @@ class _AboutPageState extends State<AboutPage> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       child: Container(
-        margin: EdgeInsets.only(left: 15),
-        child: Icon(
+        margin: const EdgeInsets.only(left: 15),
+        child: const Icon(
           Icons.arrow_back,
           size: 30,
         ),
@@ -64,7 +64,7 @@ class _AboutPageState extends State<AboutPage> {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: const [
           Text(
             'This App was made with love ❤️',
             textAlign: TextAlign.center,
