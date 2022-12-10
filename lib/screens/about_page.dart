@@ -1,5 +1,7 @@
 import 'package:daty/utilities/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:yaml/yaml.dart';
+import 'package:flutter/services.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({Key? key}) : super(key: key);
@@ -54,18 +56,29 @@ class _AboutPageState extends State<AboutPage> {
     return Center(
       child: Column(
         children: [
-          infoText(),
+          FutureBuilder(
+            future: rootBundle.loadString('pubspec.yaml'),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return infoText(
+                  loadYaml(snapshot.data as String)['author'],
+                  loadYaml(snapshot.data as String)['version'],
+                );
+              }
+              return Container();
+            },
+          ),
         ],
       ),
     );
   }
 
-  Widget infoText() {
+  Widget infoText(String author, String version) {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text(
+        children: [
+          const Text(
             'This App was made with love ❤️',
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -74,9 +87,17 @@ class _AboutPageState extends State<AboutPage> {
             ),
           ),
           Text(
-            '~Floxyi',
+            '~$author',
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
+              fontSize: Constants.normalFontSize,
+              color: Constants.lighterGrey,
+            ),
+          ),
+          Text(
+            version,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
               fontSize: Constants.normalFontSize,
               color: Constants.lighterGrey,
             ),
