@@ -8,6 +8,7 @@ import 'package:daty/utilities/calculator.dart';
 import 'package:daty/utilities/constants.dart';
 import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BirthdayInfoPage extends StatefulWidget {
   final int birthdayId;
@@ -115,9 +116,9 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'Allow Notifications',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.allowNotification,
+            style: const TextStyle(
               color: Constants.whiteSecondary,
               fontSize: Constants.normalFontSize,
             ),
@@ -164,10 +165,10 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
   AppBar appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Constants.blackPrimary,
-      title: const Center(
+      title: Center(
         child: Text(
-          'Birthday Info',
-          style: TextStyle(
+          AppLocalizations.of(context)!.birthdayInfo,
+          style: const TextStyle(
             color: Constants.bluePrimary,
             fontSize: Constants.titleFontSizeSize,
             fontWeight: FontWeight.bold,
@@ -225,7 +226,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
     return Column(
       children: [
         Text(
-          '${Calculator.getDayName(getDataById(widget.birthdayId).date.weekday)}, ${getDataById(widget.birthdayId).date.day}. ${Calculator.getMonthName(getDataById(widget.birthdayId).date.month)} ${getDataById(widget.birthdayId).date.year}',
+          '${Calculator.getDayName(getDataById(widget.birthdayId).date.weekday, context)}, ${getDataById(widget.birthdayId).date.day}. ${Calculator.getMonthName(getDataById(widget.birthdayId).date.month, context)} ${getDataById(widget.birthdayId).date.year}',
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.normalFontSize,
@@ -278,9 +279,9 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
         ),
         child: Column(
           children: [
-            const Text(
-              'Countdown',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.countdown,
+              style: const TextStyle(
                 color: Constants.whiteSecondary,
                 fontSize: Constants.biggerFontSize,
                 fontWeight: FontWeight.bold,
@@ -300,19 +301,19 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
       mainAxisSize: MainAxisSize.min,
       children: [
         counter(
-          'Days',
+          AppLocalizations.of(context)!.days,
           Calculator.daysTillBirthday(getDataById(widget.birthdayId).date),
         ),
         counter(
-          'Hours',
+          AppLocalizations.of(context)!.hours,
           Calculator.hoursTillBirthday(getDataById(widget.birthdayId).date),
         ),
         counter(
-          'Minutes',
+          AppLocalizations.of(context)!.minutes,
           Calculator.minutesTillBirthday(getDataById(widget.birthdayId).date),
         ),
         counter(
-          'Seconds',
+          AppLocalizations.of(context)!.seconds,
           Calculator.secondsTillBirthday(getDataById(widget.birthdayId).date),
         ),
       ],

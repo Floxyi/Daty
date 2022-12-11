@@ -1,51 +1,54 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class Calculator {
-  static String getDayName(int day) {
+  static String getDayName(int day, BuildContext context) {
     switch (day) {
       case 1:
-        return 'Monday';
+        return AppLocalizations.of(context)!.monday;
       case 2:
-        return 'Tuesday';
+        return AppLocalizations.of(context)!.tuesday;
       case 3:
-        return 'Wednesday';
+        return AppLocalizations.of(context)!.wednesday;
       case 4:
-        return 'Thursday';
+        return AppLocalizations.of(context)!.thursday;
       case 5:
-        return 'Friday';
+        return AppLocalizations.of(context)!.friday;
       case 6:
-        return 'Saturday';
+        return AppLocalizations.of(context)!.saturday;
       case 7:
-        return 'Sunday';
+        return AppLocalizations.of(context)!.sunday;
       default:
         return 'error';
     }
   }
 
-  static String getMonthName(int month) {
+  static String getMonthName(int month, BuildContext context) {
     switch (month) {
       case 1:
-        return 'January';
+        return AppLocalizations.of(context)!.january;
       case 2:
-        return 'February';
+        return AppLocalizations.of(context)!.february;
       case 3:
-        return 'March';
+        return AppLocalizations.of(context)!.march;
       case 4:
-        return 'April';
+        return AppLocalizations.of(context)!.april;
       case 5:
-        return 'May';
+        return AppLocalizations.of(context)!.may;
       case 6:
-        return 'June';
+        return AppLocalizations.of(context)!.june;
       case 7:
-        return 'July';
+        return AppLocalizations.of(context)!.july;
       case 8:
-        return 'August';
+        return AppLocalizations.of(context)!.august;
       case 9:
-        return 'September';
+        return AppLocalizations.of(context)!.september;
       case 10:
-        return 'October';
+        return AppLocalizations.of(context)!.october;
       case 11:
-        return 'November';
+        return AppLocalizations.of(context)!.november;
       case 12:
-        return 'December';
+        return AppLocalizations.of(context)!.december;
       default:
         return 'error';
     }

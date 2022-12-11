@@ -1,0 +1,68 @@
+{
+    "birthdays": "Geburtstage",
+
+    "delete": "Löschen",
+    "restore": "Abbrechen",
+    "addBirthday": "Um einen Geburtstag hinzuzufügen, \ndrücke den + Knopf.",
+    "deletedBirthday": "Geburtstag gelöscht von",
+    "restoredBirthday": "Geburtstag wiederhergestellt von",
+
+    "birthdayInfo": "Informationen",
+    
+    "countdown": "Countdown",
+    "days": "Tage",
+    "hours": "Stunden",
+    "minutes": "Minuten",
+    "seconds": "Sekunden",
+
+    "birthdayEdit": "Bearbeiten",
+    "birthdayAdd": "Hinzufügen",
+
+    "editName": "Wähle einen Namen",
+    "editDate": "Wähle einen Tag",
+    "editTime": "Wähle eine Uhrzeit",
+    "preview": "Vorschau",
+    "timeInfo": "Du kannst die Uhrzeit auch unverändert lassen, wenn du sie nicht weißt.",
+    "editInfo": "Du kannst alle Werte später ändern, wenn du auf einen Geburtstag in der Geburtstagsliste tippst.",
+    "name": "Name",
+    "nameError": "Gib bitte einen Namen ein",
+    "save": "Speichern",
+
+    "settings": "Einstellungen",
+    
+    "notifications": "Benachrichtigungen",
+    "theme": "Darstellung",
+    "allowNotifications": "Bitte erlaube uns Benachrichtigungen zu senden.",
+    "allowNotification": "Benachrichtigungen aktivieren",
+    "activate": "Aktivieren",
+    "darkMode": "Dunkler Modus",
+    "oneWeekBefore": "Eine Woche vorher",
+    "oneMonthBefore": "Einen Monat vorher",
+
+    "about": "Über",
+
+    "aboutInfo": "Diese App wurde mit Liebe gemacht ❤️",
+    "version": "Version",
+    "dependencies": "Abhängigkeiten",
+
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag",
+
+    "january": "Januar",
+    "february": "Februar",
+    "march": "März",
+    "april": "April",
+    "may": "Mai",
+    "june": "Juni",
+    "july": "Juli",
+    "august": "August",
+    "september": "September",
+    "october": "Oktober",
+    "november": "November",
+    "december": "Dezember"
+}

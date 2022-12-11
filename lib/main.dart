@@ -6,6 +6,8 @@ import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -19,6 +21,16 @@ void main() async {
   runApp(MaterialApp(
     home: const DatyApp(),
     title: "Daty",
+    localizationsDelegates: const [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [
+      Locale('en', ''),
+      Locale('de', ''),
+    ],
     debugShowCheckedModeBanner: false,
     initialRoute: '/',
     navigatorKey: navigatorKey,

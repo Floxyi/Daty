@@ -2,6 +2,7 @@ import 'package:daty/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:yaml/yaml.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({Key? key}) : super(key: key);
@@ -26,9 +27,9 @@ class _AboutPageState extends State<AboutPage> {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Constants.blackPrimary,
-      title: const Text(
-        'About',
-        style: TextStyle(
+      title: Text(
+        AppLocalizations.of(context)!.about,
+        style: const TextStyle(
           color: Constants.bluePrimary,
           fontSize: Constants.titleFontSizeSize,
           fontWeight: FontWeight.bold,
@@ -87,13 +88,13 @@ class _AboutPageState extends State<AboutPage> {
         const SizedBox(height: 50),
         SizedBox(
           width: 100,
-          child: Image.asset('images/app_icon_android.png'),
+          child: Image.asset('assets/images/app_icon_android.png'),
         ),
         const SizedBox(height: 20),
-        const Text(
-          'This App was made with love ❤️',
+        Text(
+          AppLocalizations.of(context)!.aboutInfo,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: Constants.normalFontSize,
             color: Constants.lighterGrey,
           ),
@@ -108,7 +109,7 @@ class _AboutPageState extends State<AboutPage> {
         ),
         const SizedBox(height: 30),
         Text(
-          'Version: \n$version',
+          '${AppLocalizations.of(context)!.version}: \n$version',
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: Constants.normalFontSize,
@@ -117,7 +118,7 @@ class _AboutPageState extends State<AboutPage> {
         ),
         const SizedBox(height: 20),
         Text(
-          'Dependencies: \n"${dependencies.keys.join('", "')}"',
+          '${AppLocalizations.of(context)!.dependencies}: \n"${dependencies.keys.join('", "')}"',
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: Constants.normalFontSize,

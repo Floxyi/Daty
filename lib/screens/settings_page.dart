@@ -4,6 +4,7 @@ import 'package:daty/screens/about_page.dart';
 import 'package:daty/utilities/constants.dart';
 import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -46,9 +47,9 @@ class _SettingsPageState extends State<SettingsPage>
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Constants.blackPrimary,
-      title: const Text(
-        'Settings',
-        style: TextStyle(
+      title: Text(
+        AppLocalizations.of(context)!.settings,
+        style: const TextStyle(
           color: Constants.bluePrimary,
           fontSize: Constants.titleFontSizeSize,
           fontWeight: FontWeight.bold,
@@ -102,7 +103,7 @@ class _SettingsPageState extends State<SettingsPage>
       margin: const EdgeInsets.only(top: 20),
       child: Column(
         children: [
-          const ViewTitle('Notifications'),
+          ViewTitle(AppLocalizations.of(context)!.notifications),
           FutureBuilder(
             future: AwesomeNotifications().isNotificationAllowed(),
             builder: (context, snapshot) {
@@ -123,7 +124,7 @@ class _SettingsPageState extends State<SettingsPage>
               ],
             ),
           ),
-          const ViewTitle('Theme'),
+          ViewTitle(AppLocalizations.of(context)!.theme),
           Container(
             margin: const EdgeInsets.only(right: 50, left: 50, bottom: 30),
             child: Column(
@@ -148,14 +149,14 @@ class _SettingsPageState extends State<SettingsPage>
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Expanded(
+            Expanded(
               child: Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  'Please allow us to send you birthday notifications.',
+                  AppLocalizations.of(context)!.allowNotifications,
                   //'test',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Constants.lighterGrey,
                     fontSize: Constants.smallerFontSize + 2,
                   ),
@@ -169,9 +170,9 @@ class _SettingsPageState extends State<SettingsPage>
                   onPressed: (() {
                     requestNotificationAccess(context);
                   }),
-                  child: const Text(
-                    'Activate',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.activate,
+                    style: const TextStyle(
                       fontSize: Constants.smallerFontSize + 2,
                     ),
                   ),
@@ -188,9 +189,9 @@ class _SettingsPageState extends State<SettingsPage>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'Dark Mode',
-          style: TextStyle(
+        Text(
+          AppLocalizations.of(context)!.darkMode,
+          style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.normalFontSize,
           ),
@@ -219,9 +220,9 @@ class _SettingsPageState extends State<SettingsPage>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'One week before',
-          style: TextStyle(
+        Text(
+          AppLocalizations.of(context)!.oneWeekBefore,
+          style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.normalFontSize,
           ),
@@ -252,9 +253,9 @@ class _SettingsPageState extends State<SettingsPage>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          'One month before',
-          style: TextStyle(
+        Text(
+          AppLocalizations.of(context)!.oneMonthBefore,
+          style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.normalFontSize,
           ),

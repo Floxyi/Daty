@@ -10,6 +10,7 @@ import 'package:daty/utilities/constants.dart';
 import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -60,9 +61,9 @@ class _HomePageState extends State<HomePage> {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Constants.blackPrimary,
-      title: const Text(
-        'Birthdays',
-        style: TextStyle(
+      title: Text(
+        AppLocalizations.of(context)!.birthdays,
+        style: const TextStyle(
           color: Constants.bluePrimary,
           fontSize: Constants.titleFontSizeSize,
           fontWeight: FontWeight.bold,
@@ -144,7 +145,7 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
             icon: Icons.delete_sweep_outlined,
-            label: 'Delete',
+            label: AppLocalizations.of(context)!.delete,
             borderRadius: const BorderRadius.all(Radius.circular(20)),
           ),
         ],
@@ -180,7 +181,8 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Removed birthday of ${birthday.name}!'),
+              Text(
+                  '${AppLocalizations.of(context)!.deletedBirthday} ${birthday.name}!'),
             ],
           ),
           const Spacer(),
@@ -199,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Restored birthday of ${lastDeleted!.name}!',
+                            '${AppLocalizations.of(context)!.restoredBirthday} ${lastDeleted!.name}!',
                           ),
                           behavior: SnackBarBehavior.floating,
                           shape: const RoundedRectangleBorder(
@@ -213,13 +215,13 @@ class _HomePageState extends State<HomePage> {
                   });
                 },
                 child: Row(
-                  children: const [
+                  children: [
                     Text(
-                      'Restore',
-                      style: TextStyle(color: Constants.bluePrimary),
+                      AppLocalizations.of(context)!.restore,
+                      style: const TextStyle(color: Constants.bluePrimary),
                     ),
-                    SizedBox(width: 5),
-                    Icon(Icons.restore, color: Constants.bluePrimary)
+                    const SizedBox(width: 5),
+                    const Icon(Icons.restore, color: Constants.bluePrimary)
                   ],
                 ),
               ),
@@ -235,10 +237,10 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'To add a new birthday entry, \npress the "+" button at the bottom.',
+          Text(
+            AppLocalizations.of(context)!.addBirthday,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: Constants.normalFontSize,
               color: Constants.lighterGrey,
             ),

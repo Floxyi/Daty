@@ -3,6 +3,7 @@ import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/calculator.dart';
 import 'package:daty/utilities/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BirthdayCard extends StatefulWidget {
   final Birthday birthday;
@@ -86,9 +87,9 @@ class _BirthdayCardState extends State<BirthdayCard> {
                 fontWeight: FontWeight.bold,
                 color: Constants.whiteSecondary),
           ),
-          const Text(
-            'days',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.days,
+            style: const TextStyle(
               fontSize: Constants.smallerFontSize,
               fontWeight: FontWeight.bold,
               color: Constants.whiteSecondary,
@@ -150,7 +151,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
           ),
         ),
         Text(
-          '${Calculator.getDayName(widget.birthday.date.weekday)}, ${widget.birthday.date.day}. ${Calculator.getMonthName(widget.birthday.date.month)}',
+          '${Calculator.getDayName(widget.birthday.date.weekday, context)}, ${widget.birthday.date.day}. ${Calculator.getMonthName(widget.birthday.date.month, context)}',
           style: const TextStyle(
             fontSize: Constants.smallerFontSize,
             color: Constants.whiteSecondary,

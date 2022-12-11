@@ -1,0 +1,68 @@
+{
+    "birthdays": "Birthdays",
+
+    "delete": "Delete",
+    "restore": "Restore",
+    "addBirthday": "To add a new birthday entry, \npress the + button at the bottom.",
+    "deletedBirthday": "Removed birthday of",
+    "restoredBirthday": "Restored birthday of",
+
+    "birthdayInfo": "Birthday Info",
+
+    "countdown": "Countdown",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+
+    "birthdayEdit": "Edit Birthday",
+    "birthdayAdd": "Add Birthday",
+
+    "editName": "Choose a name",
+    "editDate": "Choose a date",
+    "editTime": "Choose a time",
+    "preview": "Preview",
+    "timeInfo": "Note that you can leave this as default if you don't know the exact time.",
+    "editInfo": "Note that all properties can be changed later, by tapping on a birthday on the home screen.",
+    "name": "Name",
+    "nameError": "Please enter a name.",
+    "save": "Save",
+
+    "settings": "Settings",
+
+    "notifications": "Notifications",
+    "theme": "Theme",
+    "allowNotifications": "Please allow us to send you birthday notifications.",
+    "allowNotification": "Allow Notifications",
+    "activate": "Activate",
+    "darkMode": "Dark Mode",
+    "oneWeekBefore": "One week before",
+    "oneMonthBefore": "One month before",
+
+    "about": "About",
+
+    "aboutInfo": "This App was made with love ❤️",
+    "version": "Version",
+    "dependencies": "Dependencies",
+
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
+}

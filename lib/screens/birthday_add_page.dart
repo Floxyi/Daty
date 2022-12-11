@@ -5,6 +5,7 @@ import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddBirthdayPage extends StatefulWidget {
   const AddBirthdayPage({Key? key}) : super(key: key);
@@ -42,26 +43,22 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                const ViewTitle('Choose a name:'),
+                ViewTitle('${AppLocalizations.of(context)!.editName}:'),
                 inputNameField(),
                 const SizedBox(height: 40),
-                const ViewTitle('Choose a date:'),
+                ViewTitle('${AppLocalizations.of(context)!.editDate}:'),
                 datePicker(context),
                 const SizedBox(height: 40),
-                const ViewTitle('Choose a time:'),
+                ViewTitle('${AppLocalizations.of(context)!.editTime}:'),
                 timePicker(context),
-                infoText(
-                  "Note that you can leave this as default if you don't know the exact time",
-                ),
+                infoText(AppLocalizations.of(context)!.timeInfo),
                 const SizedBox(height: 40),
-                const ViewTitle('Preview:'),
+                ViewTitle('${AppLocalizations.of(context)!.preview}:'),
                 cardPreview(),
                 const SizedBox(height: 40),
                 saveButton(context),
                 const SizedBox(height: 10),
-                infoText(
-                  'Note that all properties can be changed later, by tapping on a birthday card on the home screen.',
-                ),
+                infoText(AppLocalizations.of(context)!.editInfo),
                 const SizedBox(height: 40),
               ],
             ),
@@ -74,9 +71,9 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
   AppBar appBar() {
     return AppBar(
       backgroundColor: Constants.blackPrimary,
-      title: const Text(
-        'Add Birthday',
-        style: TextStyle(
+      title: Text(
+        AppLocalizations.of(context)!.birthdayAdd,
+        style: const TextStyle(
           color: Constants.bluePrimary,
           fontSize: Constants.titleFontSizeSize,
           fontWeight: FontWeight.bold,
@@ -119,33 +116,32 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
           inputFormatters: [
             LengthLimitingTextInputFormatter(12),
           ],
-          decoration: const InputDecoration(
-            focusedBorder: OutlineInputBorder(
+          decoration: InputDecoration(
+            focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(width: 3, color: Constants.bluePrimary),
               borderRadius: BorderRadius.all(Radius.circular(15)),
             ),
             fillColor: Constants.bluePrimary,
             focusColor: Constants.bluePrimary,
-            border: OutlineInputBorder(
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(15)),
               borderSide: BorderSide.none,
             ),
-            floatingLabelStyle: TextStyle(
+            floatingLabelStyle: const TextStyle(
               color: Constants.bluePrimary,
               fontSize: Constants.biggerFontSize,
               fontWeight: FontWeight.bold,
             ),
-            hintText: 'What is the name of the person?',
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               color: Constants.lighterGrey,
               fontSize: 15,
             ),
-            labelText: 'Name',
-            labelStyle: TextStyle(
+            labelText: AppLocalizations.of(context)!.name,
+            labelStyle: const TextStyle(
               color: Constants.whiteSecondary,
               fontSize: Constants.normalFontSize,
             ),
-            errorStyle: TextStyle(
+            errorStyle: const TextStyle(
               fontSize: Constants.smallerFontSize,
             ),
           ),
@@ -157,11 +153,11 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
           },
           validator: (String? value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter a name.';
+              return AppLocalizations.of(context)!.nameError;
             } else {
               value.trim();
               if (value.isEmpty) {
-                return 'Please enter a name.';
+                return AppLocalizations.of(context)!.nameError;
               }
             }
             return null;
@@ -297,9 +293,9 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
         style: ElevatedButton.styleFrom(
           backgroundColor: isInputCorrect ? Constants.bluePrimary : Colors.red,
         ),
-        child: const Text(
-          'Save',
-          style: TextStyle(
+        child: Text(
+          AppLocalizations.of(context)!.save,
+          style: const TextStyle(
               color: Constants.whiteSecondary,
               fontSize: Constants.normalFontSize,
               fontWeight: FontWeight.bold),
