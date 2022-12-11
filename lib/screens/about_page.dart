@@ -11,6 +11,8 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
+  final ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,57 +55,76 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   Widget body() {
-    return Center(
-      child: Column(
-        children: [
-          FutureBuilder(
-            future: rootBundle.loadString('pubspec.yaml'),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return infoText(
-                  loadYaml(snapshot.data as String)['author'],
-                  loadYaml(snapshot.data as String)['version'],
-                );
-              }
-              return Container();
-            },
-          ),
-        ],
+    return RawScrollbar(
+      thumbColor: Constants.lighterGrey,
+      radius: const Radius.circular(20),
+      thickness: 5,
+      thumbVisibility: true,
+      controller: _scrollController,
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        child: FutureBuilder(
+          future: rootBundle.loadString('pubspec.yaml'),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return infoText(
+                loadYaml(snapshot.data as String)['author'],
+                loadYaml(snapshot.data as String)['version'],
+                loadYaml(snapshot.data as String)['dependencies'],
+              );
+            }
+            return Container();
+          },
+        ),
       ),
     );
   }
 
-  Widget infoText(String author, String version) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            'This App was made with love ❤️',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: Constants.normalFontSize,
-              color: Constants.lighterGrey,
-            ),
+  Widget infoText(String author, String version, YamlMap dependencies) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(height: 50),
+        SizedBox(
+          width: 100,
+          child: Image.asset('images/app_icon_android.png'),
+        ),
+        const SizedBox(height: 20),
+        const Text(
+          'This App was made with love ❤️',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: Constants.normalFontSize,
+            color: Constants.lighterGrey,
           ),
-          Text(
-            '~$author',
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: Constants.normalFontSize,
-              color: Constants.lighterGrey,
-            ),
+        ),
+        Text(
+          '~ $author',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: Constants.normalFontSize,
+            color: Constants.lighterGrey,
           ),
-          Text(
-            version,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: Constants.normalFontSize,
-              color: Constants.lighterGrey,
-            ),
+        ),
+        const SizedBox(height: 30),
+        Text(
+          'Version: \n$version',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: Constants.normalFontSize,
+            color: Constants.lighterGrey,
           ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 20),
+        Text(
+          'Dependencies: \n"${dependencies.keys.join('", "')}"',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: Constants.normalFontSize,
+            color: Constants.lighterGrey,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -17,7 +17,6 @@ dependencies:
   shared_preferences: ^2.0.15
   flutter_slidable: ^2.0.0
   confetti: ^0.7.0
-  curved_navigation_bar: ^1.0.3
   yaml: ^3.1.0
 
 dev_dependencies:
@@ -50,4 +49,5 @@ flutter_lints: ^2.0.0
 flutter:
   assets:
     - pubspec.yaml
+    - images/
   uses-material-design: true

@@ -1,5 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daty/components/view_title.dart';
+import 'package:daty/screens/about_page.dart';
 import 'package:daty/utilities/constants.dart';
 import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +54,9 @@ class _SettingsPageState extends State<SettingsPage>
           fontWeight: FontWeight.bold,
         ),
       ),
+      actions: [
+        infoButton(context),
+      ],
       leading: backButton(context),
     );
   }
@@ -69,6 +73,26 @@ class _SettingsPageState extends State<SettingsPage>
       ),
       onTap: () {
         Navigator.pop(context);
+      },
+    );
+  }
+
+  GestureDetector infoButton(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      child: Container(
+        margin: const EdgeInsets.only(right: 15),
+        child: const Icon(
+          Icons.info_outline,
+          size: 30,
+        ),
+      ),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (BuildContext context) {
+            return const AboutPage();
+          },
+        ));
       },
     );
   }

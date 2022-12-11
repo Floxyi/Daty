@@ -1,6 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daty/components/birthday_card.dart';
-import 'package:daty/screens/about_page.dart';
 import 'package:daty/screens/birthday_add_page.dart';
 import 'package:daty/screens/settings_page.dart';
 import 'package:daty/utilities/Birthday.dart';
@@ -72,7 +71,6 @@ class _HomePageState extends State<HomePage> {
       actions: [
         settingsButton(context),
       ],
-      leading: infoButton(context),
     );
   }
 
@@ -90,26 +88,6 @@ class _HomePageState extends State<HomePage> {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) {
             return const SettingsPage();
-          },
-        ));
-      },
-    );
-  }
-
-  GestureDetector infoButton(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      child: Container(
-        margin: const EdgeInsets.only(left: 15),
-        child: const Icon(
-          Icons.info_outline,
-          size: 30,
-        ),
-      ),
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) {
-            return const AboutPage();
           },
         ));
       },
