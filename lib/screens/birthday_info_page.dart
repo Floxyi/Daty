@@ -164,9 +164,6 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
   AppBar appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Constants.blackPrimary,
-      actions: [
-        editButton(context),
-      ],
       title: const Center(
         child: Text(
           'Birthday Info',
@@ -177,6 +174,9 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
           ),
         ),
       ),
+      actions: [
+        editButton(context),
+      ],
     );
   }
 

@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         margin: const EdgeInsets.only(right: 15),
         child: const Icon(
-          Icons.settings_outlined,
+          Icons.settings,
           size: 30,
         ),
       ),

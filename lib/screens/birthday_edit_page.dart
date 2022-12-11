@@ -98,7 +98,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
       child: Container(
         margin: const EdgeInsets.only(left: 15),
         child: const Icon(
-          Icons.cancel_outlined,
+          Icons.close,
           size: 25,
         ),
       ),
