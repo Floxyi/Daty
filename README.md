@@ -17,5 +17,7 @@ Daty is an app that helps you remember all birthdays. With a minimalist design, 
 
 ### Upcoming
 
-- Light app theme
 - Space for gift ideas
+- Light app theme
+- Zodiac sign information
+- Integrated birthday wish generator
