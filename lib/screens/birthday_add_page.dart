@@ -1,4 +1,5 @@
 import 'package:daty/components/birthday_card.dart';
+import 'package:daty/components/time_picker.dart';
 import 'package:daty/components/view_title.dart';
 import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/birthday_data.dart';
@@ -17,12 +18,16 @@ class AddBirthdayPage extends StatefulWidget {
 class _AddBirthdayPageState extends State<AddBirthdayPage> {
   String name = 'Name';
   DateTime date = DateTime.now();
-  TimeOfDay time = const TimeOfDay(hour: 0, minute: 0);
+
+  TimeOfDay time = TimeOfDay(
+    hour: DateTime.now().hour,
+    minute: DateTime.now().minute,
+  );
 
   final ScrollController _scrollController = ScrollController();
 
   final _formKey = GlobalKey<FormState>();
-  bool isInputCorrect = true;
+  bool isNameInputCorrect = true;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +55,14 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
                 datePicker(context),
                 const SizedBox(height: 40),
                 ViewTitle('${AppLocalizations.of(context)!.editTime}:'),
-                timePicker(context),
+                TimePicker(
+                  time,
+                  onTimeChanged: (newDateTime) {
+                    setState(() {
+                      time = newDateTime;
+                    });
+                  },
+                ),
                 infoText(AppLocalizations.of(context)!.timeInfo),
                 const SizedBox(height: 40),
                 ViewTitle('${AppLocalizations.of(context)!.preview}:'),
@@ -148,7 +160,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
           onChanged: (String? value) {
             setState(() {
               name = value.toString();
-              isInputCorrect = true;
+              isNameInputCorrect = true;
             });
           },
           validator: (String? value) {
@@ -223,59 +235,6 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
     }
   }
 
-  Container timePicker(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      child: ElevatedButton(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.timer_outlined),
-            const SizedBox(width: 10),
-            Text(
-              time.format(context),
-              style: const TextStyle(fontSize: Constants.normalFontSize),
-            ),
-          ],
-        ),
-        onPressed: () {
-          _selectTime(context);
-        },
-      ),
-    );
-  }
-
-  void _selectTime(BuildContext context) async {
-    final TimeOfDay? timeOfDay = await showTimePicker(
-      context: context,
-      initialTime: time,
-      initialEntryMode: TimePickerEntryMode.input,
-      builder: (context, child) {
-        return Theme(
-          data: ThemeData(
-            timePickerTheme: const TimePickerThemeData(
-              dayPeriodTextColor: Constants.whiteSecondary,
-              dayPeriodBorderSide: BorderSide(color: Constants.bluePrimary),
-              dialHandColor: Constants.bluePrimary,
-              dialTextColor: Constants.whiteSecondary,
-              entryModeIconColor: Constants.whiteSecondary,
-              hourMinuteTextColor: Constants.whiteSecondary,
-              helpTextStyle: TextStyle(color: Constants.whiteSecondary),
-              hourMinuteColor: Constants.greySecondary,
-              backgroundColor: Constants.darkGreySecondary,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-    if (timeOfDay != null && timeOfDay != time) {
-      setState(() {
-        time = timeOfDay;
-      });
-    }
-  }
-
   Container cardPreview() {
     return Container(
       padding: const EdgeInsets.all(10),
@@ -291,7 +250,8 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
       height: 50,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: isInputCorrect ? Constants.bluePrimary : Colors.red,
+          backgroundColor:
+              isNameInputCorrect ? Constants.bluePrimary : Colors.red,
         ),
         child: Text(
           AppLocalizations.of(context)!.save,
@@ -313,7 +273,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
             Navigator.pop(context);
           } else {
             setState(() {
-              isInputCorrect = false;
+              isNameInputCorrect = false;
             });
           }
         },
