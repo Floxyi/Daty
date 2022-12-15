@@ -1,4 +1,4 @@
-# <img width="30" src="images/app_icon_android.png"> Daty
+# <img width="30" src="assets/images/app_icon_android.png"> Daty
 
 Daty is an app that helps you remember all birthdays. With a minimalist design, using the app is easy and intuitive.  
 
