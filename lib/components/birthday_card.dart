@@ -1,5 +1,6 @@
 import 'package:daty/screens/birthday_info_page.dart';
 import 'package:daty/utilities/Birthday.dart';
+import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/calculator.dart';
 import 'package:daty/utilities/constants.dart';
 import 'package:flutter/material.dart';
@@ -16,15 +17,29 @@ class BirthdayCard extends StatefulWidget {
 }
 
 class _BirthdayCardState extends State<BirthdayCard> {
+  late Birthday birthdayData;
+
+  @override
+  void initState() {
+    birthdayData = widget.birthday;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (widget.canTap) {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (BuildContext context) {
-            return BirthdayInfoPage(widget.birthday.birthdayId);
-          }));
+          await Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return BirthdayInfoPage(birthdayData.birthdayId);
+              },
+            ),
+          );
+          setState(() {
+            birthdayData = getDataById(birthdayData.birthdayId);
+          });
         }
       },
       child: Container(
@@ -41,7 +56,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
             const SizedBox(width: 15),
             birthdayInfo(),
             const Spacer(),
-            Calculator.hasBirthdayToday(widget.birthday.date)
+            Calculator.hasBirthdayToday(birthdayData.date)
                 ? partyIcon()
                 : dayCounter(),
             Container(
@@ -80,8 +95,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            Calculator.remainingDaysTillBirthday(widget.birthday.date)
-                .toString(),
+            Calculator.remainingDaysTillBirthday(birthdayData.date).toString(),
             style: const TextStyle(
                 fontSize: Constants.normalFontSize,
                 fontWeight: FontWeight.bold,
@@ -143,7 +157,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.birthday.name,
+          birthdayData.name,
           style: const TextStyle(
             fontSize: Constants.biggerFontSize,
             fontWeight: FontWeight.bold,
@@ -151,7 +165,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
           ),
         ),
         Text(
-          '${Calculator.getDayName(widget.birthday.date.weekday, context)}, ${widget.birthday.date.day}. ${Calculator.getMonthName(widget.birthday.date.month, context)}',
+          '${Calculator.getDayName(birthdayData.date.weekday, context)}, ${birthdayData.date.day}. ${Calculator.getMonthName(birthdayData.date.month, context)}',
           style: const TextStyle(
             fontSize: Constants.smallerFontSize,
             color: Constants.whiteSecondary,
@@ -172,9 +186,9 @@ class _BirthdayCardState extends State<BirthdayCard> {
           color: Constants.whiteSecondary,
         ),
         Text(
-          Calculator.hasBirthdayToday(widget.birthday.date)
-              ? '${Calculator.calculateAge(widget.birthday.date)}'
-              : '${Calculator.calculateAge(widget.birthday.date) + 1}',
+          Calculator.hasBirthdayToday(birthdayData.date)
+              ? '${Calculator.calculateAge(birthdayData.date)}'
+              : '${Calculator.calculateAge(birthdayData.date) + 1}',
           style: const TextStyle(
             fontSize: Constants.biggerFontSize,
             fontWeight: FontWeight.bold,
