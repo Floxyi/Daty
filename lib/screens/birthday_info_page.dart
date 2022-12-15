@@ -110,58 +110,6 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
     );
   }
 
-  Padding allowNotificationSwitch() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 35.0, left: 35.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            AppLocalizations.of(context)!.allowNotification,
-            style: const TextStyle(
-              color: Constants.whiteSecondary,
-              fontSize: Constants.normalFontSize,
-            ),
-          ),
-          const Spacer(),
-          SizedBox(
-            width: 70,
-            height: 55,
-            child: FittedBox(
-              fit: BoxFit.fill,
-              child: Switch(
-                value: getDataById(widget.birthdayId).allowNotifications,
-                onChanged: (value) {
-                  setState(() {
-                    Birthday birthday = getDataById(widget.birthdayId);
-                    birthday.setAllowNotifications = value;
-                  });
-                },
-                inactiveThumbColor: Constants.lighterGrey,
-                inactiveTrackColor: Constants.darkGreySecondary,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Padding debugInfo() {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Text(
-        'AN: ${getDataById(widget.birthdayId).allowNotifications} BID: ${getDataById(widget.birthdayId).birthdayId} / NID: ${getDataById(widget.birthdayId).notificationIds} / week: $notiOneWeekBefore month: $notiOneMonthBefore',
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: Constants.greySecondary,
-          fontSize: Constants.normalFontSize,
-          fontStyle: FontStyle.italic,
-        ),
-      ),
-    );
-  }
-
   AppBar appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Constants.blackPrimary,
@@ -339,6 +287,43 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
               color: Constants.whiteSecondary,
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Padding allowNotificationSwitch() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 35.0, left: 35.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.allowNotification,
+            style: const TextStyle(
+              color: Constants.whiteSecondary,
+              fontSize: Constants.normalFontSize,
+            ),
+          ),
+          const Spacer(),
+          SizedBox(
+            width: 70,
+            height: 55,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: Switch(
+                value: getDataById(widget.birthdayId).allowNotifications,
+                onChanged: (value) {
+                  setState(() {
+                    Birthday birthday = getDataById(widget.birthdayId);
+                    birthday.setAllowNotifications = value;
+                  });
+                },
+                inactiveThumbColor: Constants.lighterGrey,
+                inactiveTrackColor: Constants.darkGreySecondary,
+              ),
+            ),
+          ),
         ],
       ),
     );
