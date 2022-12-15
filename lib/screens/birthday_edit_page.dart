@@ -1,4 +1,5 @@
 import 'package:daty/components/birthday_card.dart';
+import 'package:daty/components/date_picker.dart';
 import 'package:daty/components/time_picker.dart';
 import 'package:daty/components/view_title.dart';
 import 'package:daty/utilities/Birthday.dart';
@@ -58,7 +59,14 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
                 inputNameField(),
                 const SizedBox(height: 40),
                 ViewTitle('${AppLocalizations.of(context)!.editDate}:'),
-                datePicker(context),
+                DatePicker(
+                  newDate,
+                  onDayChanged: (newDayTime) {
+                    setState(() {
+                      newDate = newDayTime;
+                    });
+                  },
+                ),
                 const SizedBox(height: 40),
                 ViewTitle('${AppLocalizations.of(context)!.editTime}:'),
                 TimePicker(
@@ -184,61 +192,6 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
         ),
       ),
     );
-  }
-
-  Container datePicker(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      child: ElevatedButton(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.date_range_rounded),
-            const SizedBox(width: 10),
-            Text(
-              '${newDate.day}.${newDate.month}.${newDate.year}',
-              style: const TextStyle(fontSize: Constants.normalFontSize),
-            ),
-          ],
-        ),
-        onPressed: () {
-          _selectDate(context);
-        },
-      ),
-    );
-  }
-
-  void _selectDate(BuildContext context) async {
-    final DateTime? selected = await showDatePicker(
-      context: context,
-      initialDate: newDate,
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Constants.bluePrimary,
-              onPrimary: Constants.blackPrimary,
-              onSurface: Constants.whiteSecondary,
-            ),
-            dialogBackgroundColor: Constants.darkGreySecondary,
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: Constants.whiteSecondary,
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (selected != null && selected != newDate) {
-      setState(() {
-        newDate = selected;
-      });
-    }
   }
 
   Container cardPreview() {

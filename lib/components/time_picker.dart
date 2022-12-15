@@ -37,7 +37,7 @@ class _TimePickerState extends State<TimePicker> {
   }
 
   void _selectTime(BuildContext context) async {
-    final TimeOfDay? timeOfDay = await showTimePicker(
+    final TimeOfDay? selectedTime = await showTimePicker(
       context: context,
       initialTime: widget.startTime,
       initialEntryMode: TimePickerEntryMode.input,
@@ -61,9 +61,9 @@ class _TimePickerState extends State<TimePicker> {
       },
     );
 
-    if (timeOfDay != null && timeOfDay != widget.startTime) {
+    if (selectedTime != null && selectedTime != widget.startTime) {
       setState(() {
-        widget.onTimeChanged!(timeOfDay);
+        widget.onTimeChanged!(selectedTime);
       });
     }
   }
