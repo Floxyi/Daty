@@ -6,7 +6,6 @@ import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/calculator.dart';
 import 'package:daty/utilities/constants.dart';
-import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

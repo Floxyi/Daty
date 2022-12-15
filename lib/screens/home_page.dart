@@ -25,13 +25,15 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    AwesomeNotifications().isNotificationAllowed().then((value) async {
-      if (value) {
-        addNotificationListener();
-      } else if (await isFirstStartup()) {
-        requestNotificationAccess(context);
-      }
-    });
+    AwesomeNotifications().isNotificationAllowed().then(
+      (value) async {
+        if (value) {
+          addNotificationListener();
+        } else if (await isFirstStartup()) {
+          requestNotificationAccess(context);
+        }
+      },
+    );
   }
 
   @override
