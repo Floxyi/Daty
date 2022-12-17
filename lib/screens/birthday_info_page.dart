@@ -173,7 +173,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
     return Column(
       children: [
         Text(
-          '${Calculator.getDayName(getDataById(widget.birthdayId).date.weekday, context)}, ${getDataById(widget.birthdayId).date.day}. ${Calculator.getMonthName(getDataById(widget.birthdayId).date.month, context)} ${getDataById(widget.birthdayId).date.year}',
+          '${Calculator.getDayName(getDataById(widget.birthdayId).date.weekday, context)}, ${getDataById(widget.birthdayId).date.day}. ${Calculator.getMonthName(getDataById(widget.birthdayId).date.month, context)} ${getDataById(widget.birthdayId).date.year} - ${getDataById(widget.birthdayId).date.hour}:${getDataById(widget.birthdayId).date.minute}\n ',
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.normalFontSize,
