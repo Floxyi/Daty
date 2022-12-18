@@ -197,7 +197,9 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
               child: Expanded(
                 child: Text(
                   Calculator.getZodiacSign(
-                      getDataById(widget.birthdayId).date)[1],
+                    getDataById(widget.birthdayId).date,
+                    context,
+                  )[1],
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Constants.whiteSecondary,
@@ -211,7 +213,9 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: Text(
                   Calculator.getZodiacSign(
-                      getDataById(widget.birthdayId).date)[0],
+                    getDataById(widget.birthdayId).date,
+                    context,
+                  )[0],
                   //'test',
                   textAlign: TextAlign.center,
                   style: const TextStyle(

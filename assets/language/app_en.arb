@@ -64,5 +64,18 @@
     "september": "September",
     "october": "October",
     "november": "November",
-    "december": "December"
+    "december": "December",
+
+    "capricorn": "Capricorn",
+    "aquarius": "Aquarius",
+    "pisces": "Pisces",
+    "aries": "Aries",
+    "taurus": "Taurus",
+    "gemini": "Gemini",
+    "cancer": "Cancer",
+    "leo": "Leo",
+    "virgo": "Virgo",
+    "libran": "Libran",
+    "scorpio": "Scorpio",
+    "sagittarius": "Sagittarius"
 }

@@ -64,5 +64,18 @@
     "september": "September",
     "october": "Oktober",
     "november": "November",
-    "december": "Dezember"
+    "december": "Dezember",
+
+    "capricorn": "Steinbock",
+    "aquarius": "Wassermann",
+    "pisces": "Fische",
+    "aries": "Widder",
+    "taurus": "Stier",
+    "gemini": "Zwillinge",
+    "cancer": "Krebs",
+    "leo": "Löwe",
+    "virgo": "Jungfrau",
+    "libran": "Waage",
+    "scorpio": "Skorpion",
+    "sagittarius": "Schütze"
 }

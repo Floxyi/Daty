@@ -210,56 +210,56 @@ class Calculator {
     return (nextBirthday.difference(DateTime.now()).inSeconds + 1) % 60;
   }
 
-  static List getZodiacSign(DateTime birthday) {
+  static List getZodiacSign(DateTime birthday, BuildContext context) {
     List sign = ['error', 'x'];
 
     if ((birthday.month == 12 && birthday.day >= 22) ||
         (birthday.month == 1 && birthday.day <= 19)) {
-      sign = ['Capricorn', '♑️'];
+      sign = [AppLocalizations.of(context)!.capricorn, '♑️'];
     }
     if ((birthday.month == 1 && birthday.day >= 20) ||
         (birthday.month == 2 && birthday.day <= 17)) {
-      sign = ['Aquarius', '♒️'];
+      sign = [AppLocalizations.of(context)!.aquarius, '♒️'];
     }
     if ((birthday.month == 2 && birthday.day >= 18) ||
         (birthday.month == 3 && birthday.day <= 19)) {
-      sign = ['Pisces', '♓️'];
+      sign = [AppLocalizations.of(context)!.pisces, '♓️'];
     }
     if ((birthday.month == 3 && birthday.day >= 20) ||
         (birthday.month == 4 && birthday.day <= 19)) {
-      sign = ['Aries', '♈️'];
+      sign = [AppLocalizations.of(context)!.aries, '♈️'];
     }
     if ((birthday.month == 4 && birthday.day >= 20) ||
         (birthday.month == 5 && birthday.day <= 19)) {
-      sign = ['Taurus', '♉️'];
+      sign = [AppLocalizations.of(context)!.taurus, '♉️'];
     }
     if ((birthday.month == 5 && birthday.day >= 20) ||
         (birthday.month == 6 && birthday.day <= 20)) {
-      sign = ['Gemini', '♊️'];
+      sign = [AppLocalizations.of(context)!.gemini, '♊️'];
     }
     if ((birthday.month == 6 && birthday.day >= 21) ||
         (birthday.month == 7 && birthday.day <= 21)) {
-      sign = ['Cancer', '♋️'];
+      sign = [AppLocalizations.of(context)!.cancer, '♋️'];
     }
     if ((birthday.month == 7 && birthday.day >= 22) ||
         (birthday.month == 8 && birthday.day <= 22)) {
-      sign = ['Leo', '♌️'];
+      sign = [AppLocalizations.of(context)!.leo, '♌️'];
     }
     if ((birthday.month == 8 && birthday.day >= 23) ||
         (birthday.month == 9 && birthday.day <= 21)) {
-      sign = ['Virgo', '♍️'];
+      sign = [AppLocalizations.of(context)!.virgo, '♍️'];
     }
     if ((birthday.month == 9 && birthday.day >= 22) ||
         (birthday.month == 10 && birthday.day <= 22)) {
-      sign = ['Libran', '♎️'];
+      sign = [AppLocalizations.of(context)!.libran, '♎️'];
     }
     if ((birthday.month == 10 && birthday.day >= 23) ||
         (birthday.month == 11 && birthday.day <= 21)) {
-      sign = ['Scorpio', '♏️'];
+      sign = [AppLocalizations.of(context)!.scorpio, '♏️'];
     }
     if ((birthday.month == 11 && birthday.day >= 22) ||
         (birthday.month == 12 && birthday.day <= 21)) {
-      sign = ['Sagittarius', '♐️'];
+      sign = [AppLocalizations.of(context)!.sagittarius, '♐️'];
     }
 
     return sign;
