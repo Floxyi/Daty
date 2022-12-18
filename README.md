@@ -4,7 +4,7 @@ Daty is an app that helps you remember all birthdays. With a minimalist design, 
 
 ## Screenshots
 
-<img width="150" src="assets/images/screenshots/home.png"> <img width="150" src="assets/images/screenshots/birthday_view.png"> <img width="150" src="assets/images/screenshots/adding_birthday.png"> <img width="150" src="assets/images/screenshots/settings.png">
+<img width="150" src="assets/images/screenshots/home.png"> <img width="150" src="assets/images/screenshots/birthday.png"> <img width="150" src="assets/images/screenshots/adding_birthday.png"> <img width="150" src="assets/images/screenshots/settings.png">
 
 ## Features
 
