@@ -14,10 +14,10 @@ Daty is an app that helps you remember all birthdays. With a minimalist design, 
 - Notifications a month or a week before and on the day itself
 - Dark app theme
 - Support for multiple languages (currently English and German)
+- Zodiac sign information
 
 ### Upcoming
 
 - Space for gift ideas
 - Light app theme
-- Zodiac sign information
 - Integrated birthday wish generator
