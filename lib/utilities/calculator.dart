@@ -209,4 +209,59 @@ class Calculator {
     );
     return (nextBirthday.difference(DateTime.now()).inSeconds + 1) % 60;
   }
+
+  static List getZodiacSign(DateTime birthday) {
+    List sign = ['error', 'x'];
+
+    if ((birthday.month == 12 && birthday.day >= 22) ||
+        (birthday.month == 1 && birthday.day <= 19)) {
+      sign = ['Capricorn', '♑️'];
+    }
+    if ((birthday.month == 1 && birthday.day >= 20) ||
+        (birthday.month == 2 && birthday.day <= 17)) {
+      sign = ['Aquarius', '♒️'];
+    }
+    if ((birthday.month == 2 && birthday.day >= 18) ||
+        (birthday.month == 3 && birthday.day <= 19)) {
+      sign = ['Pisces', '♓️'];
+    }
+    if ((birthday.month == 3 && birthday.day >= 20) ||
+        (birthday.month == 4 && birthday.day <= 19)) {
+      sign = ['Aries', '♈️'];
+    }
+    if ((birthday.month == 4 && birthday.day >= 20) ||
+        (birthday.month == 5 && birthday.day <= 19)) {
+      sign = ['Taurus', '♉️'];
+    }
+    if ((birthday.month == 5 && birthday.day >= 20) ||
+        (birthday.month == 6 && birthday.day <= 20)) {
+      sign = ['Gemini', '♊️'];
+    }
+    if ((birthday.month == 6 && birthday.day >= 21) ||
+        (birthday.month == 7 && birthday.day <= 21)) {
+      sign = ['Cancer', '♋️'];
+    }
+    if ((birthday.month == 7 && birthday.day >= 22) ||
+        (birthday.month == 8 && birthday.day <= 22)) {
+      sign = ['Leo', '♌️'];
+    }
+    if ((birthday.month == 8 && birthday.day >= 23) ||
+        (birthday.month == 9 && birthday.day <= 21)) {
+      sign = ['Virgo', '♍️'];
+    }
+    if ((birthday.month == 9 && birthday.day >= 22) ||
+        (birthday.month == 10 && birthday.day <= 22)) {
+      sign = ['Libran', '♎️'];
+    }
+    if ((birthday.month == 10 && birthday.day >= 23) ||
+        (birthday.month == 11 && birthday.day <= 21)) {
+      sign = ['Scorpio', '♏️'];
+    }
+    if ((birthday.month == 11 && birthday.day >= 22) ||
+        (birthday.month == 12 && birthday.day <= 21)) {
+      sign = ['Sagittarius', '♐️'];
+    }
+
+    return sign;
+  }
 }
