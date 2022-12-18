@@ -92,16 +92,14 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
               ),
               const SizedBox(height: 30),
               iconWithName(),
-              const SizedBox(height: 20),
-              preciseAge(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               birthdayInfo(),
-              const SizedBox(height: 50),
+              preciseAge(),
+              const SizedBox(height: 30),
+              zodiacSign(),
+              const SizedBox(height: 40),
               birthdayCountdown(),
-              const SizedBox(height: 20),
               allowNotificationSwitch(),
-              const SizedBox(height: 20),
-              //debugInfo()
             ],
           ),
         ),
@@ -179,15 +177,53 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
             fontSize: Constants.normalFontSize,
           ),
         ),
-        Text(
-          'Zodiac Sign: ${Calculator.getZodiacSign(getDataById(widget.birthdayId).date)}',
-          style: const TextStyle(
-            color: Constants.whiteSecondary,
-            fontSize: Constants.normalFontSize,
-          ),
-        ),
-        const SizedBox(height: 5),
       ],
+    );
+  }
+
+  Widget zodiacSign() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 110, left: 110),
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Constants.darkGreySecondary,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 18, top: 10, bottom: 10),
+              child: Expanded(
+                child: Text(
+                  Calculator.getZodiacSign(
+                      getDataById(widget.birthdayId).date)[1],
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Constants.whiteSecondary,
+                    fontSize: 40,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: Text(
+                  Calculator.getZodiacSign(
+                      getDataById(widget.birthdayId).date)[0],
+                  //'test',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Constants.whiteSecondary,
+                    fontSize: Constants.normalFontSize,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -300,7 +336,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
 
   Padding allowNotificationSwitch() {
     return Padding(
-      padding: const EdgeInsets.only(right: 35.0, left: 35.0),
+      padding: const EdgeInsets.only(right: 35.0, left: 50.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
