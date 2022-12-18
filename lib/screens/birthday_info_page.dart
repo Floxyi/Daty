@@ -179,6 +179,13 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
             fontSize: Constants.normalFontSize,
           ),
         ),
+        Text(
+          'Zodiac Sign: ${Calculator.getZodiacSign(getDataById(widget.birthdayId).date)}',
+          style: const TextStyle(
+            color: Constants.whiteSecondary,
+            fontSize: Constants.normalFontSize,
+          ),
+        ),
         const SizedBox(height: 5),
       ],
     );
