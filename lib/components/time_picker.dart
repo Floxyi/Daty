@@ -40,7 +40,7 @@ class _TimePickerState extends State<TimePicker> {
     final TimeOfDay? selectedTime = await showTimePicker(
       context: context,
       initialTime: widget.startTime,
-      initialEntryMode: TimePickerEntryMode.input,
+      initialEntryMode: TimePickerEntryMode.dialOnly,
       builder: (context, child) {
         return Theme(
           data: ThemeData(
