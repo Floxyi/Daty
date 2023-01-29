@@ -37,9 +37,12 @@ class _BirthdayCardState extends State<BirthdayCard> {
               },
             ),
           );
-          setState(() {
-            birthdayData = getDataById(birthdayData.birthdayId);
-          });
+
+          mounted
+              ? setState(() {
+                  birthdayData = getDataById(birthdayData.birthdayId);
+                })
+              : null;
         }
       },
       child: Container(
