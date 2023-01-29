@@ -168,10 +168,26 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
   }
 
   Column birthdayInfo() {
+    int weekdayNumber = getDataById(widget.birthdayId).date.weekday;
+    String weekday = Calculator.getDayName(weekdayNumber, context);
+
+    int day = getDataById(widget.birthdayId).date.day;
+
+    int monthNumber = getDataById(widget.birthdayId).date.month;
+    String month = Calculator.getMonthName(monthNumber, context);
+
+    int year = getDataById(widget.birthdayId).date.year;
+
+    int hourNumber = getDataById(widget.birthdayId).date.hour;
+    int minuteNumber = getDataById(widget.birthdayId).date.minute;
+
+    String hour = hourNumber < 10 ? '0$hourNumber' : '$hourNumber';
+    String minute = minuteNumber < 10 ? '0$minuteNumber' : '$minuteNumber';
+
     return Column(
       children: [
         Text(
-          '${Calculator.getDayName(getDataById(widget.birthdayId).date.weekday, context)}, ${getDataById(widget.birthdayId).date.day}. ${Calculator.getMonthName(getDataById(widget.birthdayId).date.month, context)} ${getDataById(widget.birthdayId).date.year} - ${getDataById(widget.birthdayId).date.hour}:${getDataById(widget.birthdayId).date.minute}\n ',
+          '$weekday, $day. $month $year - $hour:$minute\n ',
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.normalFontSize,
@@ -194,17 +210,15 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 18, top: 10, bottom: 10),
-              child: Expanded(
-                child: Text(
-                  Calculator.getZodiacSign(
-                    getDataById(widget.birthdayId).date,
-                    context,
-                  )[1],
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Constants.whiteSecondary,
-                    fontSize: 40,
-                  ),
+              child: Text(
+                Calculator.getZodiacSign(
+                  getDataById(widget.birthdayId).date,
+                  context,
+                )[1],
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Constants.whiteSecondary,
+                  fontSize: 40,
                 ),
               ),
             ),
