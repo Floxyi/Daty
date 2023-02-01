@@ -1,12 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 
 import 'package:confetti/confetti.dart';
+import 'package:daty/components/birthday_countdown.dart';
 import 'package:daty/screens/birthday_edit_page.dart';
 import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/calculator.dart';
 import 'package:daty/utilities/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BirthdayInfoPage extends StatefulWidget {
@@ -18,26 +22,12 @@ class BirthdayInfoPage extends StatefulWidget {
   State<BirthdayInfoPage> createState() => _BirthdayInfoPageState();
 }
 
-class _BirthdayInfoPageState extends State<BirthdayInfoPage>
-    with WidgetsBindingObserver {
+class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
   late ConfettiController confetti;
-  late Timer timer;
-  Duration duration = const Duration(milliseconds: 100);
-
-  void startTimer() {
-    timer = Timer.periodic(
-      duration,
-      (Timer t) => mounted ? setState(() {}) : timer.cancel(),
-    );
-  }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-
-    startTimer();
-
     confetti = ConfettiController(duration: const Duration(seconds: 10));
     Calculator.hasBirthdayToday(getDataById(widget.birthdayId).date)
         ? confetti.play()
@@ -46,27 +36,8 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
 
   @override
   void dispose() {
-    timer.cancel();
     confetti.dispose();
-
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.paused:
-        timer.cancel();
-        break;
-      case AppLifecycleState.inactive:
-        timer.cancel();
-        break;
-      case AppLifecycleState.resumed:
-        timer = Timer.periodic(duration, (Timer t) => setState(() {}));
-        break;
-      default:
-    }
   }
 
   @override
@@ -78,18 +49,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
         child: Center(
           child: Column(
             children: [
-              ConfettiWidget(
-                confettiController: confetti,
-                blastDirectionality: BlastDirectionality.explosive,
-                colors: const [
-                  Colors.green,
-                  Colors.blue,
-                  Colors.pink,
-                  Colors.orange,
-                  Colors.purple
-                ],
-                emissionFrequency: 0.05,
-              ),
+              confettiWidget(),
               const SizedBox(height: 30),
               iconWithName(),
               const SizedBox(height: 10),
@@ -98,7 +58,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
               const SizedBox(height: 30),
               zodiacSign(),
               const SizedBox(height: 40),
-              birthdayCountdown(),
+              BirthdayCountdown(widget.birthdayId),
               allowNotificationSwitch(),
             ],
           ),
@@ -137,12 +97,26 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
         ),
       ),
       onTap: () {
-        timer.cancel();
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (BuildContext context) {
           return BirthdayEditPage(widget.birthdayId);
-        })).then((value) => startTimer());
+        }));
       },
+    );
+  }
+
+  ConfettiWidget confettiWidget() {
+    return ConfettiWidget(
+      confettiController: confetti,
+      blastDirectionality: BlastDirectionality.explosive,
+      colors: const [
+        Colors.green,
+        Colors.blue,
+        Colors.pink,
+        Colors.orange,
+        Colors.purple
+      ],
+      emissionFrequency: 0.05,
     );
   }
 
@@ -272,86 +246,6 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
     );
   }
 
-  Container birthdayCountdown() {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Constants.darkGreySecondary,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 8.0,
-          right: 8.0,
-          top: 15,
-          bottom: 5,
-        ),
-        child: Column(
-          children: [
-            Text(
-              AppLocalizations.of(context)!.countdown,
-              style: const TextStyle(
-                color: Constants.whiteSecondary,
-                fontSize: Constants.biggerFontSize,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            countdown(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Row countdown() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        counter(
-          AppLocalizations.of(context)!.days,
-          Calculator.daysTillBirthday(getDataById(widget.birthdayId).date),
-        ),
-        counter(
-          AppLocalizations.of(context)!.hours,
-          Calculator.hoursTillBirthday(getDataById(widget.birthdayId).date),
-        ),
-        counter(
-          AppLocalizations.of(context)!.minutes,
-          Calculator.minutesTillBirthday(getDataById(widget.birthdayId).date),
-        ),
-        counter(
-          AppLocalizations.of(context)!.seconds,
-          Calculator.secondsTillBirthday(getDataById(widget.birthdayId).date),
-        ),
-      ],
-    );
-  }
-
-  Container counter(String unit, int time) {
-    return Container(
-      margin: const EdgeInsets.all(15),
-      child: Column(
-        children: [
-          Text(
-            time.toString(),
-            style: const TextStyle(
-              color: Constants.whiteSecondary,
-              fontSize: Constants.biggerFontSize,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            unit,
-            style: const TextStyle(
-              color: Constants.whiteSecondary,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   Padding allowNotificationSwitch() {
     return Padding(
       padding: const EdgeInsets.only(right: 35.0, left: 50.0),
@@ -362,7 +256,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
             AppLocalizations.of(context)!.allowNotification,
             style: const TextStyle(
               color: Constants.whiteSecondary,
-              fontSize: Constants.normalFontSize,
+              fontSize: Constants.smallerFontSize,
             ),
           ),
           const Spacer(),
@@ -387,5 +281,18 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage>
         ],
       ),
     );
+  }
+
+  Future<String> getWish() async {
+    String fileName = 'assets/wishes/wishes.json';
+    final String response = await rootBundle.loadString(fileName);
+
+    final data = await json.decode(response);
+    final amount = data.length + 1;
+
+    Random random = Random();
+    int number = 0 + random.nextInt(amount);
+
+    return data["wishes"][number]["wish"];
   }
 }
