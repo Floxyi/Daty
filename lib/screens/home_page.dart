@@ -19,21 +19,13 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
+    handleNotifications();
     super.initState();
-    AwesomeNotifications().isNotificationAllowed().then(
-      (value) async {
-        if (value) {
-          addNotificationListener();
-        } else if (await isFirstStartup()) {
-          requestNotificationAccess(context);
-        }
-      },
-    );
   }
 
   @override
@@ -42,6 +34,18 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Constants.blackPrimary,
       appBar: appBar(),
       body: body(),
+    );
+  }
+
+  void handleNotifications() {
+    AwesomeNotifications().isNotificationAllowed().then(
+      (value) async {
+        if (value) {
+          addNotificationListener();
+        } else if (await isFirstStartup()) {
+          requestNotificationAccess(context);
+        }
+      },
     );
   }
 

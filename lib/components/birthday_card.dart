@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:daty/screens/birthday_info_page.dart';
 import 'package:daty/utilities/Birthday.dart';
-import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/calculator.dart';
 import 'package:daty/utilities/constants.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,60 @@ class BirthdayCard extends StatefulWidget {
   State<BirthdayCard> createState() => _BirthdayCardState();
 }
 
-class _BirthdayCardState extends State<BirthdayCard> {
+class _BirthdayCardState extends State<BirthdayCard>
+    with WidgetsBindingObserver {
+  late Timer timer;
+  late Duration duration;
+
+  void startTimer() {
+    duration = Duration(
+      hours: Calculator.hoursTillBirthday(widget.birthday.date),
+      minutes: Calculator.minutesTillBirthday(widget.birthday.date),
+      seconds: Calculator.secondsTillBirthday(widget.birthday.date),
+    );
+
+    timer = Timer.periodic(
+      duration,
+      (Timer t) => mounted
+          ? setState(() {
+              duration = const Duration(hours: 24);
+            })
+          : timer.cancel(),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addObserver(this);
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.paused:
+        timer.cancel();
+        break;
+      case AppLifecycleState.inactive:
+        timer.cancel();
+        break;
+      case AppLifecycleState.resumed:
+        timer = Timer.periodic(duration, (Timer t) => setState(() {}));
+        break;
+      default:
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
