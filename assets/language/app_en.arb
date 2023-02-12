@@ -77,5 +77,12 @@
     "virgo": "Virgo",
     "libran": "Libran",
     "scorpio": "Scorpio",
-    "sagittarius": "Sagittarius"
+    "sagittarius": "Sagittarius",
+
+    "generateWish": "Generate a birthday wish",
+    "wish1": "Happy Birthday dear /name/!",
+    "wish2": "Happy Birthday to your /age/. birthday!",
+    "wish3": "Happy Birthday to you!",
+    "wish4": "Wishing you a birthday filled with love, joy, and all your favorite things. May your special day bring you endless happiness and memories.",
+    "wish5": "Happy birthday! May your day be as bright and beautiful as you are. May all your dreams and wishes come true on your special day and throughout the coming year."
 }

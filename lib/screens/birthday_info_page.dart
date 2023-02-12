@@ -1,6 +1,6 @@
-import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
+import 'package:daty/components/view_title.dart';
+import 'package:flutter/services.dart';
 
 import 'package:confetti/confetti.dart';
 import 'package:daty/components/birthday_countdown.dart';
@@ -10,7 +10,6 @@ import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/calculator.dart';
 import 'package:daty/utilities/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BirthdayInfoPage extends StatefulWidget {
@@ -59,6 +58,10 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
               zodiacSign(),
               const SizedBox(height: 40),
               BirthdayCountdown(widget.birthdayId),
+              const SizedBox(height: 40),
+              ViewTitle(AppLocalizations.of(context)!.generateWish),
+              birthdayWidget(),
+              const SizedBox(height: 10),
               allowNotificationSwitch(),
             ],
           ),
@@ -204,7 +207,6 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
                     getDataById(widget.birthdayId).date,
                     context,
                   )[0],
-                  //'test',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Constants.whiteSecondary,
@@ -246,6 +248,62 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
     );
   }
 
+  Widget birthdayWidget() {
+    String birthdayWish = getWish();
+
+    return Padding(
+      padding: const EdgeInsets.only(right: 40, left: 40, top: 20),
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Constants.darkGreySecondary,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Text(
+                    birthdayWish,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Constants.whiteSecondary,
+                      fontSize: Constants.normalFontSize,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        await Clipboard.setData(
+                          ClipboardData(text: birthdayWish),
+                        );
+                      },
+                      child: const Icon(Icons.copy),
+                    ),
+                    ElevatedButton(
+                      onPressed: (() {
+                        setState(() {});
+                      }),
+                      child: const Icon(Icons.refresh),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Padding allowNotificationSwitch() {
     return Padding(
       padding: const EdgeInsets.only(right: 35.0, left: 50.0),
@@ -283,16 +341,24 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
     );
   }
 
-  Future<String> getWish() async {
-    String fileName = 'assets/wishes/wishes.json';
-    final String response = await rootBundle.loadString(fileName);
+  String getWish() {
+    List<String> wishes = [
+      AppLocalizations.of(context)!.wish1,
+      AppLocalizations.of(context)!.wish2,
+      AppLocalizations.of(context)!.wish3,
+      AppLocalizations.of(context)!.wish4,
+      AppLocalizations.of(context)!.wish5,
+    ];
 
-    final data = await json.decode(response);
-    final amount = data.length + 1;
+    int number = Random().nextInt(wishes.length);
+    String wish = wishes[number];
 
-    Random random = Random();
-    int number = 0 + random.nextInt(amount);
+    String name = getDataById(widget.birthdayId).name;
+    wish = wish.replaceAll('/name/', name);
 
-    return data["wishes"][number]["wish"];
+    int age = Calculator.calculateAge(getDataById(widget.birthdayId).date) + 1;
+    wish = wish.replaceAll('/age/', age.toString());
+
+    return wish;
   }
 }
