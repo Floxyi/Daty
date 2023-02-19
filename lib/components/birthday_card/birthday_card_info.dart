@@ -36,19 +36,13 @@ class _BirthdayCardInfoState extends State<BirthdayCardInfo> {
 
   Text nameText() {
     return Text(
-      getNameText(),
+      widget.birthday.name,
       style: const TextStyle(
         fontSize: Constants.biggerFontSize,
         fontWeight: FontWeight.bold,
         color: Constants.whiteSecondary,
       ),
     );
-  }
-
-  String getNameText() {
-    String name = widget.birthday.name;
-    String zodiac = Calculator.getZodiacSign(widget.birthday.date, context)[0];
-    return name + zodiac;
   }
 
   String getDateText() {
