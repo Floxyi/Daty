@@ -31,14 +31,12 @@ class _BirthdayCountdownState extends State<BirthdayCountdown>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-
     startTimer();
   }
 
   @override
   void dispose() {
     timer.cancel();
-
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -61,10 +59,6 @@ class _BirthdayCountdownState extends State<BirthdayCountdown>
 
   @override
   Widget build(BuildContext context) {
-    return birthdayCountdown();
-  }
-
-  Container birthdayCountdown() {
     return Container(
       decoration: const BoxDecoration(
         color: Constants.darkGreySecondary,
@@ -87,14 +81,14 @@ class _BirthdayCountdownState extends State<BirthdayCountdown>
                 fontWeight: FontWeight.bold,
               ),
             ),
-            countdown(),
+            countdownContainer(),
           ],
         ),
       ),
     );
   }
 
-  Row countdown() {
+  Widget countdownContainer() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -102,33 +96,25 @@ class _BirthdayCountdownState extends State<BirthdayCountdown>
       children: [
         counter(
           AppLocalizations.of(context)!.days,
-          Calculator.daysTillBirthday(
-            getDataById(widget.birthdayId).date,
-          ),
+          Calculator.daysTillBirthday(getDataById(widget.birthdayId).date),
         ),
         counter(
           AppLocalizations.of(context)!.hours,
-          Calculator.hoursTillBirthday(
-            getDataById(widget.birthdayId).date,
-          ),
+          Calculator.hoursTillBirthday(getDataById(widget.birthdayId).date),
         ),
         counter(
           AppLocalizations.of(context)!.minutes,
-          Calculator.minutesTillBirthday(
-            getDataById(widget.birthdayId).date,
-          ),
+          Calculator.minutesTillBirthday(getDataById(widget.birthdayId).date),
         ),
         counter(
           AppLocalizations.of(context)!.seconds,
-          Calculator.secondsTillBirthday(
-            getDataById(widget.birthdayId).date,
-          ),
+          Calculator.secondsTillBirthday(getDataById(widget.birthdayId).date),
         ),
       ],
     );
   }
 
-  Container counter(String unit, int time) {
+  Widget counter(String unit, int time) {
     return Container(
       margin: const EdgeInsets.all(15),
       child: Column(

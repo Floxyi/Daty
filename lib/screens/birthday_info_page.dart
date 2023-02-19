@@ -48,19 +48,20 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
         child: Center(
           child: Column(
             children: [
-              confettiWidget(),
+              confettiSpawner(),
               const SizedBox(height: 30),
-              iconWithName(),
-              const SizedBox(height: 10),
-              birthdayInfo(),
-              preciseAge(),
-              const SizedBox(height: 30),
-              zodiacSign(),
+              informationDisplay(),
               const SizedBox(height: 40),
+              const ViewTitle("Präzises Alter"),
+              const SizedBox(height: 20),
+              preciseAge(),
+              const SizedBox(height: 40),
+              const ViewTitle("Countdown"),
+              const SizedBox(height: 20),
               BirthdayCountdown(widget.birthdayId),
               const SizedBox(height: 40),
               ViewTitle(AppLocalizations.of(context)!.generateWish),
-              birthdayWidget(),
+              wishDisplay(),
               const SizedBox(height: 10),
               allowNotificationSwitch(),
             ],
@@ -84,31 +85,27 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
         ),
       ),
       actions: [
-        editButton(context),
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          child: Container(
+            margin: const EdgeInsets.only(right: 15),
+            child: const Icon(
+              Icons.edit,
+              size: 25,
+            ),
+          ),
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (BuildContext context) {
+              return BirthdayEditPage(widget.birthdayId);
+            }));
+          },
+        ),
       ],
     );
   }
 
-  GestureDetector editButton(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      child: Container(
-        margin: const EdgeInsets.only(right: 15),
-        child: const Icon(
-          Icons.edit,
-          size: 25,
-        ),
-      ),
-      onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (BuildContext context) {
-          return BirthdayEditPage(widget.birthdayId);
-        }));
-      },
-    );
-  }
-
-  ConfettiWidget confettiWidget() {
+  ConfettiWidget confettiSpawner() {
     return ConfettiWidget(
       confettiController: confetti,
       blastDirectionality: BlastDirectionality.explosive,
@@ -123,28 +120,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
     );
   }
 
-  Widget iconWithName() {
-    return Column(
-      children: [
-        const Icon(
-          Icons.cake_outlined,
-          size: 80,
-          color: Constants.whiteSecondary,
-        ),
-        const SizedBox(height: 10),
-        Text(
-          getDataById(widget.birthdayId).name,
-          style: const TextStyle(
-            color: Constants.whiteSecondary,
-            fontSize: Constants.titleFontSizeSize,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Column birthdayInfo() {
+  Widget informationDisplay() {
     int weekdayNumber = getDataById(widget.birthdayId).date.weekday;
     String weekday = Calculator.getDayName(weekdayNumber, context);
 
@@ -163,12 +139,58 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
 
     return Column(
       children: [
+        const Icon(
+          Icons.cake_outlined,
+          size: 80,
+          color: Constants.whiteSecondary,
+        ),
+        const SizedBox(height: 10),
         Text(
-          '$weekday, $day. $month $year - $hour:$minute\n ',
+          getDataById(widget.birthdayId).name,
+          style: const TextStyle(
+            color: Constants.whiteSecondary,
+            fontSize: Constants.titleFontSizeSize,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          '$weekday, $day. $month $year - $hour:$minute',
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.normalFontSize,
           ),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: Text(
+                Calculator.getZodiacSign(
+                  getDataById(widget.birthdayId).date,
+                  context,
+                )[1],
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Constants.whiteSecondary,
+                  fontSize: 30,
+                ),
+              ),
+            ),
+            Text(
+              Calculator.getZodiacSign(
+                getDataById(widget.birthdayId).date,
+                context,
+              )[0],
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Constants.whiteSecondary,
+                fontSize: Constants.normalFontSize,
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -248,7 +270,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
     );
   }
 
-  Widget birthdayWidget() {
+  Widget wishDisplay() {
     String birthdayWish = getWish();
 
     return Padding(
@@ -304,6 +326,27 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
     );
   }
 
+  String getWish() {
+    List<String> wishes = [
+      AppLocalizations.of(context)!.wish1,
+      AppLocalizations.of(context)!.wish2,
+      AppLocalizations.of(context)!.wish3,
+      AppLocalizations.of(context)!.wish4,
+      AppLocalizations.of(context)!.wish5,
+    ];
+
+    int number = Random().nextInt(wishes.length);
+    String wish = wishes[number];
+
+    String name = getDataById(widget.birthdayId).name;
+    wish = wish.replaceAll('/name/', name);
+
+    int age = Calculator.calculateAge(getDataById(widget.birthdayId).date) + 1;
+    wish = wish.replaceAll('/age/', age.toString());
+
+    return wish;
+  }
+
   Padding allowNotificationSwitch() {
     return Padding(
       padding: const EdgeInsets.only(right: 35.0, left: 50.0),
@@ -339,26 +382,5 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
         ],
       ),
     );
-  }
-
-  String getWish() {
-    List<String> wishes = [
-      AppLocalizations.of(context)!.wish1,
-      AppLocalizations.of(context)!.wish2,
-      AppLocalizations.of(context)!.wish3,
-      AppLocalizations.of(context)!.wish4,
-      AppLocalizations.of(context)!.wish5,
-    ];
-
-    int number = Random().nextInt(wishes.length);
-    String wish = wishes[number];
-
-    String name = getDataById(widget.birthdayId).name;
-    wish = wish.replaceAll('/name/', name);
-
-    int age = Calculator.calculateAge(getDataById(widget.birthdayId).date) + 1;
-    wish = wish.replaceAll('/age/', age.toString());
-
-    return wish;
   }
 }
