@@ -1,5 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:daty/components/birthday_card.dart';
+import 'package:daty/components/birthday_card/birthday_card.dart';
 import 'package:daty/screens/birthday_add_page.dart';
 import 'package:daty/screens/settings_page.dart';
 import 'package:daty/utilities/Birthday.dart';

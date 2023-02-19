@@ -1,4 +1,4 @@
-import 'package:daty/components/birthday_card.dart';
+import 'package:daty/components/birthday_card/birthday_card.dart';
 import 'package:daty/components/date_picker.dart';
 import 'package:daty/components/time_picker.dart';
 import 'package:daty/components/view_title.dart';
