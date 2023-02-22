@@ -1,21 +1,22 @@
 import 'dart:async';
 
+import 'package:daty/components/birthday_timer/birthday_timer_counter.dart';
 import 'package:daty/utilities/birthday_data.dart';
 import 'package:daty/utilities/calculator.dart';
 import 'package:daty/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class BirthdayCountdown extends StatefulWidget {
+class BirthdayTimer extends StatefulWidget {
   final int birthdayId;
 
-  const BirthdayCountdown(this.birthdayId, {Key? key}) : super(key: key);
+  const BirthdayTimer(this.birthdayId, {Key? key}) : super(key: key);
 
   @override
-  State<BirthdayCountdown> createState() => _BirthdayCountdownState();
+  State<BirthdayTimer> createState() => _BirthdayTimerState();
 }
 
-class _BirthdayCountdownState extends State<BirthdayCountdown>
+class _BirthdayTimerState extends State<BirthdayTimer>
     with WidgetsBindingObserver {
   late Timer timer;
   Duration duration = const Duration(milliseconds: 100);
@@ -94,47 +95,23 @@ class _BirthdayCountdownState extends State<BirthdayCountdown>
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        counter(
+        BirthdayTimerCounter(
           AppLocalizations.of(context)!.days,
           Calculator.daysTillBirthday(getDataById(widget.birthdayId).date),
         ),
-        counter(
+        BirthdayTimerCounter(
           AppLocalizations.of(context)!.hours,
           Calculator.hoursTillBirthday(getDataById(widget.birthdayId).date),
         ),
-        counter(
+        BirthdayTimerCounter(
           AppLocalizations.of(context)!.minutes,
           Calculator.minutesTillBirthday(getDataById(widget.birthdayId).date),
         ),
-        counter(
+        BirthdayTimerCounter(
           AppLocalizations.of(context)!.seconds,
           Calculator.secondsTillBirthday(getDataById(widget.birthdayId).date),
         ),
       ],
-    );
-  }
-
-  Widget counter(String unit, int time) {
-    return Container(
-      margin: const EdgeInsets.all(15),
-      child: Column(
-        children: [
-          Text(
-            time.toString(),
-            style: const TextStyle(
-              color: Constants.whiteSecondary,
-              fontSize: Constants.biggerFontSize,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            unit,
-            style: const TextStyle(
-              color: Constants.whiteSecondary,
-            ),
-          )
-        ],
-      ),
     );
   }
 }

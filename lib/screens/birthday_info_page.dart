@@ -3,7 +3,7 @@ import 'package:daty/components/view_title.dart';
 import 'package:flutter/services.dart';
 
 import 'package:confetti/confetti.dart';
-import 'package:daty/components/birthday_countdown.dart';
+import 'package:daty/components/birthday_timer/birthday_timer.dart';
 import 'package:daty/screens/birthday_edit_page.dart';
 import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/birthday_data.dart';
@@ -58,7 +58,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
               const SizedBox(height: 40),
               const ViewTitle("Countdown"),
               const SizedBox(height: 20),
-              BirthdayCountdown(widget.birthdayId),
+              BirthdayTimer(widget.birthdayId),
               const SizedBox(height: 40),
               ViewTitle(AppLocalizations.of(context)!.generateWish),
               wishDisplay(),
