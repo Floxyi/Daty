@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:daty/components/precise_age.dart';
 import 'package:daty/components/view_title.dart';
 import 'package:flutter/services.dart';
 
@@ -54,7 +55,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
               const SizedBox(height: 40),
               const ViewTitle("Präzises Alter"),
               const SizedBox(height: 20),
-              preciseAge(),
+              PreciseAge(getDataById(widget.birthdayId).date),
               const SizedBox(height: 40),
               const ViewTitle("Countdown"),
               const SizedBox(height: 20),
@@ -240,33 +241,6 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
           ],
         ),
       ),
-    );
-  }
-
-  Row preciseAge() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
-      children: [
-        Text(
-          Calculator.calculateAge(getDataById(widget.birthdayId).date)
-              .toString(),
-          style: const TextStyle(
-            color: Constants.whiteSecondary,
-            fontSize: Constants.titleFontSizeSize,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          Calculator.calculatePreciseAge(getDataById(widget.birthdayId).date, 8)
-              .toString(),
-          style: const TextStyle(
-            color: Constants.whiteSecondary,
-            fontSize: Constants.biggerFontSize,
-          ),
-        ),
-      ],
     );
   }
 
