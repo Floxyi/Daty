@@ -1,15 +1,12 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:daty/components/birthday_card/birthday_card.dart';
+import 'package:daty/components/birthday_card/birthday_card_listview.dart';
 import 'package:daty/screens/birthday_add_page.dart';
 import 'package:daty/screens/settings_page.dart';
-import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/app_data.dart';
 import 'package:daty/utilities/birthday_data.dart';
-import 'package:daty/utilities/calculator.dart';
 import 'package:daty/utilities/constants.dart';
 import 'package:daty/utilities/notification_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,11 +17,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
-  final ScrollController _scrollController = ScrollController();
-
   @override
   void initState() {
-    handleNotifications();
+    AwesomeNotifications().isNotificationAllowed().then(
+      (value) async {
+        if (value) {
+          addNotificationListener();
+        } else if (await isFirstStartup()) {
+          // ignore: use_build_context_synchronously
+          requestNotificationAccess(context);
+        }
+      },
+    );
     super.initState();
   }
 
@@ -33,31 +37,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     return Scaffold(
       backgroundColor: Constants.blackPrimary,
       appBar: appBar(),
-      body: body(),
-    );
-  }
-
-  void handleNotifications() {
-    AwesomeNotifications().isNotificationAllowed().then(
-      (value) async {
-        if (value) {
-          addNotificationListener();
-        } else if (await isFirstStartup()) {
-          requestNotificationAccess(context);
-        }
-      },
-    );
-  }
-
-  Widget body() {
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.only(top: 10, bottom: 30),
-        child: Column(
-          children: [
-            birthdayList.isNotEmpty ? birthdayListView() : infoText(),
-            addButton(context),
-          ],
+      body: Center(
+        child: Container(
+          margin: const EdgeInsets.only(top: 10, bottom: 30),
+          child: Column(
+            children: [
+              birthdayList.isNotEmpty
+                  ? const BirthdayCardListview()
+                  : emptyInfoText(),
+              createBirthdayButton(context),
+            ],
+          ),
         ),
       ),
     );
@@ -101,144 +91,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     );
   }
 
-  Expanded birthdayListView() {
-    return Expanded(
-      child: RawScrollbar(
-        thumbColor: Constants.lighterGrey,
-        radius: const Radius.circular(20),
-        thickness: 5,
-        thumbVisibility: true,
-        controller: _scrollController,
-        child: ListView.builder(
-          controller: _scrollController,
-          itemCount: birthdayList.length,
-          itemBuilder: (context, index) {
-            birthdayList.sort(
-              (a, b) => Calculator.remainingDaysTillBirthday(a.date).compareTo(
-                Calculator.remainingDaysTillBirthday(b.date),
-              ),
-            );
-            return Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(15.0),
-                  child: slidableCard(index, birthdayList[index]),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Slidable slidableCard(int index, Birthday item) {
-    return Slidable(
-      key: UniqueKey(),
-      endActionPane: ActionPane(
-        motion: const DrawerMotion(),
-        dismissible: DismissiblePane(
-          onDismissed: () {
-            deleteBirthday(index, context, item);
-          },
-        ),
-        extentRatio: 0.25,
-        children: [
-          SlidableAction(
-            onPressed: (context) {
-              deleteBirthday(index, context, item);
-            },
-            backgroundColor: Colors.red,
-            foregroundColor: Colors.white,
-            icon: Icons.delete_sweep_outlined,
-            label: AppLocalizations.of(context)!.delete,
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-          ),
-        ],
-      ),
-      child: Container(
-        margin: const EdgeInsets.only(left: 8.0, right: 8.0),
-        child: BirthdayCard(
-          birthdayList[index],
-          true,
-        ),
-      ),
-    );
-  }
-
-  void deleteBirthday(int index, BuildContext context, Birthday item) {
-    setState(() {
-      removeBirthday(birthdayList.elementAt(index).birthdayId);
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(dismissibleSnackBar(item));
-  }
-
-  SnackBar dismissibleSnackBar(Birthday birthday) {
-    return SnackBar(
-      backgroundColor: Constants.greySecondary,
-      behavior: SnackBarBehavior.floating,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-      ),
-      content: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                  '${AppLocalizations.of(context)!.deletedBirthday} ${birthday.name}!'),
-            ],
-          ),
-          const Spacer(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Constants.darkGreySecondary,
-                ),
-                onPressed: () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  setState(() {
-                    if (restoreBirthday()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '${AppLocalizations.of(context)!.restoredBirthday} ${lastDeleted!.name}!',
-                          ),
-                          behavior: SnackBarBehavior.floating,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                  });
-                },
-                child: Row(
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.restore,
-                      style: const TextStyle(color: Constants.bluePrimary),
-                    ),
-                    const SizedBox(width: 5),
-                    const Icon(Icons.restore, color: Constants.bluePrimary)
-                  ],
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget infoText() {
+  Widget emptyInfoText() {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -263,7 +116,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     );
   }
 
-  Container addButton(BuildContext context) {
+  Container createBirthdayButton(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 8.0, bottom: 23.0),
       child: OutlinedButton(
