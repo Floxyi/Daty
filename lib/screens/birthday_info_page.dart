@@ -196,53 +196,6 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
     );
   }
 
-  Widget zodiacSign() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 110, left: 110),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Constants.darkGreySecondary,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 18, top: 10, bottom: 10),
-              child: Text(
-                Calculator.getZodiacSign(
-                  getDataById(widget.birthdayId).date,
-                  context,
-                )[1],
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Constants.whiteSecondary,
-                  fontSize: 40,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 10),
-                child: Text(
-                  Calculator.getZodiacSign(
-                    getDataById(widget.birthdayId).date,
-                    context,
-                  )[0],
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Constants.whiteSecondary,
-                    fontSize: Constants.normalFontSize,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Padding allowNotificationSwitch() {
     return Padding(
       padding: const EdgeInsets.only(right: 35.0, left: 50.0),
