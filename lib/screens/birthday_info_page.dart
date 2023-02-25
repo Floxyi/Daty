@@ -44,28 +44,32 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
     return Scaffold(
       backgroundColor: Constants.blackPrimary,
       appBar: appBar(context),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              confettiSpawner(),
-              const SizedBox(height: 30),
-              informationDisplay(),
-              const SizedBox(height: 40),
-              const ViewTitle("Präzises Alter"),
-              const SizedBox(height: 20),
-              PreciseAge(getDataById(widget.birthdayId).date),
-              const SizedBox(height: 40),
-              const ViewTitle("Countdown"),
-              const SizedBox(height: 20),
-              BirthdayTimer(widget.birthdayId),
-              const SizedBox(height: 40),
-              ViewTitle(AppLocalizations.of(context)!.generateWish),
-              WishGenerator(getDataById(widget.birthdayId)),
-              const SizedBox(height: 10),
-              allowNotificationSwitch(),
-            ],
-          ),
+      body: body(context),
+    );
+  }
+
+  SingleChildScrollView body(BuildContext context) {
+    return SingleChildScrollView(
+      child: Center(
+        child: Column(
+          children: [
+            confettiSpawner(),
+            const SizedBox(height: 30),
+            informationSection(),
+            const SizedBox(height: 40),
+            const ViewTitle("Präzises Alter"),
+            const SizedBox(height: 20),
+            PreciseAge(getDataById(widget.birthdayId).date),
+            const SizedBox(height: 40),
+            const ViewTitle("Countdown"),
+            const SizedBox(height: 20),
+            BirthdayTimer(widget.birthdayId),
+            const SizedBox(height: 40),
+            ViewTitle(AppLocalizations.of(context)!.generateWish),
+            WishGenerator(getDataById(widget.birthdayId)),
+            const SizedBox(height: 10),
+            allowNotificationSwitch(),
+          ],
         ),
       ),
     );
@@ -120,7 +124,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
     );
   }
 
-  Widget informationDisplay() {
+  Widget informationSection() {
     int weekdayNumber = getDataById(widget.birthdayId).date.weekday;
     String weekday = Calculator.getDayName(weekdayNumber, context);
 
@@ -162,35 +166,39 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
           ),
         ),
         const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 15.0),
-              child: Text(
-                Calculator.getZodiacSign(
-                  getDataById(widget.birthdayId).date,
-                  context,
-                )[1],
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Constants.whiteSecondary,
-                  fontSize: 30,
-                ),
-              ),
+        zodiacSign(),
+      ],
+    );
+  }
+
+  Row zodiacSign() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 15.0),
+          child: Text(
+            Calculator.getZodiacSign(
+              getDataById(widget.birthdayId).date,
+              context,
+            )[1],
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Constants.whiteSecondary,
+              fontSize: 30,
             ),
-            Text(
-              Calculator.getZodiacSign(
-                getDataById(widget.birthdayId).date,
-                context,
-              )[0],
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Constants.whiteSecondary,
-                fontSize: Constants.normalFontSize,
-              ),
-            ),
-          ],
+          ),
+        ),
+        Text(
+          Calculator.getZodiacSign(
+            getDataById(widget.birthdayId).date,
+            context,
+          )[0],
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Constants.whiteSecondary,
+            fontSize: Constants.normalFontSize,
+          ),
         ),
       ],
     );

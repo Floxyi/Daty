@@ -37,17 +37,21 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     return Scaffold(
       backgroundColor: Constants.blackPrimary,
       appBar: appBar(),
-      body: Center(
-        child: Container(
-          margin: const EdgeInsets.only(top: 10, bottom: 30),
-          child: Column(
-            children: [
-              birthdayList.isNotEmpty
-                  ? const BirthdayCardListview()
-                  : emptyInfoText(),
-              createBirthdayButton(context),
-            ],
-          ),
+      body: body(context),
+    );
+  }
+
+  Center body(BuildContext context) {
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.only(top: 10, bottom: 30),
+        child: Column(
+          children: [
+            birthdayList.isNotEmpty
+                ? const BirthdayCardListview()
+                : emptyPageText(),
+            addBirthdayButton(context),
+          ],
         ),
       ),
     );
@@ -91,7 +95,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     );
   }
 
-  Widget emptyInfoText() {
+  Widget emptyPageText() {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -116,7 +120,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     );
   }
 
-  Container createBirthdayButton(BuildContext context) {
+  Container addBirthdayButton(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 8.0, bottom: 23.0),
       child: OutlinedButton(

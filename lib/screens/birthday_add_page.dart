@@ -54,24 +54,10 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
                 inputNameField(),
                 const SizedBox(height: 40),
                 ViewTitle('${AppLocalizations.of(context)!.editDate}:'),
-                DatePicker(
-                  date,
-                  onDayChanged: (newDayTime) {
-                    setState(() {
-                      date = newDayTime;
-                    });
-                  },
-                ),
+                datePicker(),
                 const SizedBox(height: 40),
                 ViewTitle('${AppLocalizations.of(context)!.editTime}:'),
-                TimePicker(
-                  time,
-                  onTimeChanged: (newDateTime) {
-                    setState(() {
-                      time = newDateTime;
-                    });
-                  },
-                ),
+                timePicker(),
                 infoText(AppLocalizations.of(context)!.timeInfo),
                 const SizedBox(height: 40),
                 ViewTitle('${AppLocalizations.of(context)!.preview}:'),
@@ -86,6 +72,28 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
           ),
         ),
       ),
+    );
+  }
+
+  TimePicker timePicker() {
+    return TimePicker(
+      time,
+      onTimeChanged: (newDateTime) {
+        setState(() {
+          time = newDateTime;
+        });
+      },
+    );
+  }
+
+  DatePicker datePicker() {
+    return DatePicker(
+      date,
+      onDayChanged: (newDayTime) {
+        setState(() {
+          date = newDayTime;
+        });
+      },
     );
   }
 
