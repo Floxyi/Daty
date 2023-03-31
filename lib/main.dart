@@ -16,7 +16,7 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   initializeNotificationSystem();
-  await loadBirthdays().then((value) => FlutterNativeSplash.remove());
+  await initializeDataSystem().then((value) => FlutterNativeSplash.remove());
 
   runApp(MaterialApp(
     home: const DatyApp(),

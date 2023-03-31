@@ -69,6 +69,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
             WishGenerator(getDataById(widget.birthdayId)),
             const SizedBox(height: 10),
             allowNotificationSwitch(),
+            Container(height: 30),
           ],
         ),
       ),
@@ -102,7 +103,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (BuildContext context) {
               return BirthdayEditPage(widget.birthdayId);
-            }));
+            })).then((value) => setState(() {}));
           },
         ),
       ],

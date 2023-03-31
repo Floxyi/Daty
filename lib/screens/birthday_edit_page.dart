@@ -232,23 +232,33 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
               fontWeight: FontWeight.bold),
         ),
         onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            newDate = DateTime(
-              newDate.year,
-              newDate.month,
-              newDate.day,
-              newTime.hour,
-              newTime.minute,
-            );
-            updateBirthday(widget.birthdayId, Birthday(newName, newDate));
-            //Navigator.pushReplacementNamed(context, '/');
-            Navigator.pop(context);
-          } else {
-            setState(() {
-              isNameInputCorrect = false;
-            });
-          }
+          saveBirthday(context);
         },
+      ),
+    );
+  }
+
+  void saveBirthday(BuildContext context) {
+    if (!_formKey.currentState!.validate()) {
+      setState(() {
+        isNameInputCorrect = false;
+      });
+      return;
+    }
+
+    newDate = DateTime(
+      newDate.year,
+      newDate.month,
+      newDate.day,
+      newTime.hour,
+      newTime.minute,
+    );
+
+    updateBirthday(widget.birthdayId, Birthday(newName, newDate)).then(
+      (value) => Navigator.pushReplacementNamed(context, '/').then(
+        (value) => setState(
+          () {},
+        ),
       ),
     );
   }
