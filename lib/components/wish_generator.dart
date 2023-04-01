@@ -52,7 +52,7 @@ class _WishGeneratorState extends State<WishGenerator> {
           textAlign: TextAlign.center,
           style: const TextStyle(
             color: Constants.whiteSecondary,
-            fontSize: Constants.normalFontSize,
+            fontSize: Constants.smallerFontSize,
           ),
         ),
       ),
@@ -104,6 +104,21 @@ class _WishGeneratorState extends State<WishGenerator> {
       AppLocalizations.of(context)!.wish3,
       AppLocalizations.of(context)!.wish4,
       AppLocalizations.of(context)!.wish5,
+      AppLocalizations.of(context)!.wish6,
+      AppLocalizations.of(context)!.wish7,
+      AppLocalizations.of(context)!.wish8,
+      AppLocalizations.of(context)!.wish9,
+      AppLocalizations.of(context)!.wish10,
+      AppLocalizations.of(context)!.wish11,
+      AppLocalizations.of(context)!.wish12,
+      AppLocalizations.of(context)!.wish13,
+      AppLocalizations.of(context)!.wish14,
+      AppLocalizations.of(context)!.wish15,
+      AppLocalizations.of(context)!.wish16,
+      AppLocalizations.of(context)!.wish17,
+      AppLocalizations.of(context)!.wish18,
+      AppLocalizations.of(context)!.wish19,
+      AppLocalizations.of(context)!.wish20,
     ];
 
     int number = Random().nextInt(wishes.length);
