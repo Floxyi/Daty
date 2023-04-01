@@ -1,9 +1,9 @@
-import 'dart:math';
+import 'package:daty/components/precise_age.dart';
 import 'package:daty/components/view_title.dart';
-import 'package:flutter/services.dart';
 
 import 'package:confetti/confetti.dart';
-import 'package:daty/components/birthday_countdown.dart';
+import 'package:daty/components/birthday_timer/birthday_timer.dart';
+import 'package:daty/components/wish_generator.dart';
 import 'package:daty/screens/birthday_edit_page.dart';
 import 'package:daty/utilities/Birthday.dart';
 import 'package:daty/utilities/birthday_data.dart';
@@ -44,27 +44,33 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
     return Scaffold(
       backgroundColor: Constants.blackPrimary,
       appBar: appBar(context),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              confettiWidget(),
-              const SizedBox(height: 30),
-              iconWithName(),
-              const SizedBox(height: 10),
-              birthdayInfo(),
-              preciseAge(),
-              const SizedBox(height: 30),
-              zodiacSign(),
-              const SizedBox(height: 40),
-              BirthdayCountdown(widget.birthdayId),
-              const SizedBox(height: 40),
-              ViewTitle(AppLocalizations.of(context)!.generateWish),
-              birthdayWidget(),
-              const SizedBox(height: 10),
-              allowNotificationSwitch(),
-            ],
-          ),
+      body: body(context),
+    );
+  }
+
+  SingleChildScrollView body(BuildContext context) {
+    return SingleChildScrollView(
+      child: Center(
+        child: Column(
+          children: [
+            confettiSpawner(),
+            const SizedBox(height: 30),
+            informationSection(),
+            const SizedBox(height: 40),
+            const ViewTitle("Präzises Alter"),
+            const SizedBox(height: 20),
+            PreciseAge(getDataById(widget.birthdayId).date),
+            const SizedBox(height: 40),
+            const ViewTitle("Countdown"),
+            const SizedBox(height: 20),
+            BirthdayTimer(widget.birthdayId),
+            const SizedBox(height: 40),
+            ViewTitle(AppLocalizations.of(context)!.generateWish),
+            WishGenerator(getDataById(widget.birthdayId)),
+            const SizedBox(height: 10),
+            allowNotificationSwitch(),
+            Container(height: 30),
+          ],
         ),
       ),
     );
@@ -84,31 +90,27 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
         ),
       ),
       actions: [
-        editButton(context),
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          child: Container(
+            margin: const EdgeInsets.only(right: 15),
+            child: const Icon(
+              Icons.edit,
+              size: 25,
+            ),
+          ),
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (BuildContext context) {
+              return BirthdayEditPage(widget.birthdayId);
+            })).then((value) => setState(() {}));
+          },
+        ),
       ],
     );
   }
 
-  GestureDetector editButton(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      child: Container(
-        margin: const EdgeInsets.only(right: 15),
-        child: const Icon(
-          Icons.edit,
-          size: 25,
-        ),
-      ),
-      onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (BuildContext context) {
-          return BirthdayEditPage(widget.birthdayId);
-        }));
-      },
-    );
-  }
-
-  ConfettiWidget confettiWidget() {
+  ConfettiWidget confettiSpawner() {
     return ConfettiWidget(
       confettiController: confetti,
       blastDirectionality: BlastDirectionality.explosive,
@@ -123,28 +125,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
     );
   }
 
-  Widget iconWithName() {
-    return Column(
-      children: [
-        const Icon(
-          Icons.cake_outlined,
-          size: 80,
-          color: Constants.whiteSecondary,
-        ),
-        const SizedBox(height: 10),
-        Text(
-          getDataById(widget.birthdayId).name,
-          style: const TextStyle(
-            color: Constants.whiteSecondary,
-            fontSize: Constants.titleFontSizeSize,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Column birthdayInfo() {
+  Widget informationSection() {
     int weekdayNumber = getDataById(widget.birthdayId).date.weekday;
     String weekday = Calculator.getDayName(weekdayNumber, context);
 
@@ -163,144 +144,64 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
 
     return Column(
       children: [
+        const Icon(
+          Icons.cake_outlined,
+          size: 80,
+          color: Constants.whiteSecondary,
+        ),
+        const SizedBox(height: 10),
         Text(
-          '$weekday, $day. $month $year - $hour:$minute\n ',
-          style: const TextStyle(
-            color: Constants.whiteSecondary,
-            fontSize: Constants.normalFontSize,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget zodiacSign() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 110, left: 110),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Constants.darkGreySecondary,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 18, top: 10, bottom: 10),
-              child: Text(
-                Calculator.getZodiacSign(
-                  getDataById(widget.birthdayId).date,
-                  context,
-                )[1],
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Constants.whiteSecondary,
-                  fontSize: 40,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 10),
-                child: Text(
-                  Calculator.getZodiacSign(
-                    getDataById(widget.birthdayId).date,
-                    context,
-                  )[0],
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Constants.whiteSecondary,
-                    fontSize: Constants.normalFontSize,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Row preciseAge() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
-      children: [
-        Text(
-          Calculator.calculateAge(getDataById(widget.birthdayId).date)
-              .toString(),
+          getDataById(widget.birthdayId).name,
           style: const TextStyle(
             color: Constants.whiteSecondary,
             fontSize: Constants.titleFontSizeSize,
             fontWeight: FontWeight.bold,
           ),
         ),
+        const SizedBox(height: 10),
         Text(
-          Calculator.calculatePreciseAge(getDataById(widget.birthdayId).date, 8)
-              .toString(),
+          '$weekday, $day. $month $year - $hour:$minute',
           style: const TextStyle(
             color: Constants.whiteSecondary,
-            fontSize: Constants.biggerFontSize,
+            fontSize: Constants.normalFontSize,
           ),
         ),
+        const SizedBox(height: 10),
+        zodiacSign(),
       ],
     );
   }
 
-  Widget birthdayWidget() {
-    String birthdayWish = getWish();
-
-    return Padding(
-      padding: const EdgeInsets.only(right: 40, left: 40, top: 20),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Constants.darkGreySecondary,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Text(
-                    birthdayWish,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Constants.whiteSecondary,
-                      fontSize: Constants.normalFontSize,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: Column(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () async {
-                        await Clipboard.setData(
-                          ClipboardData(text: birthdayWish),
-                        );
-                      },
-                      child: const Icon(Icons.copy),
-                    ),
-                    ElevatedButton(
-                      onPressed: (() {
-                        setState(() {});
-                      }),
-                      child: const Icon(Icons.refresh),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+  Row zodiacSign() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 15.0),
+          child: Text(
+            Calculator.getZodiacSign(
+              getDataById(widget.birthdayId).date,
+              context,
+            )[1],
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Constants.whiteSecondary,
+              fontSize: 30,
+            ),
           ),
         ),
-      ),
+        Text(
+          Calculator.getZodiacSign(
+            getDataById(widget.birthdayId).date,
+            context,
+          )[0],
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Constants.whiteSecondary,
+            fontSize: Constants.normalFontSize,
+          ),
+        ),
+      ],
     );
   }
 
@@ -339,26 +240,5 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
         ],
       ),
     );
-  }
-
-  String getWish() {
-    List<String> wishes = [
-      AppLocalizations.of(context)!.wish1,
-      AppLocalizations.of(context)!.wish2,
-      AppLocalizations.of(context)!.wish3,
-      AppLocalizations.of(context)!.wish4,
-      AppLocalizations.of(context)!.wish5,
-    ];
-
-    int number = Random().nextInt(wishes.length);
-    String wish = wishes[number];
-
-    String name = getDataById(widget.birthdayId).name;
-    wish = wish.replaceAll('/name/', name);
-
-    int age = Calculator.calculateAge(getDataById(widget.birthdayId).date) + 1;
-    wish = wish.replaceAll('/age/', age.toString());
-
-    return wish;
   }
 }

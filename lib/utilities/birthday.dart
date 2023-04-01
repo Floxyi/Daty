@@ -54,18 +54,23 @@ class Birthday {
     }
   }
 
-  Birthday(this._name, this._date,
-      [int? bdId, List<int>? notiIds, bool? allowNoti]) {
-    _birthdayId = bdId ?? getNewBirthdayId();
+  Birthday(
+    this._name,
+    this._date, [
+    int? id,
+    List<int>? notificationIds,
+    bool? allowNotifications,
+  ]) {
+    _birthdayId = id ?? getNewBirthdayId();
 
-    List<int>? newNotiIds = [
+    List<int>? newNotificationIds = [
       int.parse("${birthdayId}1"),
       int.parse("${birthdayId}2"),
       int.parse("${birthdayId}3")
     ];
 
-    _notificationIds = notiIds ?? newNotiIds;
+    _notificationIds = notificationIds ?? newNotificationIds;
 
-    _allowNotifications = allowNoti ?? true;
+    _allowNotifications = allowNotifications ?? true;
   }
 }

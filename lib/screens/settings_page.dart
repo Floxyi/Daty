@@ -104,17 +104,7 @@ class _SettingsPageState extends State<SettingsPage>
       child: Column(
         children: [
           ViewTitle(AppLocalizations.of(context)!.notifications),
-          FutureBuilder(
-            future: AwesomeNotifications().isNotificationAllowed(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (!(snapshot.data as bool)) {
-                  return infoText();
-                }
-              }
-              return Container();
-            },
-          ),
+          activateNotificationBanner(),
           Container(
             margin: const EdgeInsets.only(right: 50, left: 50, bottom: 30),
             child: Column(
@@ -135,6 +125,20 @@ class _SettingsPageState extends State<SettingsPage>
           ),
         ],
       ),
+    );
+  }
+
+  FutureBuilder<bool> activateNotificationBanner() {
+    return FutureBuilder(
+      future: AwesomeNotifications().isNotificationAllowed(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (!(snapshot.data as bool)) {
+            return infoText();
+          }
+        }
+        return Container();
+      },
     );
   }
 

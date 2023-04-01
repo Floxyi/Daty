@@ -1,4 +1,4 @@
-import 'package:daty/components/birthday_card.dart';
+import 'package:daty/components/birthday_card/birthday_card.dart';
 import 'package:daty/components/date_picker.dart';
 import 'package:daty/components/time_picker.dart';
 import 'package:daty/components/view_title.dart';
@@ -41,54 +41,66 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
     return Scaffold(
       backgroundColor: Constants.blackPrimary,
       appBar: appBar(),
-      body: RawScrollbar(
-        thumbColor: Constants.lighterGrey,
-        radius: const Radius.circular(20),
-        thickness: 5,
-        thumbVisibility: true,
+      body: body(context),
+    );
+  }
+
+  RawScrollbar body(BuildContext context) {
+    return RawScrollbar(
+      thumbColor: Constants.lighterGrey,
+      radius: const Radius.circular(20),
+      thickness: 5,
+      thumbVisibility: true,
+      controller: _scrollController,
+      child: SingleChildScrollView(
         controller: _scrollController,
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: Container(
-            margin: const EdgeInsets.only(top: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                ViewTitle('${AppLocalizations.of(context)!.editName}:'),
-                inputNameField(),
-                const SizedBox(height: 40),
-                ViewTitle('${AppLocalizations.of(context)!.editDate}:'),
-                DatePicker(
-                  newDate,
-                  onDayChanged: (newDayTime) {
-                    setState(() {
-                      newDate = newDayTime;
-                    });
-                  },
-                ),
-                const SizedBox(height: 40),
-                ViewTitle('${AppLocalizations.of(context)!.editTime}:'),
-                TimePicker(
-                  newTime,
-                  onTimeChanged: (newDateTime) {
-                    setState(() {
-                      newTime = newDateTime;
-                    });
-                  },
-                ),
-                infoText(AppLocalizations.of(context)!.timeInfo),
-                const SizedBox(height: 40),
-                ViewTitle('${AppLocalizations.of(context)!.preview}:'),
-                cardPreview(),
-                const SizedBox(height: 40),
-                saveButton(context),
-                const SizedBox(height: 40),
-              ],
-            ),
+        child: Container(
+          margin: const EdgeInsets.only(top: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              ViewTitle('${AppLocalizations.of(context)!.editName}:'),
+              inputNameField(),
+              const SizedBox(height: 40),
+              ViewTitle('${AppLocalizations.of(context)!.editDate}:'),
+              datePicker(),
+              const SizedBox(height: 40),
+              ViewTitle('${AppLocalizations.of(context)!.editTime}:'),
+              timePicker(),
+              infoText(AppLocalizations.of(context)!.timeInfo),
+              const SizedBox(height: 40),
+              ViewTitle('${AppLocalizations.of(context)!.preview}:'),
+              cardPreview(),
+              const SizedBox(height: 40),
+              saveButton(context),
+              const SizedBox(height: 40),
+            ],
           ),
         ),
       ),
+    );
+  }
+
+  DatePicker datePicker() {
+    return DatePicker(
+      newDate,
+      onDayChanged: (newDayTime) {
+        setState(() {
+          newDate = newDayTime;
+        });
+      },
+    );
+  }
+
+  TimePicker timePicker() {
+    return TimePicker(
+      newTime,
+      onTimeChanged: (newDateTime) {
+        setState(() {
+          newTime = newDateTime;
+        });
+      },
     );
   }
 
@@ -220,23 +232,33 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
               fontWeight: FontWeight.bold),
         ),
         onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            newDate = DateTime(
-              newDate.year,
-              newDate.month,
-              newDate.day,
-              newTime.hour,
-              newTime.minute,
-            );
-            updateBirthday(widget.birthdayId, Birthday(newName, newDate));
-            //Navigator.pushReplacementNamed(context, '/');
-            Navigator.pop(context);
-          } else {
-            setState(() {
-              isNameInputCorrect = false;
-            });
-          }
+          saveBirthday(context);
         },
+      ),
+    );
+  }
+
+  void saveBirthday(BuildContext context) {
+    if (!_formKey.currentState!.validate()) {
+      setState(() {
+        isNameInputCorrect = false;
+      });
+      return;
+    }
+
+    newDate = DateTime(
+      newDate.year,
+      newDate.month,
+      newDate.day,
+      newTime.hour,
+      newTime.minute,
+    );
+
+    updateBirthday(widget.birthdayId, Birthday(newName, newDate)).then(
+      (value) => Navigator.pushReplacementNamed(context, '/').then(
+        (value) => setState(
+          () {},
+        ),
       ),
     );
   }
