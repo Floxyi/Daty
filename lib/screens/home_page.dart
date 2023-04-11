@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         AppLocalizations.of(context)!.birthdays,
         style: const TextStyle(
           color: Constants.bluePrimary,
-          fontSize: Constants.titleFontSizeSize,
+          fontSize: Constants.titleFontSize,
           fontWeight: FontWeight.bold,
         ),
       ),

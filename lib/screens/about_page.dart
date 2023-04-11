@@ -31,7 +31,7 @@ class _AboutPageState extends State<AboutPage> {
         AppLocalizations.of(context)!.about,
         style: const TextStyle(
           color: Constants.bluePrimary,
-          fontSize: Constants.titleFontSizeSize,
+          fontSize: Constants.titleFontSize,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -68,11 +68,8 @@ class _AboutPageState extends State<AboutPage> {
           future: rootBundle.loadString('pubspec.yaml'),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return infoText(
-                loadYaml(snapshot.data as String)['author'],
-                loadYaml(snapshot.data as String)['version'],
-                loadYaml(snapshot.data as String)['dependencies'],
-              );
+              String version = loadYaml(snapshot.data as String)['version'];
+              return pageWidgets(context, version);
             }
             return Container();
           },
@@ -81,51 +78,63 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
-  Widget infoText(String author, String version, YamlMap dependencies) {
-    return Column(
+  Row pageWidgets(BuildContext context, String version) {
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SizedBox(height: 50),
-        SizedBox(
-          width: 100,
-          child: Image.asset('assets/images/app_icon_android.png'),
-        ),
-        const SizedBox(height: 20),
-        Text(
-          AppLocalizations.of(context)!.aboutInfo,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: Constants.normalFontSize,
-            color: Constants.lighterGrey,
-          ),
-        ),
-        Text(
-          '~ $author',
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: Constants.normalFontSize,
-            color: Constants.lighterGrey,
-          ),
-        ),
-        const SizedBox(height: 30),
-        Text(
-          '${AppLocalizations.of(context)!.version}: \n$version',
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: Constants.normalFontSize,
-            color: Constants.lighterGrey,
-          ),
-        ),
-        const SizedBox(height: 20),
-        Text(
-          '${AppLocalizations.of(context)!.dependencies}: \n"${dependencies.keys.join('", "')}"',
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: Constants.normalFontSize,
-            color: Constants.lighterGrey,
-          ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 50),
+            appIcon(),
+            const SizedBox(height: 20),
+            appInfo(context),
+            appAuthor(),
+            const SizedBox(height: 30),
+            appVersion(context, version),
+          ],
         ),
       ],
+    );
+  }
+
+  Text appVersion(BuildContext context, String version) {
+    return Text(
+      '${AppLocalizations.of(context)!.version}: $version',
+      textAlign: TextAlign.center,
+      style: const TextStyle(
+        fontSize: Constants.normalFontSize,
+        color: Constants.lighterGrey,
+      ),
+    );
+  }
+
+  Text appAuthor() {
+    return Text(
+      '~ ${AppLocalizations.of(context)!.appAuthor}',
+      textAlign: TextAlign.center,
+      style: const TextStyle(
+        fontSize: Constants.normalFontSize,
+        color: Constants.lighterGrey,
+      ),
+    );
+  }
+
+  Text appInfo(BuildContext context) {
+    return Text(
+      AppLocalizations.of(context)!.aboutInfo,
+      textAlign: TextAlign.center,
+      style: const TextStyle(
+        fontSize: Constants.normalFontSize,
+        color: Constants.lighterGrey,
+      ),
+    );
+  }
+
+  SizedBox appIcon() {
+    return SizedBox(
+      width: 100,
+      child: Image.asset('assets/images/app_icon_android.png'),
     );
   }
 }

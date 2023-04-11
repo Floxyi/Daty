@@ -111,7 +111,7 @@ class _BirthdayEditPageState extends State<BirthdayEditPage> {
         AppLocalizations.of(context)!.birthdayEdit,
         style: const TextStyle(
           color: Constants.bluePrimary,
-          fontSize: Constants.titleFontSizeSize,
+          fontSize: Constants.titleFontSize,
           fontWeight: FontWeight.bold,
         ),
       ),

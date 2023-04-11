@@ -9,7 +9,7 @@ class Constants {
   static const Color lighterGrey = Color.fromARGB(255, 140, 139, 139);
   static const Color darkerGrey = Color.fromARGB(255, 98, 98, 98);
   static const Color darkGreySecondary = Color.fromARGB(255, 44, 44, 44);
-  static const double titleFontSizeSize = 30;
+  static const double titleFontSize = 30;
   static const double normalFontSize = 18;
   static const double biggerFontSize = 20;
   static const double smallerFontSize = 13;

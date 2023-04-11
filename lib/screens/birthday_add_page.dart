@@ -104,7 +104,7 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
         AppLocalizations.of(context)!.birthdayAdd,
         style: const TextStyle(
           color: Constants.bluePrimary,
-          fontSize: Constants.titleFontSizeSize,
+          fontSize: Constants.titleFontSize,
           fontWeight: FontWeight.bold,
         ),
       ),

@@ -84,7 +84,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
           AppLocalizations.of(context)!.birthdayInfo,
           style: const TextStyle(
             color: Constants.bluePrimary,
-            fontSize: Constants.titleFontSizeSize,
+            fontSize: Constants.titleFontSize,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -154,7 +154,7 @@ class _BirthdayInfoPageState extends State<BirthdayInfoPage> {
           getDataById(widget.birthdayId).name,
           style: const TextStyle(
             color: Constants.whiteSecondary,
-            fontSize: Constants.titleFontSizeSize,
+            fontSize: Constants.titleFontSize,
             fontWeight: FontWeight.bold,
           ),
         ),

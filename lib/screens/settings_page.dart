@@ -51,7 +51,7 @@ class _SettingsPageState extends State<SettingsPage>
         AppLocalizations.of(context)!.settings,
         style: const TextStyle(
           color: Constants.bluePrimary,
-          fontSize: Constants.titleFontSizeSize,
+          fontSize: Constants.titleFontSize,
           fontWeight: FontWeight.bold,
         ),
       ),

@@ -64,7 +64,7 @@ class _PreciseAgeState extends State<PreciseAge> with WidgetsBindingObserver {
           Calculator.calculateAge(widget.date).toString(),
           style: const TextStyle(
             color: Constants.whiteSecondary,
-            fontSize: Constants.titleFontSizeSize,
+            fontSize: Constants.titleFontSize,
             fontWeight: FontWeight.bold,
           ),
         ),

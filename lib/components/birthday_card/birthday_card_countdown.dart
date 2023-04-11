@@ -43,7 +43,7 @@ class _BirthdayCardCountdownState extends State<BirthdayCardCountdown> {
           Text(
             '🎉',
             style: TextStyle(
-              fontSize: Constants.titleFontSizeSize,
+              fontSize: Constants.titleFontSize,
               fontWeight: FontWeight.bold,
               shadows: [
                 Shadow(
