@@ -222,22 +222,33 @@ class _AddBirthdayPageState extends State<AddBirthdayPage> {
               fontWeight: FontWeight.bold),
         ),
         onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            DateTime birthdayWithTime = DateTime(
-              date.year,
-              date.month,
-              date.day,
-              time.hour,
-              time.minute,
-            );
-            addBirthday(Birthday(name, birthdayWithTime));
-            Navigator.pop(context);
-          } else {
-            setState(() {
-              isNameInputCorrect = false;
-            });
-          }
+          saveBirthday(context);
         },
+      ),
+    );
+  }
+
+  void saveBirthday(BuildContext context) {
+    if (!_formKey.currentState!.validate()) {
+      setState(() {
+        isNameInputCorrect = false;
+      });
+      return;
+    }
+
+    DateTime birthdayWithTime = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      date.hour,
+      date.minute,
+    );
+
+    addBirthday(Birthday(name, birthdayWithTime)).then(
+      (value) => Navigator.pushReplacementNamed(context, '/').then(
+        (value) => setState(
+          () {},
+        ),
       ),
     );
   }
