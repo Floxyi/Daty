@@ -1,7 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daty/utilities/Birthday.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'notification_manager.dart';
 
 List<Birthday> birthdayList = [];
 String takenIdsKey = "takenIds";
@@ -41,16 +40,22 @@ Birthday createBirthdayFromData(List<String> birthdayArray) {
   int hour = int.parse(birthdayArray[4]);
   int minute = int.parse(birthdayArray[5]);
   int birthdayId = int.parse(birthdayArray[6]);
-  int notificationDayId = int.parse(birthdayArray[7]);
-  int notificationWeekId = int.parse(birthdayArray[8]);
-  int notificationMonthId = int.parse(birthdayArray[9]);
+  int notificationId = int.parse(birthdayArray[7]);
+  int notificationDayId = int.parse(birthdayArray[8]);
+  int notificationWeekId = int.parse(birthdayArray[9]);
+  int notificationMonthId = int.parse(birthdayArray[10]);
   bool allowNotifications = birthdayArray[10].toLowerCase() == 'true';
 
   Birthday? birthday = Birthday(
     name,
     DateTime(year, month, day, hour, minute),
     birthdayId,
-    [notificationDayId, notificationWeekId, notificationMonthId],
+    [
+      notificationId,
+      notificationDayId,
+      notificationWeekId,
+      notificationMonthId,
+    ],
     allowNotifications,
   );
 
@@ -71,17 +76,18 @@ Future<void> addBirthday(Birthday birthday) async {
       birthday.notificationIds[0].toString(),
       birthday.notificationIds[1].toString(),
       birthday.notificationIds[2].toString(),
+      birthday.notificationIds[3].toString(),
       birthday.allowNotifications.toString(),
     ],
   );
+
+  birthdayList.add(birthday);
+  birthday.setAllowNotifications = true;
 
   List<String>? takenIds = prefs!.getStringList(takenIdsKey);
 
   takenIds!.add(birthday.birthdayId.toString());
   await prefs!.setStringList(takenIdsKey, takenIds);
-
-  birthdayList.add(birthday);
-  createAllNotifications(birthday);
 }
 
 Future<void> removeBirthday(birthdayId) async {
@@ -91,6 +97,7 @@ Future<void> removeBirthday(birthdayId) async {
   AwesomeNotifications().cancel(removedBirthday.notificationIds[0]);
   AwesomeNotifications().cancel(removedBirthday.notificationIds[1]);
   AwesomeNotifications().cancel(removedBirthday.notificationIds[2]);
+  AwesomeNotifications().cancel(removedBirthday.notificationIds[3]);
 
   birthdayList.removeAt(
     birthdayList.indexWhere((birthday) => birthday.birthdayId == birthdayId),
@@ -112,11 +119,13 @@ Future<void> updateBirthday(int oldBirthdayId, Birthday updatedBirthday) async {
     oldBirthday.notificationIds[0],
     oldBirthday.notificationIds[1],
     oldBirthday.notificationIds[2],
+    oldBirthday.notificationIds[3],
   ];
 
   AwesomeNotifications().cancel(oldBirthday.notificationIds[0]);
   AwesomeNotifications().cancel(oldBirthday.notificationIds[1]);
   AwesomeNotifications().cancel(oldBirthday.notificationIds[2]);
+  AwesomeNotifications().cancel(oldBirthday.notificationIds[3]);
 
   await addBirthday(updatedBirthday);
 }

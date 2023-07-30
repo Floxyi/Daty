@@ -9,9 +9,11 @@ import 'package:daty/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:daty/main.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 bool addedNotificationListener = false;
 
+bool notiOneDayBefore = false;
 bool notiOneWeekBefore = false;
 bool notiOneMonthBefore = false;
 
@@ -39,6 +41,13 @@ void initializeNotificationSystem() async {
 
   final prefs = await SharedPreferences.getInstance();
 
+  bool? settingOneDay = prefs.getBool('getNotificationOneDayBefore');
+  if (settingOneDay == null) {
+    await prefs.setBool('getNotificationOneDayBefore', false);
+  } else {
+    notiOneDayBefore = settingOneDay;
+  }
+
   bool? settingOneWeek = prefs.getBool('notificationOneWeekBefore');
   if (settingOneWeek == null) {
     await prefs.setBool('notificationOneWeekBefore', false);
@@ -65,9 +74,9 @@ void requestNotificationAccess(BuildContext context) async {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Allow Notifications'),
-            content: const Text(
-              'Our app would like to send you notifications to let you know whenever someone has birthday.',
+            title: Text(AppLocalizations.of(context)!.allowNotifications),
+            content: Text(
+              AppLocalizations.of(context)!.allowNotificationsHint,
             ),
             actions: [
               TextButton(
@@ -133,6 +142,7 @@ Future<void> onNotificationClick(ReceivedAction notification) async {
   if (notification.channelKey != 'scheduled_channel') {
     return;
   }
+
   String? value = notification.payload?.entries
       .where((element) => element.key == "bid")
       .first
@@ -147,6 +157,21 @@ Future<void> onNotificationClick(ReceivedAction notification) async {
   ));
 }
 
+Future<void> setNotificationOneDayBefore(value) async {
+  notiOneDayBefore = value;
+
+  for (int i = 0; i < birthdayList.length; i++) {
+    if (notiOneDayBefore) {
+      createNotificationOneDayBefore(birthdayList[i]);
+    } else {
+      AwesomeNotifications().cancel(birthdayList[i].notificationIds[1]);
+    }
+  }
+
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('notificationOneWeekBefore', value);
+}
+
 Future<void> setNotificationOneWeekBefore(value) async {
   notiOneWeekBefore = value;
 
@@ -154,7 +179,7 @@ Future<void> setNotificationOneWeekBefore(value) async {
     if (notiOneWeekBefore) {
       createNotificationOneWeekBefore(birthdayList[i]);
     } else {
-      AwesomeNotifications().cancel(birthdayList[i].notificationIds[1]);
+      AwesomeNotifications().cancel(birthdayList[i].notificationIds[2]);
     }
   }
 
@@ -169,7 +194,7 @@ Future<void> setNotificationOneMonthBefore(value) async {
     if (notiOneMonthBefore) {
       createNotificationOneMonthBefore(birthdayList[i]);
     } else {
-      AwesomeNotifications().cancel(birthdayList[i].notificationIds[2]);
+      AwesomeNotifications().cancel(birthdayList[i].notificationIds[3]);
     }
   }
 
@@ -178,7 +203,17 @@ Future<void> setNotificationOneMonthBefore(value) async {
 }
 
 Future<void> createAllNotifications(Birthday birthday) async {
-  createNotification(birthday, birthday.date, birthday.notificationIds[0]);
+  createNotification(
+    birthday,
+    birthday.date,
+    birthday.notificationIds[0],
+    "${AppLocalizations.of(navigatorKey.currentContext!)!.notificationTitle} ${Emojis.smile_partying_face}",
+    "${birthday.name} ${AppLocalizations.of(navigatorKey.currentContext!)!.turned} ${Calculator.calculateAge(birthday.date)}!",
+  );
+
+  if (notiOneDayBefore) {
+    createNotificationOneDayBefore(birthday);
+  }
 
   if (notiOneWeekBefore) {
     createNotificationOneWeekBefore(birthday);
@@ -187,6 +222,24 @@ Future<void> createAllNotifications(Birthday birthday) async {
   if (notiOneMonthBefore) {
     createNotificationOneMonthBefore(birthday);
   }
+}
+
+void createNotificationOneDayBefore(Birthday birthday) {
+  DateTime time = DateTime(
+    birthday.date.year,
+    birthday.date.month,
+    birthday.date.day - 1,
+    birthday.date.hour,
+    birthday.date.minute,
+  );
+
+  createNotification(
+    birthday,
+    time,
+    birthday.notificationIds[1],
+    "${AppLocalizations.of(navigatorKey.currentContext!)!.notificationTitle} ${Emojis.smile_partying_face}",
+    "${birthday.name} ${AppLocalizations.of(navigatorKey.currentContext!)!.tomorrow1} ${Calculator.calculateAge(birthday.date)} ${AppLocalizations.of(navigatorKey.currentContext!)!.tomorrow2}!",
+  );
 }
 
 void createNotificationOneWeekBefore(Birthday birthday) {
@@ -198,7 +251,13 @@ void createNotificationOneWeekBefore(Birthday birthday) {
     birthday.date.minute,
   );
 
-  createNotification(birthday, time, birthday.notificationIds[1]);
+  createNotification(
+    birthday,
+    time,
+    birthday.notificationIds[2],
+    "${AppLocalizations.of(navigatorKey.currentContext!)!.notificationTitle} ${Emojis.smile_partying_face}",
+    "${birthday.name} ${AppLocalizations.of(navigatorKey.currentContext!)!.week1} ${Calculator.calculateAge(birthday.date)} ${AppLocalizations.of(navigatorKey.currentContext!)!.week2}!",
+  );
 }
 
 void createNotificationOneMonthBefore(Birthday birthday) {
@@ -210,23 +269,35 @@ void createNotificationOneMonthBefore(Birthday birthday) {
     birthday.date.minute,
   );
 
-  createNotification(birthday, time, birthday.notificationIds[2]);
+  createNotification(
+    birthday,
+    time,
+    birthday.notificationIds[3],
+    "${AppLocalizations.of(navigatorKey.currentContext!)!.notificationTitle} ${Emojis.smile_partying_face}",
+    "${birthday.name} ${AppLocalizations.of(navigatorKey.currentContext!)!.month1} ${Calculator.calculateAge(birthday.date)} ${AppLocalizations.of(navigatorKey.currentContext!)!.month2}!",
+  );
 }
 
 void cancelAllNotifications(Birthday birthday) {
   AwesomeNotifications().cancel(birthday.notificationIds[0]);
   AwesomeNotifications().cancel(birthday.notificationIds[1]);
   AwesomeNotifications().cancel(birthday.notificationIds[2]);
+  AwesomeNotifications().cancel(birthday.notificationIds[3]);
 }
 
 Future<void> createNotification(
-    Birthday birthday, DateTime time, int notificationId) async {
+  Birthday birthday,
+  DateTime time,
+  int notificationId,
+  String headline,
+  String info,
+) async {
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
       id: notificationId,
       channelKey: 'scheduled_channel',
-      title: "It's birthday time! ${Emojis.smile_partying_face}",
-      body: "${birthday.name} turned ${Calculator.calculateAge(birthday.date)}",
+      title: headline,
+      body: info,
       notificationLayout: NotificationLayout.Default,
       payload: {"bid": birthday.birthdayId.toString()},
     ),

@@ -34,9 +34,21 @@
     "notifications": "Benachrichtigungen",
     "theme": "Darstellung",
     "allowNotifications": "Bitte erlaube uns Benachrichtigungen zu senden.",
+    "allowNotificationsHint": "Unsere App würde dir gerne Benachrichtigungen senden, um dir mitzuteilen, wann immer jemand Geburtstag hat.",
     "allowNotification": "Benachrichtigungen aktivieren",
+
+    "notificationTitle": "Es ist Geburtstagszeit!",
+    "turned": "wird",
+    "tomorrow1": "wird morgen",
+    "tomorrow2": "",
+    "week1": "wird in einer Woche",
+    "week2": "",
+    "month1": "wird in einem Monat",
+    "month2": "",
+
     "activate": "Aktivieren",
     "darkMode": "Dunkler Modus",
+    "oneDayBefore": "Einen Tag vorher",
     "oneWeekBefore": "Eine Woche vorher",
     "oneMonthBefore": "Einen Monat vorher",
 

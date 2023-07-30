@@ -66,7 +66,8 @@ class Birthday {
     List<int>? newNotificationIds = [
       int.parse("${birthdayId}1"),
       int.parse("${birthdayId}2"),
-      int.parse("${birthdayId}3")
+      int.parse("${birthdayId}3"),
+      int.parse("${birthdayId}4"),
     ];
 
     _notificationIds = notificationIds ?? newNotificationIds;

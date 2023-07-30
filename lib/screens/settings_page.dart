@@ -109,6 +109,7 @@ class _SettingsPageState extends State<SettingsPage>
             margin: const EdgeInsets.only(right: 50, left: 50, bottom: 30),
             child: Column(
               children: [
+                notificationOneDayBefore(),
                 notificationOneWeekBefore(),
                 notificationOneMonthBefore(),
               ],
@@ -210,6 +211,39 @@ class _SettingsPageState extends State<SettingsPage>
               value: true,
               onChanged: (value) {
                 setState(() {});
+              },
+              inactiveThumbColor: Constants.lighterGrey,
+              inactiveTrackColor: Constants.darkGreySecondary,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row notificationOneDayBefore() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          AppLocalizations.of(context)!.oneDayBefore,
+          style: const TextStyle(
+            color: Constants.whiteSecondary,
+            fontSize: Constants.normalFontSize,
+          ),
+        ),
+        const Spacer(),
+        SizedBox(
+          width: 70,
+          height: 55,
+          child: FittedBox(
+            fit: BoxFit.fill,
+            child: Switch(
+              value: notiOneDayBefore,
+              onChanged: (value) {
+                setState(() {
+                  setNotificationOneDayBefore(value);
+                });
               },
               inactiveThumbColor: Constants.lighterGrey,
               inactiveTrackColor: Constants.darkGreySecondary,

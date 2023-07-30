@@ -34,9 +34,21 @@
     "notifications": "Notifications",
     "theme": "Theme",
     "allowNotifications": "Please allow us to send you birthday notifications.",
+    "allowNotificationsHint": "Our app would like to send you notifications to let you know whenever someone has birthday.",
     "allowNotification": "Allow Notifications",
+
+    "notificationTitle": "It's birthday time!",
+    "turned": "turned",
+    "tomorrow1": "will turn",
+    "tomorrow2": "tomorrow",
+    "week1": "will turn",
+    "week2": "in one week",
+    "month1": "will turn",
+    "month2": "in one month",
+
     "activate": "Activate",
     "darkMode": "Dark Mode",
+    "oneDayBefore": "One day before",
     "oneWeekBefore": "One week before",
     "oneMonthBefore": "One month before",
 
